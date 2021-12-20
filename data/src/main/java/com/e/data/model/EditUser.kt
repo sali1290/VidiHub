@@ -4,7 +4,11 @@ import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
-data class User(
+data class EditUser(
+
+    @Json(name = "domain")
+    var domain: String?,
+
     @Json(name = "firstname")
     var firstName: String?,
 
@@ -21,5 +25,13 @@ data class User(
     var nationalCode: String?,
 
     @Json(name = "plain_secret")
-    var password: String?
+    var password: String?,
+
+    @Json(name = "account_type")
+    var accountType: String?,
+
+    @Json(name = "expire_date")
+    var expireDate: String?
+
+
 )
