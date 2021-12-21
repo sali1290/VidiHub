@@ -3,8 +3,8 @@ package com.e.data.repo
 import android.util.Log
 import com.e.data.api.ApiService
 import com.e.data.mapper.LoginMapper
-import com.e.data.utile.NetWorkHelper
-import com.e.data.utile.SessionManager
+import com.e.data.util.NetWorkHelper
+import com.e.data.util.SessionManager
 import com.e.domain.model.LoginModel
 import com.e.domain.model.UserModel
 import com.e.domain.repo.EnterAppRepo

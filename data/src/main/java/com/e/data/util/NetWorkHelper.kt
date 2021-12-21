@@ -1,4 +1,4 @@
-package com.e.data.utile
+package com.e.data.util
 
 import android.content.Context
 import android.net.ConnectivityManager

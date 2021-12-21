@@ -8,7 +8,7 @@ import com.e.domain.model.LoginModel
 import com.e.domain.usecase.LoginUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
-import com.e.domain.utile.Result
+import com.e.domain.util.Result
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject

@@ -1,4 +1,4 @@
-package com.e.data.utile
+package com.e.domain.util
 
 sealed class Result<out R>  {
 

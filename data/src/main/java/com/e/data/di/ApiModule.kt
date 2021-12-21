@@ -2,7 +2,7 @@ package com.e.data.di
 
 import android.content.Context
 import com.e.data.api.ApiService
-import com.e.data.utile.AuthInterceptor
+import com.e.data.util.AuthInterceptor
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Module
