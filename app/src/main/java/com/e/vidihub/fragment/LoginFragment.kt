@@ -14,6 +14,10 @@ import com.e.domain.util.Result
 import com.e.vidihub.R
 import com.e.vidihub.databinding.FragmentLoginBinding
 import com.e.vidihub.viewmodel.LoginViewModel
+import androidx.appcompat.app.AppCompatActivity
+
+
+
 
 class LoginFragment : Fragment() {
 
@@ -25,7 +29,7 @@ class LoginFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         // Inflate the layout for this fragment
-
+        (activity as AppCompatActivity?)!!.supportActionBar!!.hide()
         viewModel = ViewModelProvider(requireActivity())[LoginViewModel::class.java]
         binding = FragmentLoginBinding.inflate(inflater, container, false)
 
@@ -53,6 +57,7 @@ class LoginFragment : Fragment() {
 
                 is Result.Success -> {
                     findNavController().navigate(R.id.homeFragment)
+                    (activity as AppCompatActivity?)!!.supportActionBar!!.show()
                 }
 
                 is Result.Loading -> {

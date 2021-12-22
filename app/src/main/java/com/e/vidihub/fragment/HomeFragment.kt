@@ -1,16 +1,26 @@
 package com.e.vidihub.fragment
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.os.CountDownTimer
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.size
+import androidx.drawerlayout.widget.DrawerLayout
+import androidx.navigation.fragment.findNavController
 import com.e.vidihub.R
 import com.e.vidihub.adapter.HomeViewPagerAdapter
 import com.e.vidihub.databinding.FragmentHomeBinding
+import com.google.android.material.navigation.NavigationView
+import android.R.menu
+
+import android.view.MenuInflater
+import android.widget.Toolbar
+import androidx.navigation.ui.AppBarConfiguration
+
 
 class HomeFragment : Fragment() {
 
@@ -42,6 +52,10 @@ class HomeFragment : Fragment() {
                 start()
             }
         }.start()
+
+
+
+
 
     }
 
