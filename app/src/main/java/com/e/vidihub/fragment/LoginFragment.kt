@@ -9,7 +9,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.e.domain.util.Result
+import com.e.vidihub.R
 import com.e.vidihub.databinding.FragmentLoginBinding
 import com.e.vidihub.viewmodel.LoginViewModel
 
@@ -32,15 +34,17 @@ class LoginFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         binding.tvRegister.setOnClickListener {
             val intent = Intent(Intent.ACTION_VIEW)
             intent.data = Uri.parse("http://185.171.53.51:9092/register")
             startActivity(intent)
         }
 
-//        viewModel.login("info@vidihub.ir", "12345")
-//        observe()
+        binding.btnLogin.setOnClickListener {
+            viewModel.login("info@vidihub.ir", "1234")
+            observe()
+        }
+
     }
 
     private fun observe() {
@@ -48,7 +52,7 @@ class LoginFragment : Fragment() {
             when (it) {
 
                 is Result.Success -> {
-                    Toast.makeText(requireContext(), "Success", Toast.LENGTH_LONG).show()
+                    findNavController().navigate(R.id.homeFragment)
                 }
 
                 is Result.Loading -> {
