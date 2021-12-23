@@ -25,6 +25,7 @@ import androidx.navigation.ui.AppBarConfiguration
 class HomeFragment : Fragment() {
 
     private lateinit var binding: FragmentHomeBinding
+    lateinit var drawer: NavigationView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -55,9 +56,35 @@ class HomeFragment : Fragment() {
 
 
 
-
+        setUpDrawerItems()
 
     }
 
+    private fun setUpDrawerItems() {
+        drawer = requireActivity().findViewById(R.id.nav_view)
+
+        drawer.setNavigationItemSelectedListener {
+            when (it.itemId) {
+                R.id.item_videos -> {
+                    Toast.makeText(requireContext(), "videos", Toast.LENGTH_LONG).show()
+                }
+
+                R.id.item_profile -> {
+                    Toast.makeText(requireContext(), "profile", Toast.LENGTH_LONG).show()
+                }
+
+                R.id.item_about_us -> {
+                    Toast.makeText(requireContext(), "about us", Toast.LENGTH_LONG).show()
+                }
+
+                R.id.item_gallery -> {
+                    Toast.makeText(requireContext(), "gallery", Toast.LENGTH_LONG).show()
+                }
+
+            }
+
+            return@setNavigationItemSelectedListener true
+        }
+    }
 
 }
