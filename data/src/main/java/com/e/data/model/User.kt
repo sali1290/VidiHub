@@ -5,6 +5,16 @@ import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 data class User(
+
+    @Json(name = "userid")
+    var userid: String?,
+
+    @Json(name = "domain")
+    var domain: String?,
+
+    @Json(name = "account_type")
+    var accountType: String?,
+
     @Json(name = "firstname")
     var firstName: String?,
 

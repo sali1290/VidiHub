@@ -2,6 +2,12 @@ package com.e.domain.model
 
 data class UserModel(
 
+    var userid: String?,
+
+    var domain: String?,
+
+    var accountType: String?,
+
     var firstName: String?,
 
     var lastName: String?,

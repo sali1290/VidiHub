@@ -5,6 +5,7 @@ import com.e.data.model.RegisterLoginResponse
 import com.e.data.model.User
 import retrofit2.Response
 import retrofit2.http.Body
+import retrofit2.http.GET
 import retrofit2.http.POST
 
 interface ApiService {
@@ -14,6 +15,9 @@ interface ApiService {
 
     @POST("accounts/login/")
     suspend fun login(@Body login: Login): Response<RegisterLoginResponse>
+
+    @GET("accounts/userinfo/")
+    suspend fun getUser(): Response<User>
 
 
 }

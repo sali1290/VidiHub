@@ -1,27 +1,20 @@
 package com.e.vidihub.fragment
 
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.view.*
-import androidx.fragment.app.Fragment
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.size
-import androidx.drawerlayout.widget.DrawerLayout
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.e.vidihub.R
 import com.e.vidihub.adapter.HomeViewPagerAdapter
 import com.e.vidihub.databinding.FragmentHomeBinding
-import com.google.android.material.navigation.NavigationView
-import android.R.menu
-
-import android.view.MenuInflater
-import android.widget.Toolbar
-import androidx.navigation.ui.AppBarConfiguration
 import com.google.android.material.bottomnavigation.BottomNavigationView
-
+import com.google.android.material.navigation.NavigationView
+import dagger.hilt.EntryPoint
+import dagger.hilt.InstallIn
+import dagger.hilt.android.AndroidEntryPoint
 
 class HomeFragment : Fragment() {
 
@@ -40,6 +33,7 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        (activity as AppCompatActivity?)!!.supportActionBar!!.show()
         binding.videosPager.adapter = HomeViewPagerAdapter(requireContext())
         val countDownTimer = object : CountDownTimer(60000, 4000) {
             override fun onTick(millisUntilFinished: Long) {
@@ -58,11 +52,12 @@ class HomeFragment : Fragment() {
 
 
         setUpDrawerItems()
-
+        setUpBottomNav()
     }
 
     private fun setUpBottomNav() {
         val bottomNav = requireActivity().findViewById<BottomNavigationView>(R.id.bottom_nav)
+        bottomNav.selectedItemId = R.id.btm_home
 
         bottomNav.setOnItemSelectedListener {
             when (it.itemId) {
@@ -72,6 +67,8 @@ class HomeFragment : Fragment() {
                 }
 
                 R.id.btm_profile -> {
+                    (activity as AppCompatActivity?)!!.supportActionBar!!.hide()
+                    findNavController().navigate(R.id.profileFragment)
                     return@setOnItemSelectedListener true
                 }
 

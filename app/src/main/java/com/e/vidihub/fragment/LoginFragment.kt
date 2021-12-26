@@ -15,23 +15,33 @@ import com.e.vidihub.R
 import com.e.vidihub.databinding.FragmentLoginBinding
 import com.e.vidihub.viewmodel.LoginViewModel
 import androidx.appcompat.app.AppCompatActivity
+import com.e.data.util.SessionManager
+import dagger.hilt.EntryPoint
+import dagger.hilt.InstallIn
+import dagger.hilt.android.AndroidEntryPoint
 
-
-
-
-class LoginFragment : Fragment() {
+class LoginFragment
+ : Fragment() {
 
     private lateinit var viewModel: LoginViewModel
     private lateinit var binding: FragmentLoginBinding
+    private lateinit var sessionManager: SessionManager
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         // Inflate the layout for this fragment
+
+
         (activity as AppCompatActivity?)!!.supportActionBar!!.hide()
         viewModel = ViewModelProvider(requireActivity())[LoginViewModel::class.java]
         binding = FragmentLoginBinding.inflate(inflater, container, false)
+
+        sessionManager = SessionManager(requireContext())
+        if (!sessionManager.fetchAuthToken().isNullOrEmpty()) {
+            findNavController().navigate(R.id.homeFragment)
+        }
 
         return binding.root
     }
@@ -45,8 +55,21 @@ class LoginFragment : Fragment() {
         }
 
         binding.btnLogin.setOnClickListener {
-            viewModel.login("info@vidihub.ir", "1234")
-            observe()
+            val email = binding.tvEmail.text.toString()
+            val pass = binding.tvPassword.text.toString()
+
+            if (email.isEmpty() || pass.isEmpty()) {
+                Toast.makeText(
+                    requireContext(),
+                    "لطفا تمامی مقادیر را وارد کنید",
+                    Toast.LENGTH_LONG
+                ).show()
+            } else {
+                viewModel.login(email, pass)
+                observe()
+            }
+
+
         }
 
     }
@@ -56,8 +79,8 @@ class LoginFragment : Fragment() {
             when (it) {
 
                 is Result.Success -> {
+                    sessionManager.saveAuthToken(it.data)
                     findNavController().navigate(R.id.homeFragment)
-                    (activity as AppCompatActivity?)!!.supportActionBar!!.show()
                 }
 
                 is Result.Loading -> {

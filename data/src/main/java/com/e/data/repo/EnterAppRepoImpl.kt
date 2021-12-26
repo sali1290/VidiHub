@@ -30,7 +30,7 @@ class EnterAppRepoImpl @Inject constructor(
                 }
 
                 else -> {
-                    Log.i("error" , "error code is ${request.code()}")
+                    Log.i("error" , request.errorBody()!!.string())
                     throw IOException("مشکلی پیش آمده...")
                 }
 
