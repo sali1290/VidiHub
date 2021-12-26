@@ -20,6 +20,7 @@ import android.R.menu
 import android.view.MenuInflater
 import android.widget.Toolbar
 import androidx.navigation.ui.AppBarConfiguration
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 
 class HomeFragment : Fragment() {
@@ -57,6 +58,34 @@ class HomeFragment : Fragment() {
 
 
         setUpDrawerItems()
+
+    }
+
+    private fun setUpBottomNav() {
+        val bottomNav = requireActivity().findViewById<BottomNavigationView>(R.id.bottom_nav)
+
+        bottomNav.setOnItemSelectedListener {
+            when (it.itemId) {
+
+                R.id.btm_home -> {
+                    return@setOnItemSelectedListener true
+                }
+
+                R.id.btm_profile -> {
+                    return@setOnItemSelectedListener true
+                }
+
+                R.id.btm_videos -> {
+                    return@setOnItemSelectedListener true
+                }
+                else -> {
+                    return@setOnItemSelectedListener true
+                }
+            }
+
+
+        }
+
 
     }
 

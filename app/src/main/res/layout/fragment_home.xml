@@ -30,10 +30,16 @@
                 android:id="@+id/bottom_nav"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_40sdp"
+                android:background="@color/primary_color"
+                app:itemRippleColor="@color/purple_700"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/videos_pager"
-                app:layout_constraintBottom_toBottomOf="parent"/>
+                app:menu="@menu/bottom_navigation_menu"
+                app:itemIconTint="@color/bottom_nav_selector"
+                app:itemTextColor="@color/bottom_nav_selector"
+                />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <com.google.android.material.navigation.NavigationView
