@@ -5,7 +5,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.e.vidihub.R
+import androidx.recyclerview.widget.GridLayoutManager
+import com.e.vidihub.adapter.VideosAdapter
 import com.e.vidihub.databinding.FragmentVideoBinding
 
 class VideoFragment : Fragment() {
@@ -25,6 +26,9 @@ class VideoFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        binding.videosRecycler.layoutManager = GridLayoutManager(requireContext() , 2)
+        binding.videosRecycler.adapter = VideosAdapter(requireContext())
 
 
     }

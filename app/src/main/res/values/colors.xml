@@ -16,4 +16,5 @@
     <color name="primary_color">#00BCD4</color>
     <color name="divider_color">#BDBDBD</color>
     <color name="accent_color">#9E9E9E</color>
+    <color name="fragment_background">#CBF0F4</color>
 </resources>
