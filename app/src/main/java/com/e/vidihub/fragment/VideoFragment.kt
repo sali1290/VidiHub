@@ -6,15 +6,27 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.e.vidihub.R
+import com.e.vidihub.databinding.FragmentVideoBinding
 
 class VideoFragment : Fragment() {
+
+    private lateinit var binding: FragmentVideoBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_video, container, false)
+
+        binding = FragmentVideoBinding.inflate(inflater , container ,false)
+
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+
     }
 
 

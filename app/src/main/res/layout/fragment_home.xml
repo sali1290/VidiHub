@@ -37,8 +37,8 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/videos_pager"
                 app:menu="@menu/bottom_navigation_menu"
-                app:itemIconTint="@color/bottom_nav_selector"
-                app:itemTextColor="@color/bottom_nav_selector"
+                app:itemIconTint="@color/white"
+                app:itemTextColor="@color/white"
                 />
         </androidx.constraintlayout.widget.ConstraintLayout>
 

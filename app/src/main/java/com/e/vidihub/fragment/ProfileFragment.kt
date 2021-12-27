@@ -1,22 +1,22 @@
 package com.e.vidihub.fragment
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.e.data.util.SessionManager
 import com.e.domain.util.Result
 import com.e.vidihub.R
+import com.e.vidihub.activity.MainActivity
 import com.e.vidihub.adapter.ProfileAdapter
 import com.e.vidihub.databinding.FragmentProfileBinding
 import com.e.vidihub.viewmodel.UserViewModel
-import dagger.hilt.EntryPoint
-import dagger.hilt.InstallIn
-import dagger.hilt.android.AndroidEntryPoint
 
 class ProfileFragment : Fragment() {
 
@@ -42,10 +42,23 @@ class ProfileFragment : Fragment() {
         viewModel.getUser()
         observe()
 
-        binding.imgLogout.setOnClickListener {
+        binding.logout.setOnClickListener {
             sessionManager.saveAuthToken("")
-            findNavController().navigate(R.id.loginFragment)
+            requireActivity().onBackPressedDispatcher.addCallback(
+                viewLifecycleOwner,
+                object : OnBackPressedCallback(true) {
+                    override fun handleOnBackPressed() {
+                        requireActivity().finish()
+                    }
+                })
+            requireActivity().startActivity(
+                Intent(
+                    requireContext(),
+                    MainActivity::class.java
+                )
+            )
         }
+
     }
 
     private fun observe() {

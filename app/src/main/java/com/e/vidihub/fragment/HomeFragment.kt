@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.os.CountDownTimer
 import android.view.*
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -12,14 +13,12 @@ import com.e.vidihub.adapter.HomeViewPagerAdapter
 import com.e.vidihub.databinding.FragmentHomeBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
-import dagger.hilt.EntryPoint
-import dagger.hilt.InstallIn
-import dagger.hilt.android.AndroidEntryPoint
 
 class HomeFragment : Fragment() {
 
     private lateinit var binding: FragmentHomeBinding
-    lateinit var drawer: NavigationView
+    private lateinit var drawer: NavigationView
+    lateinit var bottomNav: BottomNavigationView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -49,14 +48,20 @@ class HomeFragment : Fragment() {
             }
         }.start()
 
-
+        requireActivity().onBackPressedDispatcher.addCallback(
+            viewLifecycleOwner,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    requireActivity().finish()
+                }
+            })
 
         setUpDrawerItems()
         setUpBottomNav()
     }
 
     private fun setUpBottomNav() {
-        val bottomNav = requireActivity().findViewById<BottomNavigationView>(R.id.bottom_nav)
+        bottomNav = requireActivity().findViewById<BottomNavigationView>(R.id.bottom_nav)
         bottomNav.selectedItemId = R.id.btm_home
 
         bottomNav.setOnItemSelectedListener {
@@ -73,6 +78,8 @@ class HomeFragment : Fragment() {
                 }
 
                 R.id.btm_videos -> {
+                    (activity as AppCompatActivity?)!!.supportActionBar!!.hide()
+                    findNavController().navigate(R.id.videoFragment)
                     return@setOnItemSelectedListener true
                 }
                 else -> {
@@ -112,5 +119,6 @@ class HomeFragment : Fragment() {
             return@setNavigationItemSelectedListener true
         }
     }
+
 
 }
