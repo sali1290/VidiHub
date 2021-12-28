@@ -32,7 +32,7 @@
         tools:layout="@layout/fragment_profile" />
     <fragment
         android:id="@+id/videoFragment"
-        android:name="com.e.vidihub.fragment.VideoFragment"
+        android:name="com.e.vidihub.fragment.VideosListFragment"
         android:label="fragment_video"
-        tools:layout="@layout/fragment_video" />
+        tools:layout="@layout/fragment_videos_list" />
 </navigation>

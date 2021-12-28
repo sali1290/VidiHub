@@ -34,7 +34,7 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         (activity as AppCompatActivity?)!!.supportActionBar!!.show()
         binding.videosPager.adapter = HomeViewPagerAdapter(requireContext())
-        val countDownTimer = object : CountDownTimer(60000, 4000) {
+        val countDownTimer = object : CountDownTimer(60000, 6000) {
             override fun onTick(millisUntilFinished: Long) {
                 if (binding.videosPager.currentItem == 2) {
                     binding.videosPager.currentItem = 0
@@ -48,6 +48,9 @@ class HomeFragment : Fragment() {
             }
         }.start()
 
+        setUpDrawerItems()
+        setUpBottomNav()
+
         requireActivity().onBackPressedDispatcher.addCallback(
             viewLifecycleOwner,
             object : OnBackPressedCallback(true) {
@@ -56,12 +59,10 @@ class HomeFragment : Fragment() {
                 }
             })
 
-        setUpDrawerItems()
-        setUpBottomNav()
     }
 
     private fun setUpBottomNav() {
-        bottomNav = requireActivity().findViewById<BottomNavigationView>(R.id.bottom_nav)
+        bottomNav = requireActivity().findViewById(R.id.bottom_nav)
         bottomNav.selectedItemId = R.id.btm_home
 
         bottomNav.setOnItemSelectedListener {
