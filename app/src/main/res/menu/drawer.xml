@@ -2,27 +2,23 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/item_profile"
-        android:title="پروفایل"
-        android:icon="@drawable/ic_assignment"
-        />
-
-    <item
-        android:id="@+id/item_videos"
-        android:title="ویدیو ها"
-        android:icon="@drawable/icon_video"
-         />
-
-    <item
         android:id="@+id/item_gallery"
-        android:title="گالری"
         android:icon="@drawable/ic_menu_gallery"
-        />
+        android:title="گالری" />
+
+    <item
+        android:id="@+id/item_support"
+        android:icon="@drawable/ic_support"
+        android:title="پشتیبانی" />
 
     <item
         android:id="@+id/item_about_us"
-        android:title="درباره ما"
         android:icon="@drawable/aboutus"
-        />
+        android:title="درباره ما" />
+
+    <item
+        android:id="@+id/item_exit"
+        android:icon="@drawable/logout"
+        android:title="خروج" />
 
 </menu>

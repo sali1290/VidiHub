@@ -1,10 +1,14 @@
 package com.e.vidihub.fragment
 
+import android.app.AlertDialog
+import android.app.Dialog
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
@@ -43,37 +47,34 @@ class ProfileFragment : Fragment() {
         observe()
 
         binding.logout.setOnClickListener {
-            sessionManager.saveAuthToken("")
-            requireActivity().onBackPressedDispatcher.addCallback(
-                viewLifecycleOwner,
-                object : OnBackPressedCallback(true) {
-                    override fun handleOnBackPressed() {
-                        requireActivity().finish()
-                    }
-                })
-            requireActivity().startActivity(
-                Intent(
-                    requireContext(),
-                    MainActivity::class.java
-                )
-            )
+
+            AlertDialog.Builder(
+                requireContext()
+            ).setTitle("خروج از حساب کاربری؟")
+                .setPositiveButton("بله") { _, _ ->
+                    sessionManager.saveAuthToken("")
+                    requireActivity().finish()
+                }.setNegativeButton("خیر") { _, _ ->}.show()
         }
 
     }
 
     private fun observe() {
+        val progressBar: ProgressBar = requireActivity().findViewById(R.id.progressBar)
         viewModel.user.observe(viewLifecycleOwner, {
             when (it) {
 
                 is Result.Success -> {
+                    progressBar.visibility = View.GONE
                     binding.userInfoRecycler.adapter = ProfileAdapter(it.data, requireContext())
                 }
 
                 is Result.Loading -> {
-                    Toast.makeText(requireContext(), "Loading", Toast.LENGTH_LONG).show()
+                    progressBar.visibility = View.VISIBLE
                 }
 
                 is Result.Error -> {
+                    progressBar.visibility = View.GONE
                     Toast.makeText(requireContext(), it.message, Toast.LENGTH_LONG).show()
                 }
 

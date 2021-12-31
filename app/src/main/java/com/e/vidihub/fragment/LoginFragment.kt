@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.lifecycle.ViewModelProvider
@@ -22,7 +23,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.AndroidEntryPoint
 
 class LoginFragment
- : Fragment() {
+    : Fragment() {
 
     private lateinit var viewModel: LoginViewModel
     private lateinit var binding: FragmentLoginBinding
@@ -74,19 +75,22 @@ class LoginFragment
     }
 
     private fun observe() {
+        val progressBar: ProgressBar = requireActivity().findViewById(R.id.progressBar)
         viewModel.loginResponse.observe(viewLifecycleOwner, {
             when (it) {
 
                 is Result.Success -> {
+                    progressBar.visibility = View.GONE
                     sessionManager.saveAuthToken(it.data)
                     findNavController().navigate(R.id.homeFragment)
                 }
 
                 is Result.Loading -> {
-                    Toast.makeText(requireContext(), "Loading", Toast.LENGTH_LONG).show()
+                    progressBar.visibility = View.VISIBLE
                 }
 
                 is Result.Error -> {
+                    progressBar.visibility = View.GONE
                     Toast.makeText(requireContext(), it.message, Toast.LENGTH_LONG).show()
                 }
 

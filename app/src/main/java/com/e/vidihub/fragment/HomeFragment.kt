@@ -1,16 +1,23 @@
 package com.e.vidihub.fragment
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.view.*
+import android.widget.ProgressBar
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.e.data.util.SessionManager
+import com.e.domain.util.Result
 import com.e.vidihub.R
 import com.e.vidihub.adapter.HomeViewPagerAdapter
 import com.e.vidihub.databinding.FragmentHomeBinding
+import com.e.vidihub.viewmodel.UserViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
 
@@ -18,7 +25,8 @@ class HomeFragment : Fragment() {
 
     private lateinit var binding: FragmentHomeBinding
     private lateinit var drawer: NavigationView
-    lateinit var bottomNav: BottomNavigationView
+    private lateinit var bottomNav: BottomNavigationView
+    private lateinit var userViewModel: UserViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -26,6 +34,7 @@ class HomeFragment : Fragment() {
     ): View {
         // Inflate the layout for this fragment
         binding = FragmentHomeBinding.inflate(inflater, container, false)
+        userViewModel = ViewModelProvider(requireActivity())[UserViewModel::class.java]
 
         return binding.root
     }
@@ -48,8 +57,12 @@ class HomeFragment : Fragment() {
             }
         }.start()
 
+
         setUpDrawerItems()
         setUpBottomNav()
+
+        userViewModel.getUser()
+        observeDomain()
 
         requireActivity().onBackPressedDispatcher.addCallback(
             viewLifecycleOwner,
@@ -97,14 +110,13 @@ class HomeFragment : Fragment() {
     private fun setUpDrawerItems() {
         drawer = requireActivity().findViewById(R.id.nav_view)
 
+        drawer.getHeaderView(0).findViewById<TextView>(R.id.tv_domain).text = "test"
+
         drawer.setNavigationItemSelectedListener {
             when (it.itemId) {
-                R.id.item_videos -> {
-                    Toast.makeText(requireContext(), "videos", Toast.LENGTH_LONG).show()
-                }
-
-                R.id.item_profile -> {
-                    Toast.makeText(requireContext(), "profile", Toast.LENGTH_LONG).show()
+                R.id.item_support -> {
+                    Toast.makeText(requireContext(), "support", Toast.LENGTH_LONG).show()
+                    findNavController().navigate(R.id.playVideoFragment)
                 }
 
                 R.id.item_about_us -> {
@@ -115,11 +127,48 @@ class HomeFragment : Fragment() {
                     Toast.makeText(requireContext(), "gallery", Toast.LENGTH_LONG).show()
                 }
 
+                R.id.item_exit -> {
+
+                    AlertDialog.Builder(
+                        requireContext()
+                    ).setTitle("خروج از حساب کاربری؟")
+                        .setPositiveButton("بله") { _, _ ->
+                            val sessionManager = SessionManager(requireContext())
+                            sessionManager.saveAuthToken("")
+                            requireActivity().finish()
+                        }.setNegativeButton("خیر") { _, _ -> }.show()
+                }
+
             }
 
             return@setNavigationItemSelectedListener true
         }
     }
 
+    private fun observeDomain() {
+        val progressBar: ProgressBar = requireActivity().findViewById(R.id.progressBar)
+        userViewModel.user.observe(viewLifecycleOwner, {
+            when (it) {
+
+                is Result.Success -> {
+                    progressBar.visibility = View.GONE
+                    drawer = requireActivity().findViewById(R.id.nav_view)
+                    drawer.getHeaderView(0).findViewById<TextView>(R.id.tv_domain).text =
+                        "domain: ${it.data.domain}"
+                }
+
+                is Result.Loading -> {
+                    progressBar.visibility = View.VISIBLE
+                }
+
+                is Result.Error -> {
+                    progressBar.visibility = View.GONE
+                    Toast.makeText(requireContext(), it.message, Toast.LENGTH_LONG).show()
+                }
+
+            }
+        })
+    }
 
 }
+
