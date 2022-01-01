@@ -2,6 +2,7 @@ package com.e.data.di
 
 import com.e.data.repo.EnterAppRepoImpl
 import com.e.data.repo.GetUserRepoImpl
+import com.e.data.repo.GetVideosRepoImpl
 import com.e.domain.repo.EnterAppRepo
 import com.e.domain.repo.GetUserRepo
 import dagger.Binds
@@ -18,4 +19,7 @@ abstract class RepositoryModule {
 
     @Binds
     abstract fun bindGetUserRepo(getUserRepoImpl: GetUserRepoImpl): GetUserRepo
+
+    @Binds
+    abstract fun bindGetVideosRepo(getVideosRepoImpl: GetVideosRepoImpl): GetUserRepo
 }
