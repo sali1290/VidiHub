@@ -1,4 +1,6 @@
 package com.e.domain.usecase
 
-class EditUserInfoUseCase {
+import javax.inject.Inject
+
+class EditUserInfoUseCase @Inject constructor() {
 }

@@ -13,9 +13,12 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/app_icon_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.VidiHub">
+        android:theme="@style/Theme.VidiHub"
+        android:usesCleartextTraffic="true"
+        >
         <activity
             android:name=".activity.MainActivity"
+            android:configChanges="orientation|screenSize|layoutDirection"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

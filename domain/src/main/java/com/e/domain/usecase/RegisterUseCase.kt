@@ -1,4 +1,6 @@
 package com.e.domain.usecase
 
-class RegisterUseCase {
+import javax.inject.Inject
+
+class RegisterUseCase @Inject constructor() {
 }

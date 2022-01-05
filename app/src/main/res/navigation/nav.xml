@@ -37,7 +37,11 @@
         android:id="@+id/videoFragment"
         android:name="com.e.vidihub.fragment.VideosListFragment"
         android:label="fragment_video"
-        tools:layout="@layout/fragment_videos_list" />
+        tools:layout="@layout/fragment_videos_list" >
+        <action
+            android:id="@+id/action_videoFragment_to_playVideoFragment"
+            app:destination="@id/playVideoFragment" />
+    </fragment>
     <fragment
         android:id="@+id/playVideoFragment"
         android:name="com.e.vidihub.fragment.PlayVideoFragment"

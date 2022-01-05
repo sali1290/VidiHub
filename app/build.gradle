@@ -11,7 +11,6 @@ android {
     compileSdk 31
 
 
-
     defaultConfig {
         applicationId "com.e.vidihub"
         minSdk 23
@@ -100,4 +99,11 @@ dependencies {
 
     //viewpager2
     implementation 'androidx.viewpager2:viewpager2:1.0.0'
+
+    //exo player
+    implementation 'com.google.android.exoplayer:exoplayer:2.8.0'
+    implementation 'com.google.android.exoplayer:exoplayer-dash:2.8.0'
+    implementation 'com.google.android.exoplayer:exoplayer-hls:2.8.0'
+    implementation 'com.google.android.exoplayer:exoplayer-smoothstreaming:2.8.0'
+    implementation 'com.google.android.exoplayer:exoplayer-ui:2.8.0'
 }

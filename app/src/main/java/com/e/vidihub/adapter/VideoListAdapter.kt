@@ -1,22 +1,33 @@
 package com.e.vidihub.adapter
 
+import android.app.Activity
 import android.content.Context
 import android.net.Uri
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.fragment.app.FragmentActivity
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.e.domain.model.VideoListItemModel
 import com.e.vidihub.R
 
-class VideoListAdapter(private val kind: Int, private val context: Context) :
+class VideoListAdapter(
+    private val videoList: MutableList<VideoListItemModel>,
+    private val context: Context,
+    private val activity: FragmentActivity
+) :
     RecyclerView.Adapter<VideoListAdapter.VideosViewHolder>() {
 
     inner class VideosViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val title: TextView = itemView.findViewById(R.id.tv_title)
         val poster: ImageView = itemView.findViewById(R.id.img_video_poster)
+        val item: LinearLayout = itemView.findViewById(R.id.video_item)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VideosViewHolder {
@@ -28,7 +39,11 @@ class VideoListAdapter(private val kind: Int, private val context: Context) :
     override fun onBindViewHolder(holder: VideosViewHolder, position: Int) {
 //        holder.poster.scaleType = ImageView.ScaleType.FIT_XY
 
-        holder.title.text = "video ${position + 1}"
+        holder.title.text = videoList[position].title
+        holder.item.setOnClickListener {
+            val bundle = Bundle().apply { putString("video link", videoList[position].guid) }
+            activity.findNavController(R.id.nav_host_fragment).navigate(R.id.playVideoFragment, bundle)
+        }
         when (position) {
             0 -> {
                 Glide.with(context)
@@ -61,9 +76,7 @@ class VideoListAdapter(private val kind: Int, private val context: Context) :
         }
     }
 
-    override fun getItemCount(): Int {
-        return kind
-    }
+    override fun getItemCount() = videoList.size
 
 
 }

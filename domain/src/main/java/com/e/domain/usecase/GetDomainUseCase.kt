@@ -1,4 +1,6 @@
 package com.e.domain.usecase
 
-class GetDomainUseCase {
+import javax.inject.Inject
+
+class GetDomainUseCase @Inject constructor() {
 }

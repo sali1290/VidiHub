@@ -1,4 +1,6 @@
 package com.e.domain.usecase
 
-class ChangePasswordUseCase {
+import javax.inject.Inject
+
+class ChangePasswordUseCase @Inject constructor(){
 }

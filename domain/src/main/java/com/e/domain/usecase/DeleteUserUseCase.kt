@@ -1,4 +1,6 @@
 package com.e.domain.usecase
 
-class DeleteUserUseCase {
+import javax.inject.Inject
+
+class DeleteUserUseCase @Inject constructor() {
 }
