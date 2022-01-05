@@ -1,22 +1,19 @@
-package com.e.vidihub.fragment
+package com.e.vidihub.activity
 
 import android.content.Context
 import android.content.pm.ActivityInfo
 import android.net.Uri
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.e.domain.util.Result
 import com.e.vidihub.R
-import com.e.vidihub.databinding.FragmentPlayVideoBinding
 import com.e.vidihub.viewmodel.GetVideoViewModel
 import com.google.android.exoplayer2.*
 import com.google.android.exoplayer2.extractor.DefaultExtractorsFactory
@@ -31,11 +28,11 @@ import com.google.android.exoplayer2.ui.PlayerView
 import com.google.android.exoplayer2.upstream.BandwidthMeter
 import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
+class PlayVideoActivity : AppCompatActivity() {
 
-class PlayVideoFragment : Fragment() {
-
-    private lateinit var binding: FragmentPlayVideoBinding
     private lateinit var viewModel: GetVideoViewModel
 
     private lateinit var playerView: PlayerView
@@ -45,70 +42,62 @@ class PlayVideoFragment : Fragment() {
     private var flag = false
     private var id = ""
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        // Inflate the layout for this fragment
 
-        binding = FragmentPlayVideoBinding.inflate(inflater, container, false)
-        viewModel = ViewModelProvider(requireActivity())[GetVideoViewModel::class.java]
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_play_video)
+        (this as AppCompatActivity?)!!.supportActionBar!!.hide()
+        viewModel = ViewModelProvider(this).get(GetVideoViewModel::class.java)
 
-        playerView = binding.playerView
-        progressBar = binding.videoProgressBar
+        playerView = findViewById(R.id.player_view)
+        progressBar = findViewById(R.id.video_progressBar)
         btFullScreen = playerView.findViewById(R.id.bt_fullscreen)
 
-        return binding.root
-    }
+        id = getSharedPreferences("video link", Context.MODE_PRIVATE).getString("key", "")!!
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        id = arguments?.getString("video link")!!
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-
-        requireActivity().window.setFlags(
+        this@PlayVideoActivity.window.setFlags(
             WindowManager.LayoutParams.FLAG_FULLSCREEN,
             WindowManager.LayoutParams.FLAG_FULLSCREEN
         )
 
-        requireActivity()
+        this
             .onBackPressedDispatcher
-            .addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
+            .addCallback(this@PlayVideoActivity, object : OnBackPressedCallback(true) {
                 override fun handleOnBackPressed() {
                     // Do custom work here
-                    requireActivity().requestedOrientation =
+                    this@PlayVideoActivity.requestedOrientation =
                         ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
-                    this@PlayVideoFragment.onDestroy()
                     // if you want onBackPressed() to be called as normal afterwards
                     if (isEnabled) {
                         isEnabled = false
-                        requireActivity().onBackPressed()
+                        this@PlayVideoActivity.onBackPressed()
                     }
                 }
             }
             )
 
-        viewModel.playVideo(id)
-        observe()
-
-
         btFullScreen.setOnClickListener {
             if (flag) {
                 btFullScreen.setImageDrawable(resources.getDrawable(R.drawable.ic_fullscreen))
-                requireActivity().requestedOrientation =
+                this.requestedOrientation =
                     ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
                 flag = false
             } else {
                 btFullScreen.setImageDrawable(resources.getDrawable(R.drawable.ic_fullscreen_exit))
-                requireActivity().requestedOrientation =
+                this.requestedOrientation =
                     ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
                 flag = true
             }
         }
+        viewModel.playVideo(id)
+        observe()
+
+    }
+
+    override fun onRestart() {
+        super.onRestart()
+        simpleExoPlayer.playWhenReady = true
+        simpleExoPlayer.playbackState
     }
 
     override fun onPause() {
@@ -117,14 +106,15 @@ class PlayVideoFragment : Fragment() {
         simpleExoPlayer.playbackState
     }
 
+
     private fun observe() {
-        viewModel.video.observe(viewLifecycleOwner, {
+        viewModel.video.observe(this@PlayVideoActivity, {
             when (it) {
                 is Result.Success -> {
                     progressBar.visibility = View.GONE
 
 
-                    var uri: Uri? = Uri.parse(it.data.src)
+                    val uri: Uri? = Uri.parse(it.data.src)
                     val loadControl: LoadControl = DefaultLoadControl()
                     val bandWidthMeter: BandwidthMeter = DefaultBandwidthMeter()
                     val trackSelector: TrackSelector = DefaultTrackSelector(
@@ -132,7 +122,7 @@ class PlayVideoFragment : Fragment() {
                     )
                     simpleExoPlayer =
                         ExoPlayerFactory.newSimpleInstance(
-                            requireContext(),
+                            this@PlayVideoActivity,
                             trackSelector,
                             loadControl
                         )
@@ -212,10 +202,11 @@ class PlayVideoFragment : Fragment() {
 
                 is Result.Error -> {
                     progressBar.visibility = View.GONE
-                    Toast.makeText(requireContext(), it.message, Toast.LENGTH_LONG).show()
+                    Toast.makeText(this@PlayVideoActivity, it.message, Toast.LENGTH_LONG).show()
                 }
             }
         })
     }
+
 
 }

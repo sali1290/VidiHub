@@ -116,8 +116,6 @@ class HomeFragment : Fragment() {
             when (it.itemId) {
                 R.id.item_support -> {
                     Toast.makeText(requireContext(), "support", Toast.LENGTH_LONG).show()
-                    (activity as AppCompatActivity?)!!.supportActionBar!!.hide()
-                    findNavController().navigate(R.id.playVideoFragment)
                 }
 
                 R.id.item_about_us -> {

@@ -24,9 +24,6 @@
         <action
             android:id="@+id/action_homeFragment_to_videoFragment"
             app:destination="@id/videoFragment" />
-        <action
-            android:id="@+id/action_homeFragment_to_playVideoFragment"
-            app:destination="@id/playVideoFragment" />
     </fragment>
     <fragment
         android:id="@+id/profileFragment"
@@ -39,12 +36,11 @@
         android:label="fragment_video"
         tools:layout="@layout/fragment_videos_list" >
         <action
-            android:id="@+id/action_videoFragment_to_playVideoFragment"
-            app:destination="@id/playVideoFragment" />
+            android:id="@+id/action_videoFragment_to_playVideoActivity"
+            app:destination="@id/playVideoActivity" />
     </fragment>
-    <fragment
-        android:id="@+id/playVideoFragment"
-        android:name="com.e.vidihub.fragment.PlayVideoFragment"
-        android:label="fragment_play_video"
-        tools:layout="@layout/fragment_play_video" />
+    <activity
+        android:id="@+id/playVideoActivity"
+        android:name="com.e.vidihub.activity.PlayVideoActivity"
+        android:label="PlayVideoActivity" />
 </navigation>

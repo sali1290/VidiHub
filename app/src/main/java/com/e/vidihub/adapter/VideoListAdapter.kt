@@ -2,6 +2,7 @@ package com.e.vidihub.adapter
 
 import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -16,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.e.domain.model.VideoListItemModel
 import com.e.vidihub.R
+import com.e.vidihub.activity.PlayVideoActivity
 
 class VideoListAdapter(
     private val videoList: MutableList<VideoListItemModel>,
@@ -41,8 +43,12 @@ class VideoListAdapter(
 
         holder.title.text = videoList[position].title
         holder.item.setOnClickListener {
-            val bundle = Bundle().apply { putString("video link", videoList[position].guid) }
-            activity.findNavController(R.id.nav_host_fragment).navigate(R.id.playVideoFragment, bundle)
+            activity.getSharedPreferences("video link", Context.MODE_PRIVATE).edit().putString(
+                "key", videoList[position].guid
+            ).apply()
+
+//            val bundle = Bundle().apply { putString("video link", }
+            activity.findNavController(R.id.nav_host_fragment).navigate(R.id.playVideoActivity)
         }
         when (position) {
             0 -> {
