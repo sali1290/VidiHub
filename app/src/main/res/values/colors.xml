@@ -17,4 +17,5 @@
     <color name="divider_color">#BDBDBD</color>
     <color name="accent_color">#9E9E9E</color>
     <color name="fragment_background">#CBF0F4</color>
+    <color name="app_icon_background">#FEFFFF</color>
 </resources>

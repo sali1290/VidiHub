@@ -4,14 +4,14 @@ import android.app.AlertDialog
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.view.*
-import android.widget.ProgressBar
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.viewpager2.widget.ViewPager2
 import com.e.data.util.SessionManager
 import com.e.domain.util.Result
 import com.e.vidihub.R
@@ -20,6 +20,8 @@ import com.e.vidihub.databinding.FragmentHomeBinding
 import com.e.vidihub.viewmodel.UserViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
+import java.util.*
+import kotlin.collections.ArrayList
 
 class HomeFragment : Fragment() {
 
@@ -43,19 +45,66 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         (activity as AppCompatActivity?)!!.supportActionBar!!.show()
         binding.videosPager.adapter = HomeViewPagerAdapter(requireContext())
-        val countDownTimer = object : CountDownTimer(60000, 6000) {
-            override fun onTick(millisUntilFinished: Long) {
-                if (binding.videosPager.currentItem == 2) {
-                    binding.videosPager.currentItem = 0
-                } else {
-                    binding.videosPager.currentItem++
-                }
-            }
 
-            override fun onFinish() {
-                start()
+        //fro scroll viewpager2
+//        val countDownTimer = object : CountDownTimer(60000, 6000) {
+//            override fun onTick(millisUntilFinished: Long) {
+//                if (binding.videosPager.currentItem == 2) {
+//                    binding.videosPager.currentItem = 0
+//                } else {
+//                    binding.videosPager.currentItem++
+//                }
+//            }
+//
+//            override fun onFinish() {
+//                start()
+//            }
+//        }.start()
+
+
+        val slidingImageDots: MutableList<ImageView> = ArrayList()
+        for (i in 0 until 3) {
+            slidingImageDots.add(ImageView(requireContext()))
+            slidingImageDots[i].setImageDrawable(
+                ContextCompat.getDrawable(
+                    requireContext(),
+                    R.drawable.non_active_dot
+                )
+            )
+
+            val params = LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+            )
+            params.setMargins(8, 0, 8, 0)
+            binding.sliderDots.addView(slidingImageDots[i], params)
+        }
+        slidingImageDots[0].setImageDrawable(
+            ContextCompat.getDrawable(
+                requireContext(),
+                R.drawable.active_dot
+            )
+        )
+        val slidingCallback = object : ViewPager2.OnPageChangeCallback() {
+            override fun onPageSelected(position: Int) {
+                for (i in 0 until 3) {
+                    slidingImageDots[i].setImageDrawable(
+                        ContextCompat.getDrawable(
+                            requireContext(),
+                            R.drawable.non_active_dot
+                        )
+                    )
+                }
+
+                slidingImageDots[position].setImageDrawable(
+                    ContextCompat.getDrawable(
+                        requireContext(),
+                        R.drawable.active_dot
+                    )
+                )
             }
-        }.start()
+        }
+        binding.videosPager.registerOnPageChangeCallback(slidingCallback)
 
 
         setUpDrawerItems()
