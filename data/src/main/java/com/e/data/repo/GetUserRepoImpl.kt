@@ -18,7 +18,7 @@ class GetUserRepoImpl @Inject constructor(
         return null!!
     }
 
-    @Throws(IOException::class)
+
     override suspend fun getUserInfo(): UserModel {
 
         val request = apiService.getUser()
@@ -32,7 +32,7 @@ class GetUserRepoImpl @Inject constructor(
 
                 else -> {
                     Log.i("error", request.errorBody()!!.string())
-                    throw IOException("مشکلی پیش آمده...")
+                    throw IOException("مشکلی پیش آمده..." + request.code())
                 }
             }
 

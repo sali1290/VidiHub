@@ -5,7 +5,7 @@
     <item
         android:id="@+id/action_name"
         android:icon="@android:drawable/ic_menu_sort_by_size"
-        android:title="Text to be seen by user"
+        android:title="Menu"
         app:showAsAction="always"
         android:iconTint="@color/primary_text"
         android:orderInCategory="0"/>

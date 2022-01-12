@@ -2,7 +2,6 @@ package com.e.vidihub.fragment
 
 import android.app.AlertDialog
 import android.os.Bundle
-import android.os.CountDownTimer
 import android.view.*
 import android.widget.*
 import androidx.activity.OnBackPressedCallback
@@ -12,11 +11,13 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
+import com.e.data.util.NetWorkHelper
 import com.e.data.util.SessionManager
 import com.e.domain.util.Result
 import com.e.vidihub.R
 import com.e.vidihub.adapter.HomeViewPagerAdapter
 import com.e.vidihub.databinding.FragmentHomeBinding
+import com.e.vidihub.viewmodel.RefreshTokenViewModel
 import com.e.vidihub.viewmodel.UserViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
@@ -29,6 +30,8 @@ class HomeFragment : Fragment() {
     private lateinit var drawer: NavigationView
     private lateinit var bottomNav: BottomNavigationView
     private lateinit var userViewModel: UserViewModel
+    private lateinit var refreshTokenViewModel: RefreshTokenViewModel
+    private lateinit var sessionManager: SessionManager
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,6 +40,9 @@ class HomeFragment : Fragment() {
         // Inflate the layout for this fragment
         binding = FragmentHomeBinding.inflate(inflater, container, false)
         userViewModel = ViewModelProvider(requireActivity())[UserViewModel::class.java]
+        refreshTokenViewModel =
+            ViewModelProvider(requireActivity())[RefreshTokenViewModel::class.java]
+        sessionManager = SessionManager(requireContext())
 
         return binding.root
     }
@@ -211,7 +217,52 @@ class HomeFragment : Fragment() {
 
                 is Result.Error -> {
                     progressBar.visibility = View.GONE
-                    Toast.makeText(requireContext(), it.message, Toast.LENGTH_LONG).show()
+                    Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
+                    if (it.message.contains("401")) {
+                        if (sessionManager.fetchAuthToken()!!.isEmpty()) {
+                            findNavController().navigate(R.id.loginFragment)
+                        } else {
+                            refreshTokenViewModel.refreshToken(sessionManager.fetchRefreshToken()!!)
+                            observeRefreshToken()
+                        }
+
+                    }
+                    if (!NetWorkHelper(requireContext()).isNetworkConnected()) {
+                        AlertDialog.Builder(requireContext()).setCancelable(false)
+                            .setMessage("اتصال اینترنت برقرار نیست! لظفا مجددا تلاش کنید")
+                            .setNegativeButton(
+                                "خروج"
+                            ) { dialog, which ->
+                                requireActivity().finish()
+                            }.setPositiveButton("تلاش مجدد") { dialog, which ->
+                                findNavController().navigate(R.id.homeFragment)
+                            }.show()
+                    }
+                }
+
+            }
+        })
+    }
+
+    private fun observeRefreshToken() {
+        val progressBar: ProgressBar = requireActivity().findViewById(R.id.progressBar)
+        refreshTokenViewModel.token.observe(viewLifecycleOwner, {
+            when (it) {
+
+                is Result.Success -> {
+                    progressBar.visibility = View.GONE
+                    sessionManager.saveAuthToken(it.data)
+                    findNavController().navigate(R.id.homeFragment)
+                }
+
+                is Result.Loading -> {
+                    progressBar.visibility = View.VISIBLE
+                }
+
+                is Result.Error -> {
+                    progressBar.visibility = View.GONE
+                    Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
+                    findNavController().navigate(R.id.homeFragment)
                 }
 
             }

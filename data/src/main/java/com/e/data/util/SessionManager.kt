@@ -12,6 +12,7 @@ class SessionManager @Inject constructor(@ApplicationContext private val context
 
     companion object {
         const val USER_TOKEN = "user_token"
+        const val REFRESH_TOKEN = "refresh_token"
     }
 
     fun saveAuthToken(token: String?) {
@@ -22,6 +23,17 @@ class SessionManager @Inject constructor(@ApplicationContext private val context
 
     fun fetchAuthToken(): String? {
         return prefs.getString(USER_TOKEN, null)
+    }
+
+
+    fun saveRefreshToken(refreshToken: String?) {
+        val editor = prefs.edit()
+        editor.putString(REFRESH_TOKEN, refreshToken)
+        editor.apply()
+    }
+
+    fun fetchRefreshToken(): String? {
+        return prefs.getString(REFRESH_TOKEN, null)
     }
 
 

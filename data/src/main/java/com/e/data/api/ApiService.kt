@@ -2,10 +2,7 @@ package com.e.data.api
 
 import com.e.data.model.*
 import retrofit2.Response
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.Path
+import retrofit2.http.*
 
 interface ApiService {
 
@@ -27,5 +24,8 @@ interface ApiService {
         @Path("video_id") video_id: String
     ): Response<VideoResponse>
 
-
+    @GET("accounts/refresh_token/")
+    suspend fun refreshToken(
+        @Header("Authorization") token: String
+    ): Response<String>
 }

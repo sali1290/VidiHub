@@ -6,6 +6,7 @@ import com.e.data.mapper.LoginMapper
 import com.e.data.util.NetWorkHelper
 import com.e.data.util.SessionManager
 import com.e.domain.model.LoginModel
+import com.e.domain.model.RegisterLoginResponseModel
 import com.e.domain.model.UserModel
 import com.e.domain.repo.EnterAppRepo
 import java.io.IOException
@@ -19,19 +20,22 @@ class EnterAppRepoImpl @Inject constructor(
 ) : EnterAppRepo {
 
     @Throws(IOException::class)
-    override suspend fun login(loginModel: LoginModel): String {
+    override suspend fun login(loginModel: LoginModel): RegisterLoginResponseModel {
 
         val request = apiService.login(loginMapper.toLogin(loginModel))
         if (netWorkHelper.isNetworkConnected()) {
 
             when (request.code()) {
                 200 -> {
-                    return request.body()!!.accessToken
+                    return RegisterLoginResponseModel(
+                        request.body()!!.accessToken,
+                        request.body()!!.refreshToken
+                    )
                 }
 
                 else -> {
-                    Log.i("error" , request.errorBody()!!.string())
-                    throw IOException("مشکلی پیش آمده...")
+                    Log.i("error", request.errorBody()!!.string())
+                    throw IOException("مشکلی پیش آمده..." + request.code())
                 }
 
             }
@@ -44,5 +48,26 @@ class EnterAppRepoImpl @Inject constructor(
 
     override suspend fun register(userModel: UserModel): String {
         return "null"
+    }
+
+    override suspend fun refreshToken(token: String): String {
+
+        val request = apiService.refreshToken(token)
+        if (netWorkHelper.isNetworkConnected()) {
+
+            when (request.code()) {
+                200 -> {
+                    return request.message()
+                }
+
+                else -> {
+                    Log.i("error", request.errorBody()!!.string())
+                    throw IOException("مشکلی پیش آمده..." + request.code())
+                }
+
+            }
+        } else {
+            throw IOException("لطفا اتصال اینترنت خود را بررسی کنید")
+        }
     }
 }

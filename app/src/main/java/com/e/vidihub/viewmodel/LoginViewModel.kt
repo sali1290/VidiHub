@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.e.domain.model.LoginModel
+import com.e.domain.model.RegisterLoginResponseModel
 import com.e.domain.usecase.LoginUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
@@ -17,8 +18,8 @@ import javax.inject.Inject
 @HiltViewModel
 class LoginViewModel @Inject constructor(private var loginUseCase: LoginUseCase) : ViewModel() {
 
-    private val _loginResponse = MutableLiveData<Result<String>>()
-    val loginResponse: LiveData<Result<String>>
+    private val _loginResponse = MutableLiveData<Result<RegisterLoginResponseModel>>()
+    val loginResponse: LiveData<Result<RegisterLoginResponseModel>>
         get() = _loginResponse
 
     private val handler = CoroutineExceptionHandler { _, exception ->

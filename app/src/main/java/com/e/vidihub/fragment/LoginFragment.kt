@@ -3,24 +3,20 @@ package com.e.vidihub.fragment
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
 import android.widget.Toast
-import androidx.activity.OnBackPressedCallback
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.e.data.util.SessionManager
 import com.e.domain.util.Result
 import com.e.vidihub.R
 import com.e.vidihub.databinding.FragmentLoginBinding
 import com.e.vidihub.viewmodel.LoginViewModel
-import androidx.appcompat.app.AppCompatActivity
-import com.e.data.util.SessionManager
-import dagger.hilt.EntryPoint
-import dagger.hilt.InstallIn
-import dagger.hilt.android.AndroidEntryPoint
 
 class LoginFragment
     : Fragment() {
@@ -81,7 +77,8 @@ class LoginFragment
 
                 is Result.Success -> {
                     progressBar.visibility = View.GONE
-                    sessionManager.saveAuthToken(it.data)
+                    sessionManager.saveAuthToken(it.data.accessToken)
+                    sessionManager.saveRefreshToken(it.data.refreshToken)
                     findNavController().navigate(R.id.homeFragment)
                 }
 
