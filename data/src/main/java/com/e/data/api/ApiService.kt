@@ -27,5 +27,5 @@ interface ApiService {
     @GET("accounts/refresh_token/")
     suspend fun refreshToken(
         @Header("Authorization") token: String
-    ): Response<String>
+    ): Response<RefreshTokenResponse>
 }

@@ -1,23 +1,16 @@
 package com.e.vidihub.fragment
 
-import android.app.AlertDialog
-import android.app.Dialog
-import android.content.DialogInterface
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
 import android.widget.Toast
-import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.findNavController
 import com.e.data.util.SessionManager
 import com.e.domain.util.Result
 import com.e.vidihub.R
-import com.e.vidihub.activity.MainActivity
 import com.e.vidihub.adapter.ProfileAdapter
 import com.e.vidihub.databinding.FragmentProfileBinding
 import com.e.vidihub.viewmodel.UserViewModel
@@ -45,17 +38,6 @@ class ProfileFragment : Fragment() {
 
         viewModel.getUser()
         observe()
-
-        binding.logout.setOnClickListener {
-
-            AlertDialog.Builder(
-                requireContext()
-            ).setTitle("خروج از حساب کاربری؟")
-                .setPositiveButton("بله") { _, _ ->
-                    sessionManager.saveAuthToken("")
-                    requireActivity().finish()
-                }.setNegativeButton("خیر") { _, _ ->}.show()
-        }
 
     }
 

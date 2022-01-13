@@ -19,9 +19,9 @@ class GetVideosRepoImpl @Inject constructor(
 ) : GetVideosRepo {
     override suspend fun getAllVideos(): MutableList<VideoListItemModel> {
 
-        val request = apiService.getAllVideos()
-        if (netWorkHelper.isNetworkConnected()) {
 
+        if (netWorkHelper.isNetworkConnected()) {
+            val request = apiService.getAllVideos()
             when (request.code()) {
                 200 -> {
                     val list = request.body()!!.map {
@@ -44,9 +44,9 @@ class GetVideosRepoImpl @Inject constructor(
 
     override suspend fun getVideo(vid: String): VideoResponseModel {
 
-        val request = apiService.getVideo(vid)
-        if (netWorkHelper.isNetworkConnected()) {
 
+        if (netWorkHelper.isNetworkConnected()) {
+            val request = apiService.getVideo(vid)
             when (request.code()) {
                 200 -> {
                     return videoResponseMapper.toMapper(request.body()!!)

@@ -19,12 +19,12 @@ class EnterAppRepoImpl @Inject constructor(
     var sessionManager: SessionManager
 ) : EnterAppRepo {
 
-    @Throws(IOException::class)
+
     override suspend fun login(loginModel: LoginModel): RegisterLoginResponseModel {
 
-        val request = apiService.login(loginMapper.toLogin(loginModel))
-        if (netWorkHelper.isNetworkConnected()) {
 
+        if (netWorkHelper.isNetworkConnected()) {
+            val request = apiService.login(loginMapper.toLogin(loginModel))
             when (request.code()) {
                 200 -> {
                     return RegisterLoginResponseModel(
@@ -52,12 +52,12 @@ class EnterAppRepoImpl @Inject constructor(
 
     override suspend fun refreshToken(token: String): String {
 
-        val request = apiService.refreshToken(token)
-        if (netWorkHelper.isNetworkConnected()) {
 
+        if (netWorkHelper.isNetworkConnected()) {
+            val request = apiService.refreshToken("Bearer $token")
             when (request.code()) {
                 200 -> {
-                    return request.message()
+                    return request.body()!!.token
                 }
 
                 else -> {

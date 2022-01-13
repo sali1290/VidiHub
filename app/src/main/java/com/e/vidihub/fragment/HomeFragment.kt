@@ -11,7 +11,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
-import com.e.data.util.NetWorkHelper
 import com.e.data.util.SessionManager
 import com.e.domain.util.Result
 import com.e.vidihub.R
@@ -217,17 +216,8 @@ class HomeFragment : Fragment() {
 
                 is Result.Error -> {
                     progressBar.visibility = View.GONE
-                    Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
-                    if (it.message.contains("401")) {
-                        if (sessionManager.fetchAuthToken()!!.isEmpty()) {
-                            findNavController().navigate(R.id.loginFragment)
-                        } else {
-                            refreshTokenViewModel.refreshToken(sessionManager.fetchRefreshToken()!!)
-                            observeRefreshToken()
-                        }
 
-                    }
-                    if (!NetWorkHelper(requireContext()).isNetworkConnected()) {
+                    if (it.message == "لطفا اتصال اینترنت خود را بررسی کنید") {
                         AlertDialog.Builder(requireContext()).setCancelable(false)
                             .setMessage("اتصال اینترنت برقرار نیست! لظفا مجددا تلاش کنید")
                             .setNegativeButton(
@@ -235,9 +225,16 @@ class HomeFragment : Fragment() {
                             ) { dialog, which ->
                                 requireActivity().finish()
                             }.setPositiveButton("تلاش مجدد") { dialog, which ->
-                                findNavController().navigate(R.id.homeFragment)
+                                requireActivity().recreate()
                             }.show()
+                    } else if (it.message.contains("401")) {
+                        refreshTokenViewModel.refreshToken(sessionManager.fetchRefreshToken()!!)
+                        observeRefreshToken()
+                    } else {
+                        Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
+
                     }
+
                 }
 
             }
@@ -252,7 +249,7 @@ class HomeFragment : Fragment() {
                 is Result.Success -> {
                     progressBar.visibility = View.GONE
                     sessionManager.saveAuthToken(it.data)
-                    findNavController().navigate(R.id.homeFragment)
+                    requireActivity().recreate()
                 }
 
                 is Result.Loading -> {
@@ -262,7 +259,9 @@ class HomeFragment : Fragment() {
                 is Result.Error -> {
                     progressBar.visibility = View.GONE
                     Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
-                    findNavController().navigate(R.id.homeFragment)
+                    sessionManager.saveAuthToken("")
+                    sessionManager.saveRefreshToken("")
+                    findNavController().navigate(R.id.loginFragment)
                 }
 
             }

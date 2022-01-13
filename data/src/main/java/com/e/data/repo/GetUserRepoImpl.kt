@@ -21,10 +21,10 @@ class GetUserRepoImpl @Inject constructor(
 
     override suspend fun getUserInfo(): UserModel {
 
-        val request = apiService.getUser()
+
 
         if (netWorkHelper.isNetworkConnected()) {
-
+            val request = apiService.getUser()
             when (request.code()) {
                 200 -> {
                     return userMapper.toMapper(request.body()!!)

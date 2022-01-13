@@ -107,4 +107,6 @@ dependencies {
     implementation 'com.google.android.exoplayer:exoplayer-smoothstreaming:2.8.0'
     implementation 'com.google.android.exoplayer:exoplayer-ui:2.8.0'
 
+    //paging library
+    implementation 'android.arch.paging:runtime:1.0.0'
 }
