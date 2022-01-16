@@ -24,6 +24,12 @@ interface ApiService {
         @Path("video_id") video_id: String
     ): Response<VideoResponse>
 
+    @GET("videos/videolistpaging/")
+    suspend fun getVideoPaging(
+        @Query("start_page") start_page: Int,
+        @Query("page_length") page_length: Int
+    ): Response<List<VideoListItem>>
+
     @GET("accounts/refresh_token/")
     suspend fun refreshToken(
         @Header("Authorization") token: String

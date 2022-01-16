@@ -1,10 +1,15 @@
 package com.e.data.repo
 
 import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.map
+import androidx.paging.*
 import com.e.data.api.ApiService
 import com.e.data.mapper.VideoListItemMapper
 import com.e.data.mapper.VideoMapper
+import com.e.data.model.VideoListItem
 import com.e.data.util.NetWorkHelper
+import com.e.data.videoDatasource.VideoPagingSource
 import com.e.domain.model.VideoListItemModel
 import com.e.domain.model.VideoResponseModel
 import com.e.domain.repo.GetVideosRepo
@@ -62,4 +67,15 @@ class GetVideosRepoImpl @Inject constructor(
             throw IOException("لطفا اتصال اینترنت خود را بررسی کنید")
         }
     }
+
+    override suspend fun getVideoListPaging(): LiveData<PagingData<VideoListItemModel>> {
+        return Pager(
+            config = PagingConfig(1, enablePlaceholders = false),
+            pagingSourceFactory = { VideoPagingSource(apiService) }
+        ).liveData.map {
+            it.map { VideoListItemModel(it.vid, it.title, it.duration, it.guid) }
+        }
+
+    }
+
 }

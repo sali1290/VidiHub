@@ -88,7 +88,16 @@ class LoginFragment
 
                 is Result.Error -> {
                     progressBar.visibility = View.GONE
-                    Toast.makeText(requireContext(), it.message, Toast.LENGTH_LONG).show()
+
+                    if (it.message.contains("401")) {
+                        Toast.makeText(
+                            requireContext(),
+                            "نام کاربری یا رمز عبور نادرست است",
+                            Toast.LENGTH_LONG
+                        ).show()
+                    } else {
+                        Toast.makeText(requireContext(), it.message, Toast.LENGTH_LONG).show()
+                    }
                 }
 
             }

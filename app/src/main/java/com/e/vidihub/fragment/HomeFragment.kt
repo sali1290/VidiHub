@@ -1,5 +1,6 @@
 package com.e.vidihub.fragment
 
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.os.Bundle
 import android.view.*
@@ -186,8 +187,8 @@ class HomeFragment : Fragment() {
                         requireContext()
                     ).setTitle("خروج از حساب کاربری؟")
                         .setPositiveButton("بله") { _, _ ->
-                            val sessionManager = SessionManager(requireContext())
                             sessionManager.saveAuthToken("")
+                            sessionManager.saveRefreshToken("")
                             requireActivity().finish()
                         }.setNegativeButton("خیر") { _, _ -> }.show()
                 }
@@ -198,6 +199,7 @@ class HomeFragment : Fragment() {
         }
     }
 
+    @SuppressLint("SetTextI18n")
     private fun observeDomain() {
         val progressBar: ProgressBar = requireActivity().findViewById(R.id.progressBar)
         userViewModel.user.observe(viewLifecycleOwner, {
@@ -208,6 +210,12 @@ class HomeFragment : Fragment() {
                     drawer = requireActivity().findViewById(R.id.nav_view)
                     drawer.getHeaderView(0).findViewById<TextView>(R.id.tv_domain).text =
                         "domain: ${it.data.domain}"
+
+                    drawer.getHeaderView(0).findViewById<TextView>(R.id.tv_name).text =
+                        "${it.data.firstName} ${it.data.lastName}"
+
+                    drawer.getHeaderView(0).findViewById<TextView>(R.id.tv_account_type).text =
+                        "account : ${it.data.accountType}"
                 }
 
                 is Result.Loading -> {

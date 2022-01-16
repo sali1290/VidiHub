@@ -1,24 +1,24 @@
 package com.e.vidihub.fragment
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ProgressBar
+import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
-import com.e.domain.util.Result
-import com.e.vidihub.R
-import com.e.vidihub.adapter.VideoListAdapter
+import com.e.vidihub.adapter.PagingVideoAdapter
 import com.e.vidihub.databinding.FragmentVideosListBinding
-import com.e.vidihub.viewmodel.GetAllVideosViewModel
+import com.e.vidihub.viewmodel.GetVideoPagingListViewModel
 import com.google.android.material.tabs.TabLayout
+import kotlinx.coroutines.launch
 
 class VideosListFragment : Fragment() {
 
     private lateinit var binding: FragmentVideosListBinding
-    private lateinit var viewModel: GetAllVideosViewModel
+    private lateinit var listViewModel: GetVideoPagingListViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -27,7 +27,8 @@ class VideosListFragment : Fragment() {
         // Inflate the layout for this fragment
 
         binding = FragmentVideosListBinding.inflate(inflater, container, false)
-        viewModel = ViewModelProvider(requireActivity())[GetAllVideosViewModel::class.java]
+        listViewModel =
+            ViewModelProvider(requireActivity())[GetVideoPagingListViewModel::class.java]
 
         return binding.root
     }
@@ -37,7 +38,6 @@ class VideosListFragment : Fragment() {
 
 
         binding.videosRecycler.layoutManager = GridLayoutManager(requireContext(), 2)
-        viewModel.getAllVideos()
         observe()
 
         binding.categoryTabLayout.addOnTabSelectedListener(object :
@@ -46,7 +46,6 @@ class VideosListFragment : Fragment() {
                 when (tab!!.position) {
 
                     0 -> {
-                        viewModel.getAllVideos()
                         observe()
                     }
 //
@@ -75,28 +74,19 @@ class VideosListFragment : Fragment() {
     }
 
     private fun observe() {
-        val progressBar: ProgressBar = requireActivity().findViewById(R.id.progressBar)
-        viewModel.videos.observe(viewLifecycleOwner, {
-            when (it) {
+        try {
+            lifecycleScope.launch {
+                listViewModel.fetchVideosLiveData().observe(viewLifecycleOwner, {
+                    val adapter = PagingVideoAdapter(requireContext(), requireActivity())
+                    adapter.submitData(lifecycle, it)
+                    binding.videosRecycler.adapter = adapter
 
-                is Result.Success -> {
-                    progressBar.visibility = View.GONE
-                    binding.videosRecycler.adapter =
-                        VideoListAdapter(it.data, requireContext(), requireActivity())
-                }
-
-                is Result.Loading -> {
-                    progressBar.visibility = View.VISIBLE
-                }
-
-                is Result.Error -> {
-                    progressBar.visibility = View.GONE
-                }
+                })
 
             }
-
-        })
-
+        } catch (e: NullPointerException) {
+            Toast.makeText(requireContext(), e.toString(), Toast.LENGTH_SHORT).show()
+        }
     }
 
 
