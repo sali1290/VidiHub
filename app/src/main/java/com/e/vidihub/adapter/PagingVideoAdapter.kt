@@ -1,7 +1,6 @@
 package com.e.vidihub.adapter
 
 import android.content.Context
-import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,7 +12,6 @@ import androidx.navigation.findNavController
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.e.domain.model.VideoListItemModel
 import com.e.vidihub.R
 
@@ -65,36 +63,36 @@ class PagingVideoAdapter(
             }
             title.text = item!!.title
 
-            when (position) {
-                0 -> {
-                    Glide.with(context)
-                        .load(
-                            Uri.parse("https://static01.nyt.com/images/2017/09/15/arts/24movie-posters8/24movie-posters8-superJumbo.jpg")
-                        ).into(poster)
-                }
-
-                1 -> {
-                    Glide.with(context)
-                        .load(
-                            Uri.parse("https://www.companyfolders.com/blog/media/2017/07/the-silence-of-the-lambs.jpg")
-                        ).into(poster)
-                }
-
-                2 -> {
-                    Glide.with(context)
-                        .load(
-                            Uri.parse("https://wallpapercave.com/wp/wp8872702.jpg")
-                        ).into(poster)
-                }
-
-                3 -> {
-                    Glide.with(context)
-                        .load(
-                            Uri.parse("https://www.bestmoviesbyfarr.com/static-assets/blobs/images/movies/poster/2001/2AbFdmpvi6Z8AGrBY79JmnSGSOy.jpg")
-                        ).into(poster)
-                }
-
-            }
+//            when (position) {
+//                0 -> {
+//                    Glide.with(context)
+//                        .load(
+//                            Uri.parse("https://static01.nyt.com/images/2017/09/15/arts/24movie-posters8/24movie-posters8-superJumbo.jpg")
+//                        ).into(poster)
+//                }
+//
+//                1 -> {
+//                    Glide.with(context)
+//                        .load(
+//                            Uri.parse("https://www.companyfolders.com/blog/media/2017/07/the-silence-of-the-lambs.jpg")
+//                        ).into(poster)
+//                }
+//
+//                2 -> {
+//                    Glide.with(context)
+//                        .load(
+//                            Uri.parse("https://wallpapercave.com/wp/wp8872702.jpg")
+//                        ).into(poster)
+//                }
+//
+//                3 -> {
+//                    Glide.with(context)
+//                        .load(
+//                            Uri.parse("https://www.bestmoviesbyfarr.com/static-assets/blobs/images/movies/poster/2001/2AbFdmpvi6Z8AGrBY79JmnSGSOy.jpg")
+//                        ).into(poster)
+//                }
+//
+//            }
 
 
         }

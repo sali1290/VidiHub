@@ -3,7 +3,6 @@ package com.e.vidihub.activity
 import android.content.Context
 import android.content.pm.ActivityInfo
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
@@ -11,6 +10,7 @@ import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.e.domain.util.Result
 import com.e.vidihub.R
@@ -30,6 +30,7 @@ import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory
 import dagger.hilt.android.AndroidEntryPoint
 
+
 @AndroidEntryPoint
 class PlayVideoActivity : AppCompatActivity() {
 
@@ -46,7 +47,6 @@ class PlayVideoActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_play_video)
-//        this.supportActionBar!!.hide()
         viewModel = ViewModelProvider(this).get(GetVideoViewModel::class.java)
 
         playerView = findViewById(R.id.player_view)
@@ -180,6 +180,29 @@ class PlayVideoActivity : AppCompatActivity() {
                         }
 
                         override fun onPlayerError(error: ExoPlaybackException?) {
+                            when (error!!.type) {
+                                ExoPlaybackException.TYPE_SOURCE -> {
+                                    Toast.makeText(
+                                        this@PlayVideoActivity,
+                                        "مشکلی پیش آمده. لطفا پس از پند دقیقه مجددا تلاش کنید",
+                                        Toast.LENGTH_LONG
+                                    ).show()
+                                }
+                                ExoPlaybackException.TYPE_RENDERER -> {
+                                    Toast.makeText(
+                                        this@PlayVideoActivity,
+                                        "مشکلی پیش آمده. لطفا پس از پند دقیقه مجددا تلاش کنید",
+                                        Toast.LENGTH_LONG
+                                    ).show()
+                                }
+                                ExoPlaybackException.TYPE_UNEXPECTED -> {
+                                    Toast.makeText(
+                                        this@PlayVideoActivity,
+                                        "مشکلی پیش آمده. لطفا پس از پند دقیقه مجددا تلاش کنید",
+                                        Toast.LENGTH_LONG
+                                    ).show()
+                                }
+                            }
                         }
 
                         override fun onPositionDiscontinuity(reason: Int) {
