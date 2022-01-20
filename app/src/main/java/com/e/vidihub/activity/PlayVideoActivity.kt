@@ -47,6 +47,8 @@ class PlayVideoActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_play_video)
+        (this as AppCompatActivity).supportActionBar!!.hide()
+
         viewModel = ViewModelProvider(this).get(GetVideoViewModel::class.java)
 
         playerView = findViewById(R.id.player_view)
@@ -229,6 +231,10 @@ class PlayVideoActivity : AppCompatActivity() {
                 }
             }
         })
+    }
+
+    override fun onBackPressed() {
+        finish()
     }
 
 
