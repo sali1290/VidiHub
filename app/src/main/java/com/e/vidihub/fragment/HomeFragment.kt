@@ -2,6 +2,7 @@ package com.e.vidihub.fragment
 
 import android.annotation.SuppressLint
 import android.app.AlertDialog
+import android.content.Intent
 import android.os.Bundle
 import android.view.*
 import android.widget.*
@@ -15,6 +16,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.e.data.util.SessionManager
 import com.e.domain.util.Result
 import com.e.vidihub.R
+import com.e.vidihub.activity.LoginActivity
 import com.e.vidihub.adapter.HomeViewPagerAdapter
 import com.e.vidihub.databinding.FragmentHomeBinding
 import com.e.vidihub.viewmodel.RefreshTokenViewModel
@@ -165,8 +167,6 @@ class HomeFragment : Fragment() {
     private fun setUpDrawerItems() {
         drawer = requireActivity().findViewById(R.id.nav_view)
 
-        drawer.getHeaderView(0).findViewById<TextView>(R.id.tv_domain).text = "test"
-
         drawer.setNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.item_support -> {
@@ -209,7 +209,7 @@ class HomeFragment : Fragment() {
                     progressBar.visibility = View.GONE
                     drawer = requireActivity().findViewById(R.id.nav_view)
                     drawer.getHeaderView(0).findViewById<TextView>(R.id.tv_domain).text =
-                        "domain: ${it.data.domain}"
+                        "domain: ${it.data.email}"
 
                     drawer.getHeaderView(0).findViewById<TextView>(R.id.tv_name).text =
                         "${it.data.firstName} ${it.data.lastName}"
@@ -269,7 +269,7 @@ class HomeFragment : Fragment() {
                     Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
                     sessionManager.saveAuthToken("")
                     sessionManager.saveRefreshToken("")
-                    findNavController().navigate(R.id.loginFragment)
+                    startActivity(Intent(requireContext(), LoginActivity::class.java))
                 }
 
             }

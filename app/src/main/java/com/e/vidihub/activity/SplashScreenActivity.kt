@@ -14,10 +14,10 @@ class SplashScreenActivity : AppCompatActivity() {
 
         Handler().postDelayed(object : Runnable {
             override fun run() {
-                startActivity(Intent(this@SplashScreenActivity, MainActivity::class.java))
+                startActivity(Intent(this@SplashScreenActivity, LoginActivity::class.java))
                 finish()
             }
-        }, 3000)
+        }, 2500)
 
     }
 
