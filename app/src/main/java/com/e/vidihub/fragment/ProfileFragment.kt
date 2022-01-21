@@ -7,19 +7,22 @@ import android.view.ViewGroup
 import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import com.e.data.util.SessionManager
 import com.e.domain.util.Result
 import com.e.vidihub.R
 import com.e.vidihub.adapter.ProfileAdapter
 import com.e.vidihub.databinding.FragmentProfileBinding
 import com.e.vidihub.viewmodel.UserViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ProfileFragment : Fragment() {
 
     private lateinit var binding: FragmentProfileBinding
-    private lateinit var viewModel: UserViewModel
     private lateinit var sessionManager: SessionManager
+
+    private val viewModel: UserViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -28,7 +31,6 @@ class ProfileFragment : Fragment() {
         // Inflate the layout for this fragment
 
         binding = FragmentProfileBinding.inflate(inflater, container, false)
-        viewModel = ViewModelProvider(requireActivity())[UserViewModel::class.java]
         sessionManager = SessionManager(requireContext())
         return binding.root
     }

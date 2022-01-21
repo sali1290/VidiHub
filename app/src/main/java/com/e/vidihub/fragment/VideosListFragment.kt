@@ -6,19 +6,25 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.e.vidihub.adapter.LoaderStateAdapter
 import com.e.vidihub.adapter.PagingVideoAdapter
 import com.e.vidihub.databinding.FragmentVideosListBinding
 import com.e.vidihub.viewmodel.GetVideoPagingListViewModel
 import com.google.android.material.tabs.TabLayout
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class VideosListFragment : Fragment() {
 
     private lateinit var binding: FragmentVideosListBinding
-    private lateinit var listViewModel: GetVideoPagingListViewModel
+
+    private val listViewModel: GetVideoPagingListViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -27,8 +33,6 @@ class VideosListFragment : Fragment() {
         // Inflate the layout for this fragment
 
         binding = FragmentVideosListBinding.inflate(inflater, container, false)
-        listViewModel =
-            ViewModelProvider(requireActivity())[GetVideoPagingListViewModel::class.java]
 
         return binding.root
     }
@@ -79,7 +83,10 @@ class VideosListFragment : Fragment() {
                 listViewModel.fetchVideosLiveData().observe(viewLifecycleOwner, {
                     val adapter = PagingVideoAdapter(requireContext(), requireActivity())
                     adapter.submitData(lifecycle, it)
-                    binding.videosRecycler.adapter = adapter
+                    val loaderStateAdapter = LoaderStateAdapter {
+                        adapter.retry()
+                    }
+                    binding.videosRecycler.adapter = adapter.withLoadStateFooter(loaderStateAdapter)
 
                 })
 

@@ -10,8 +10,8 @@ import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
 import com.e.domain.util.Result
 import com.e.vidihub.R
 import com.e.vidihub.viewmodel.GetVideoViewModel
@@ -34,7 +34,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class PlayVideoActivity : AppCompatActivity() {
 
-    private lateinit var viewModel: GetVideoViewModel
+    private val viewModel: GetVideoViewModel by viewModels()
 
     private lateinit var playerView: PlayerView
     private lateinit var progressBar: ProgressBar
@@ -48,8 +48,6 @@ class PlayVideoActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_play_video)
         (this as AppCompatActivity).supportActionBar!!.hide()
-
-        viewModel = ViewModelProvider(this).get(GetVideoViewModel::class.java)
 
         playerView = findViewById(R.id.player_view)
         progressBar = findViewById(R.id.video_progressBar)

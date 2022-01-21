@@ -4,13 +4,14 @@ import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.view.*
 import android.widget.*
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
 import com.e.data.util.SessionManager
@@ -23,17 +24,21 @@ import com.e.vidihub.viewmodel.RefreshTokenViewModel
 import com.e.vidihub.viewmodel.UserViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
+import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
 import kotlin.collections.ArrayList
+import android.R.string.no
 
+@AndroidEntryPoint
 class HomeFragment : Fragment() {
 
     private lateinit var binding: FragmentHomeBinding
     private lateinit var drawer: NavigationView
     private lateinit var bottomNav: BottomNavigationView
-    private lateinit var userViewModel: UserViewModel
-    private lateinit var refreshTokenViewModel: RefreshTokenViewModel
     private lateinit var sessionManager: SessionManager
+
+    private val userViewModel: UserViewModel by viewModels()
+    private val refreshTokenViewModel: RefreshTokenViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,9 +46,6 @@ class HomeFragment : Fragment() {
     ): View {
         // Inflate the layout for this fragment
         binding = FragmentHomeBinding.inflate(inflater, container, false)
-        userViewModel = ViewModelProvider(requireActivity())[UserViewModel::class.java]
-        refreshTokenViewModel =
-            ViewModelProvider(requireActivity())[RefreshTokenViewModel::class.java]
         sessionManager = SessionManager(requireContext())
 
         return binding.root
@@ -55,19 +57,19 @@ class HomeFragment : Fragment() {
         binding.videosPager.adapter = HomeViewPagerAdapter(requireContext())
 
         //fro scroll viewpager2
-//        val countDownTimer = object : CountDownTimer(60000, 6000) {
-//            override fun onTick(millisUntilFinished: Long) {
-//                if (binding.videosPager.currentItem == 2) {
-//                    binding.videosPager.currentItem = 0
-//                } else {
-//                    binding.videosPager.currentItem++
-//                }
-//            }
-//
-//            override fun onFinish() {
-//                start()
-//            }
-//        }.start()
+        val countDownTimer = object : CountDownTimer(6000, 6000) {
+            override fun onTick(millisUntilFinished: Long) {
+                if (binding.videosPager.currentItem == 2) {
+                    binding.videosPager.currentItem = 0
+                } else {
+                    binding.videosPager.currentItem++
+                }
+            }
+
+            override fun onFinish() {
+                start()
+            }
+        }.start()
 
 
         val slidingImageDots: MutableList<ImageView> = ArrayList()
