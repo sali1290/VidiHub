@@ -19,7 +19,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class ProfileFragment : Fragment() {
 
-    private lateinit var binding: FragmentProfileBinding
+    private var binding: FragmentProfileBinding? = null
     private lateinit var sessionManager: SessionManager
 
     private val viewModel: UserViewModel by viewModels()
@@ -32,7 +32,7 @@ class ProfileFragment : Fragment() {
 
         binding = FragmentProfileBinding.inflate(inflater, container, false)
         sessionManager = SessionManager(requireContext())
-        return binding.root
+        return binding!!.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -50,7 +50,7 @@ class ProfileFragment : Fragment() {
 
                 is Result.Success -> {
                     progressBar.visibility = View.GONE
-                    binding.userInfoRecycler.adapter = ProfileAdapter(it.data, requireContext())
+                    binding!!.userInfoRecycler.adapter = ProfileAdapter(it.data, requireContext())
                 }
 
                 is Result.Loading -> {
@@ -64,6 +64,11 @@ class ProfileFragment : Fragment() {
 
             }
         })
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        binding = null
     }
 
 }

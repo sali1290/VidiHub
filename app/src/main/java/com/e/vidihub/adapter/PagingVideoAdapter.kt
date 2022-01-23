@@ -16,7 +16,6 @@ import com.e.domain.model.VideoListItemModel
 import com.e.vidihub.R
 
 class PagingVideoAdapter(
-    private val context: Context,
     private val activity: FragmentActivity
 ) :
     PagingDataAdapter<VideoListItemModel, RecyclerView.ViewHolder>(

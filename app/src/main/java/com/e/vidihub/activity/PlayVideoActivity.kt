@@ -128,7 +128,7 @@ class PlayVideoActivity : AppCompatActivity() {
                         )
 
                     val factory = DefaultHttpDataSourceFactory("exoplayer_video")
-                    val extractorFactory: ExtractorsFactory = DefaultExtractorsFactory()
+//                    val extractorFactory: ExtractorsFactory = DefaultExtractorsFactory()
 //                    var mediaSource: MediaSource =
 //                        HlsMediaSource.Factory(
 //                            factory,
@@ -229,10 +229,6 @@ class PlayVideoActivity : AppCompatActivity() {
                 }
             }
         })
-    }
-
-    override fun onBackPressed() {
-        finish()
     }
 
 

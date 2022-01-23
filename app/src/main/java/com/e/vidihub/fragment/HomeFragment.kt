@@ -27,7 +27,6 @@ import com.google.android.material.navigation.NavigationView
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
 import kotlin.collections.ArrayList
-import android.R.string.no
 
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
@@ -36,6 +35,8 @@ class HomeFragment : Fragment() {
     private lateinit var drawer: NavigationView
     private lateinit var bottomNav: BottomNavigationView
     private lateinit var sessionManager: SessionManager
+    private lateinit var progressBar: ProgressBar
+    private lateinit var countDownTimer: CountDownTimer
 
     private val userViewModel: UserViewModel by viewModels()
     private val refreshTokenViewModel: RefreshTokenViewModel by viewModels()
@@ -55,9 +56,10 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         (activity as AppCompatActivity?)!!.supportActionBar!!.show()
         binding.videosPager.adapter = HomeViewPagerAdapter(requireContext())
+        progressBar = requireActivity().findViewById(R.id.progressBar)
 
         //fro scroll viewpager2
-        val countDownTimer = object : CountDownTimer(6000, 6000) {
+        countDownTimer = object : CountDownTimer(6000, 6000) {
             override fun onTick(millisUntilFinished: Long) {
                 if (binding.videosPager.currentItem == 2) {
                     binding.videosPager.currentItem = 0
@@ -181,6 +183,9 @@ class HomeFragment : Fragment() {
 
                 R.id.item_gallery -> {
                     Toast.makeText(requireContext(), "gallery", Toast.LENGTH_LONG).show()
+                    val intent = Intent(Intent.ACTION_GET_CONTENT)
+                    intent.type = "video/*"
+                    startActivity(intent)
                 }
 
                 R.id.item_exit -> {
@@ -203,7 +208,6 @@ class HomeFragment : Fragment() {
 
     @SuppressLint("SetTextI18n")
     private fun observeDomain() {
-        val progressBar: ProgressBar = requireActivity().findViewById(R.id.progressBar)
         userViewModel.user.observe(viewLifecycleOwner, {
             when (it) {
 
@@ -252,7 +256,6 @@ class HomeFragment : Fragment() {
     }
 
     private fun observeRefreshToken() {
-        val progressBar: ProgressBar = requireActivity().findViewById(R.id.progressBar)
         refreshTokenViewModel.token.observe(viewLifecycleOwner, {
             when (it) {
 
@@ -278,5 +281,9 @@ class HomeFragment : Fragment() {
         })
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        countDownTimer.cancel()
+    }
 }
 

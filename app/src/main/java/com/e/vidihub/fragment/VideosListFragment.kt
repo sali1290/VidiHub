@@ -8,9 +8,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.e.vidihub.adapter.LoaderStateAdapter
 import com.e.vidihub.adapter.PagingVideoAdapter
 import com.e.vidihub.databinding.FragmentVideosListBinding
@@ -81,7 +79,7 @@ class VideosListFragment : Fragment() {
         try {
             lifecycleScope.launch {
                 listViewModel.fetchVideosLiveData().observe(viewLifecycleOwner, {
-                    val adapter = PagingVideoAdapter(requireContext(), requireActivity())
+                    val adapter = PagingVideoAdapter(requireActivity())
                     adapter.submitData(lifecycle, it)
                     val loaderStateAdapter = LoaderStateAdapter {
                         adapter.retry()
