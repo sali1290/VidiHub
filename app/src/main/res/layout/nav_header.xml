@@ -20,7 +20,7 @@
         app:srcCompat="@drawable/icon_app" />
 
     <TextView
-        android:id="@+id/tv_domain"
+        android:id="@+id/tv_domain_status"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/_15sdp"
@@ -31,7 +31,7 @@
         app:layout_constraintStart_toEndOf="@+id/imageView4" />
 
     <TextView
-        android:id="@+id/tv_name"
+        android:id="@+id/tv_domain"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/_15sdp"
@@ -39,20 +39,7 @@
         android:layout_marginBottom="@dimen/_5sdp"
         android:textColor="@color/secondary_text"
         android:textSize="@dimen/_10sdp"
-        app:layout_constraintBottom_toTopOf="@+id/tv_account_type"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/imageView4" />
-
-    <TextView
-        android:id="@+id/tv_account_type"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/_15sdp"
-        android:layout_marginEnd="@dimen/_5sdp"
-        android:layout_marginBottom="@dimen/_5sdp"
-        android:textColor="@color/secondary_text"
-        android:textSize="@dimen/_10sdp"
-        app:layout_constraintBottom_toTopOf="@+id/tv_domain"
+        app:layout_constraintBottom_toTopOf="@id/tv_domain_status"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/imageView4" />
 </androidx.constraintlayout.widget.ConstraintLayout>

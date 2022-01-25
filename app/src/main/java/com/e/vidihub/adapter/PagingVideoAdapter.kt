@@ -1,6 +1,7 @@
 package com.e.vidihub.adapter
 
 import android.content.Context
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,11 +13,13 @@ import androidx.navigation.findNavController
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.e.domain.model.VideoListItemModel
 import com.e.vidihub.R
 
 class PagingVideoAdapter(
-    private val activity: FragmentActivity
+    private val activity: FragmentActivity,
+    private val context: Context
 ) :
     PagingDataAdapter<VideoListItemModel, RecyclerView.ViewHolder>(
         REPO_COMPARATOR
@@ -61,6 +64,12 @@ class PagingVideoAdapter(
                 activity.findNavController(R.id.nav_host_fragment).navigate(R.id.playVideoActivity)
             }
             title.text = item!!.title
+            Glide.with(context)
+                .load(
+                    Uri.parse(item.thumbnail)
+                ).into(poster)
+            poster.scaleType = ImageView.ScaleType.FIT_XY
+
 
 //            when (position) {
 //                0 -> {

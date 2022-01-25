@@ -8,5 +8,7 @@ data class VideoListItemModel(
 
     val duration: String?,
 
+    val thumbnail: String?,
+
     val guid: String?,
 )

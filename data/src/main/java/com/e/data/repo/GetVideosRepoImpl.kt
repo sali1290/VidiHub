@@ -73,7 +73,7 @@ class GetVideosRepoImpl @Inject constructor(
             config = PagingConfig(1, enablePlaceholders = false),
             pagingSourceFactory = { VideoPagingSource(apiService) }
         ).liveData.map {
-            it.map { VideoListItemModel(it.vid, it.title, it.duration, it.guid) }
+            it.map { VideoListItemModel(it.vid, it.title, it.duration, it.thumbnail, it.guid) }
         }
 
     }

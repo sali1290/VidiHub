@@ -11,6 +11,7 @@ class VideoListItemMapper @Inject constructor() {
             videoListItem.vid ?: "",
             videoListItem.title ?: "",
             videoListItem.duration ?: "",
+            videoListItem.thumbnail ?: "",
             videoListItem.guid ?: "",
         )
     }

@@ -20,6 +20,7 @@ import com.e.vidihub.R
 import com.e.vidihub.activity.LoginActivity
 import com.e.vidihub.adapter.HomeViewPagerAdapter
 import com.e.vidihub.databinding.FragmentHomeBinding
+import com.e.vidihub.viewmodel.GetDomainViewModel
 import com.e.vidihub.viewmodel.RefreshTokenViewModel
 import com.e.vidihub.viewmodel.UserViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -38,7 +39,7 @@ class HomeFragment : Fragment() {
     private lateinit var progressBar: ProgressBar
     private lateinit var countDownTimer: CountDownTimer
 
-    private val userViewModel: UserViewModel by viewModels()
+    private val domainViewModel: GetDomainViewModel by viewModels()
     private val refreshTokenViewModel: RefreshTokenViewModel by viewModels()
 
     override fun onCreateView(
@@ -122,7 +123,7 @@ class HomeFragment : Fragment() {
         setUpDrawerItems()
         setUpBottomNav()
 
-        userViewModel.getUser()
+        domainViewModel.getDomain()
         observeDomain()
 
         requireActivity().onBackPressedDispatcher.addCallback(
@@ -208,20 +209,17 @@ class HomeFragment : Fragment() {
 
     @SuppressLint("SetTextI18n")
     private fun observeDomain() {
-        userViewModel.user.observe(viewLifecycleOwner, {
+        domainViewModel.domainInfo.observe(viewLifecycleOwner, {
             when (it) {
 
                 is Result.Success -> {
                     progressBar.visibility = View.GONE
                     drawer = requireActivity().findViewById(R.id.nav_view)
                     drawer.getHeaderView(0).findViewById<TextView>(R.id.tv_domain).text =
-                        "domain: ${it.data.email}"
+                        "domain: ${it.data.hostname}"
 
-                    drawer.getHeaderView(0).findViewById<TextView>(R.id.tv_name).text =
-                        "${it.data.firstName} ${it.data.lastName}"
-
-                    drawer.getHeaderView(0).findViewById<TextView>(R.id.tv_account_type).text =
-                        "account : ${it.data.accountType}"
+                    drawer.getHeaderView(0).findViewById<TextView>(R.id.tv_domain_status).text =
+                        "status : ${it.data.status}"
                 }
 
                 is Result.Loading -> {

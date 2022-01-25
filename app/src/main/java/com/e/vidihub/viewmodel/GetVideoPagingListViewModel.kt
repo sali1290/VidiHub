@@ -32,7 +32,17 @@ class GetVideoPagingListViewModel @Inject constructor(private val getVideoListPa
     suspend fun fetchVideosLiveData(): LiveData<PagingData<VideoListItemModel>> {
         return getVideoListPagingUseCase.execute()
             .cachedIn(viewModelScope)
-            .map { it.map { VideoListItemModel(it.vid, it.title, it.duration, it.guid) } }
+            .map {
+                it.map {
+                    VideoListItemModel(
+                        it.vid,
+                        it.title,
+                        it.duration,
+                        it.thumbnail,
+                        it.guid
+                    )
+                }
+            }
 
     }
 

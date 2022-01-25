@@ -79,7 +79,7 @@ class VideosListFragment : Fragment() {
         try {
             lifecycleScope.launch {
                 listViewModel.fetchVideosLiveData().observe(viewLifecycleOwner, {
-                    val adapter = PagingVideoAdapter(requireActivity())
+                    val adapter = PagingVideoAdapter(requireActivity(), requireContext())
                     adapter.submitData(lifecycle, it)
                     val loaderStateAdapter = LoaderStateAdapter {
                         adapter.retry()

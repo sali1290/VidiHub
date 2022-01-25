@@ -15,6 +15,9 @@ data class VideoListItem(
     @Json(name = "duration")
     val duration: String?,
 
+    @Json(name = "thumbnail")
+    val thumbnail: String?,
+
     @Json(name = "guid")
     val guid: String?,
 

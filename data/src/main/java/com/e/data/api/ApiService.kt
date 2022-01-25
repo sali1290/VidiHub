@@ -34,4 +34,7 @@ interface ApiService {
     suspend fun refreshToken(
         @Header("Authorization") token: String
     ): Response<RefreshTokenResponse>
+
+    @GET("domains/domaininfo/")
+    suspend fun getDomain(): Response<DomainResponse>
 }

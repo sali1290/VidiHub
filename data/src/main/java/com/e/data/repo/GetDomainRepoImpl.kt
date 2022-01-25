@@ -2,30 +2,28 @@ package com.e.data.repo
 
 import android.util.Log
 import com.e.data.api.ApiService
-import com.e.data.mapper.UserMapper
+import com.e.data.mapper.DomainResponseMapper
 import com.e.data.util.NetWorkHelper
-import com.e.domain.model.UserModel
-import com.e.domain.repo.GetUserRepo
+import com.e.domain.model.DomainResponseModel
+import com.e.domain.repo.GetDomainRepo
 import java.io.IOException
 import javax.inject.Inject
 
-class GetUserRepoImpl @Inject constructor(
+class GetDomainRepoImpl @Inject constructor(
     private val apiService: ApiService,
     private val netWorkHelper: NetWorkHelper,
-    private val userMapper: UserMapper
-) : GetUserRepo {
-    override suspend fun getAllUsers(): MutableList<UserModel> {
-        return null!!
+    private val domainResponseMapper: DomainResponseMapper
+) : GetDomainRepo {
+    override suspend fun getAllDomains(): MutableList<String> {
+        TODO("Not yet implemented")
     }
 
-
-    override suspend fun getUserInfo(): UserModel {
-
+    override suspend fun getDomainInfo(): DomainResponseModel {
         if (netWorkHelper.isNetworkConnected()) {
-            val request = apiService.getUser()
+            val request = apiService.getDomain()
             when (request.code()) {
                 200 -> {
-                    return userMapper.toMapper(request.body()!!)
+                    return domainResponseMapper.toMapper(request.body()!!)
                 }
 
                 else -> {
