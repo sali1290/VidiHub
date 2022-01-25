@@ -180,6 +180,7 @@ class HomeFragment : Fragment() {
 
                 R.id.item_about_us -> {
                     Toast.makeText(requireContext(), "about us", Toast.LENGTH_LONG).show()
+                    findNavController().navigate(R.id.aboutUsFragment)
                 }
 
                 R.id.item_gallery -> {

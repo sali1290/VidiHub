@@ -5,11 +5,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.map
 import androidx.paging.*
 import com.e.data.api.ApiService
+import com.e.data.mapper.CategoryMapper
 import com.e.data.mapper.VideoListItemMapper
 import com.e.data.mapper.VideoMapper
-import com.e.data.model.VideoListItem
 import com.e.data.util.NetWorkHelper
 import com.e.data.videoDatasource.VideoPagingSource
+import com.e.domain.model.CategoryResponseModel
 import com.e.domain.model.VideoListItemModel
 import com.e.domain.model.VideoResponseModel
 import com.e.domain.repo.GetVideosRepo
@@ -20,6 +21,7 @@ class GetVideosRepoImpl @Inject constructor(
     private val netWorkHelper: NetWorkHelper,
     private val apiService: ApiService,
     private val videoListItemMapper: VideoListItemMapper,
+    private val categoryMapper: CategoryMapper,
     private val videoResponseMapper: VideoMapper
 ) : GetVideosRepo {
     override suspend fun getAllVideos(): MutableList<VideoListItemModel> {
@@ -76,6 +78,27 @@ class GetVideosRepoImpl @Inject constructor(
             it.map { VideoListItemModel(it.vid, it.title, it.duration, it.thumbnail, it.guid) }
         }
 
+    }
+
+    override suspend fun getCategories(): MutableList<CategoryResponseModel> {
+        if (netWorkHelper.isNetworkConnected()) {
+            val request = apiService.getCategories()
+            when (request.code()) {
+                200 -> {
+                    return request.body()!!.map {
+                        categoryMapper.toMapper(it)
+                    }.toMutableList()
+                }
+
+                else -> {
+                    Log.i("error", request.errorBody()!!.string())
+                    throw IOException("مشکلی پیش آمده...")
+                }
+
+            }
+        } else {
+            throw IOException("لطفا اتصال اینترنت خود را بررسی کنید")
+        }
     }
 
 }

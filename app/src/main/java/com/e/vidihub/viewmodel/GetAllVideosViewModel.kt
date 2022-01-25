@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.e.domain.model.VideoListItemModel
-import com.e.domain.model.VideoResponseModel
 import com.e.domain.usecase.GetAllVideosUseCase
 import com.e.domain.util.Result
 import dagger.hilt.android.lifecycle.HiltViewModel

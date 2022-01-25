@@ -16,6 +16,9 @@
         android:theme="@style/Theme.VidiHub"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".activity.SearchActivity"
+            android:exported="false" />
+        <activity
             android:name=".activity.VideoCallActivity"
             android:exported="false" />
         <activity

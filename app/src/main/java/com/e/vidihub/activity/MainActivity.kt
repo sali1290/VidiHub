@@ -1,5 +1,6 @@
 package com.e.vidihub.activity
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -32,15 +33,22 @@ class MainActivity : AppCompatActivity() {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         val id: Int = item.itemId
-        return if (id == R.id.action_name) {
-            val drawer = findViewById<DrawerLayout>(R.id.nav_layout)
-            if (!drawer.isOpen) {
-                drawer.open()
-            } else {
-                drawer.close()
+        return when (id) {
+            R.id.action_name -> {
+                val drawer = findViewById<DrawerLayout>(R.id.nav_layout)
+                if (!drawer.isOpen) {
+                    drawer.open()
+                } else {
+                    drawer.close()
+                }
+                true
             }
-            true
-        } else super.onOptionsItemSelected(item)
+            R.id.action_search -> {
+                startActivity(Intent(this, SearchActivity::class.java))
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 
 

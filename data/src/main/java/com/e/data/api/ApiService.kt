@@ -30,6 +30,13 @@ interface ApiService {
         @Query("page_length") page_length: Int
     ): Response<List<VideoListItem>>
 
+    @GET("videos/videolistpaging/")
+    suspend fun getSearchedVideo(
+        @Query("start_page") start_page: Int,
+        @Query("page_length") page_length: Int,
+        @Query("category") category: String
+    ): Response<List<VideoListItem>>
+
     @GET("accounts/refresh_token/")
     suspend fun refreshToken(
         @Header("Authorization") token: String
@@ -37,4 +44,7 @@ interface ApiService {
 
     @GET("domains/domaininfo/")
     suspend fun getDomain(): Response<DomainResponse>
+
+    @GET("videos/categorylist/")
+    suspend fun getCategories(): Response<MutableList<CategoryResponse>>
 }
