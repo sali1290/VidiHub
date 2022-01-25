@@ -112,4 +112,6 @@ dependencies {
 
     //for memory leak
     //debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.8.1'
+
+//    implementation ('org.jitsi.react:jitsi-meet-sdk:3.+') { transitive = true }
 }

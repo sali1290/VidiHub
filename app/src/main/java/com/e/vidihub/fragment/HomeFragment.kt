@@ -18,6 +18,7 @@ import com.e.data.util.SessionManager
 import com.e.domain.util.Result
 import com.e.vidihub.R
 import com.e.vidihub.activity.LoginActivity
+import com.e.vidihub.activity.VideoCallActivity
 import com.e.vidihub.adapter.HomeViewPagerAdapter
 import com.e.vidihub.databinding.FragmentHomeBinding
 import com.e.vidihub.viewmodel.RefreshTokenViewModel
@@ -175,6 +176,9 @@ class HomeFragment : Fragment() {
             when (it.itemId) {
                 R.id.item_support -> {
                     Toast.makeText(requireContext(), "support", Toast.LENGTH_LONG).show()
+                    startActivity(
+                        Intent(requireContext(), VideoCallActivity::class.java)
+                    )
                 }
 
                 R.id.item_about_us -> {
