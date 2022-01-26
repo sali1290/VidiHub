@@ -9,6 +9,7 @@ import com.e.data.mapper.CategoryMapper
 import com.e.data.mapper.VideoListItemMapper
 import com.e.data.mapper.VideoMapper
 import com.e.data.util.NetWorkHelper
+import com.e.data.videoDatasource.VideoCategoryPagingSource
 import com.e.data.videoDatasource.VideoPagingSource
 import com.e.domain.model.CategoryResponseModel
 import com.e.domain.model.VideoListItemModel
@@ -77,8 +78,17 @@ class GetVideosRepoImpl @Inject constructor(
         ).liveData.map {
             it.map { VideoListItemModel(it.vid, it.title, it.duration, it.thumbnail, it.guid) }
         }
-
     }
+
+    override suspend fun getSearchedVideos(category: String): LiveData<PagingData<VideoListItemModel>> {
+        return Pager(
+            config = PagingConfig(1, enablePlaceholders = false),
+            pagingSourceFactory = { VideoCategoryPagingSource(apiService, category) }
+        ).liveData.map {
+            it.map { VideoListItemModel(it.vid, it.title, it.duration, it.thumbnail, it.guid) }
+        }
+    }
+
 
     override suspend fun getCategories(): MutableList<CategoryResponseModel> {
         if (netWorkHelper.isNetworkConnected()) {
@@ -100,5 +110,6 @@ class GetVideosRepoImpl @Inject constructor(
             throw IOException("لطفا اتصال اینترنت خود را بررسی کنید")
         }
     }
+
 
 }

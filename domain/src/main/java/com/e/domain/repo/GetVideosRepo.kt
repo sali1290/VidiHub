@@ -16,4 +16,6 @@ interface GetVideosRepo {
     suspend fun getVideoListPaging(): LiveData<PagingData<VideoListItemModel>>
 
     suspend fun getCategories(): MutableList<CategoryResponseModel>
+
+    suspend fun getSearchedVideos(category: String): LiveData<PagingData<VideoListItemModel>>
 }

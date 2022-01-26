@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.e.vidihub.adapter.LoaderStateAdapter
 import com.e.vidihub.adapter.PagingVideoAdapter
 import com.e.vidihub.databinding.FragmentVideosListBinding
-import com.e.vidihub.viewmodel.GetVideoPagingListViewModel
+import com.e.vidihub.viewmodel.VideoPagingListViewModel
 import com.google.android.material.tabs.TabLayout
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -22,7 +22,7 @@ class VideosListFragment : Fragment() {
 
     private lateinit var binding: FragmentVideosListBinding
 
-    private val listViewModel: GetVideoPagingListViewModel by viewModels()
+    private val listViewModel: VideoPagingListViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
