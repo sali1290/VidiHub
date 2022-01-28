@@ -14,7 +14,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class GetCategoriesViewModel @Inject constructor(private val getCategoryUseCase: GetCategoryUseCase) :
+class CategoriesViewModel @Inject constructor(private val getCategoryUseCase: GetCategoryUseCase) :
     ViewModel() {
 
     private val _categories = MutableLiveData<Result<MutableList<CategoryResponseModel>>>()

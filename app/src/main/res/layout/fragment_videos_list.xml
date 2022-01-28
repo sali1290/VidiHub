@@ -21,43 +21,14 @@
         android:textColor="@color/black"
         android:textStyle="bold"/>
 
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/category_tabLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@+id/videos_recycler"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:background="@color/fragment_background"
-        app:layout_constraintTop_toBottomOf="@+id/textView2"
-        android:layout_marginTop="@dimen/_5sdp">
-
-        <com.google.android.material.tabs.TabItem
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="تمام ویدیو ها" />
-
-        <com.google.android.material.tabs.TabItem
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="6 آیتم" />
-
-        <com.google.android.material.tabs.TabItem
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="8 آیتم" />
-
-
-    </com.google.android.material.tabs.TabLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/videos_recycler"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_margin="@dimen/_5sdp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/category_tabLayout"
-        android:layout_margin="@dimen/_5sdp"
-       />
+        app:layout_constraintTop_toBottomOf="@+id/textView2" />
 </androidx.constraintlayout.widget.ConstraintLayout>

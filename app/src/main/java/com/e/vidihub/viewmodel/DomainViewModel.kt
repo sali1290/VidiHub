@@ -14,7 +14,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class GetDomainViewModel @Inject constructor(
+class DomainViewModel @Inject constructor(
     private val getDomainUseCase: GetDomainUseCase
 ) : ViewModel() {
 

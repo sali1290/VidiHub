@@ -2,11 +2,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/item_gallery"
-        android:icon="@drawable/ic_menu_gallery"
-        android:title="گالری" />
-
-    <item
         android:id="@+id/item_support"
         android:icon="@drawable/ic_support"
         android:title="پشتیبانی" />

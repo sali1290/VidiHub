@@ -2,7 +2,6 @@ package com.e.vidihub.fragment
 
 import android.annotation.SuppressLint
 import android.app.AlertDialog
-import android.content.Intent
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.view.*
@@ -17,12 +16,9 @@ import androidx.viewpager2.widget.ViewPager2
 import com.e.data.util.SessionManager
 import com.e.domain.util.Result
 import com.e.vidihub.R
-import com.e.vidihub.activity.LoginActivity
 import com.e.vidihub.adapter.HomeViewPagerAdapter
 import com.e.vidihub.databinding.FragmentHomeBinding
-import com.e.vidihub.viewmodel.GetDomainViewModel
-import com.e.vidihub.viewmodel.RefreshTokenViewModel
-import com.e.vidihub.viewmodel.UserViewModel
+import com.e.vidihub.viewmodel.DomainViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
 import dagger.hilt.android.AndroidEntryPoint
@@ -39,8 +35,8 @@ class HomeFragment : Fragment() {
     private lateinit var progressBar: ProgressBar
     private lateinit var countDownTimer: CountDownTimer
 
-    private val domainViewModel: GetDomainViewModel by viewModels()
-    private val refreshTokenViewModel: RefreshTokenViewModel by viewModels()
+    private val domainViewModel: DomainViewModel by viewModels()
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -183,13 +179,6 @@ class HomeFragment : Fragment() {
                     findNavController().navigate(R.id.aboutUsFragment)
                 }
 
-                R.id.item_gallery -> {
-                    Toast.makeText(requireContext(), "gallery", Toast.LENGTH_LONG).show()
-                    val intent = Intent(Intent.ACTION_GET_CONTENT)
-                    intent.type = "video/*"
-                    startActivity(intent)
-                }
-
                 R.id.item_exit -> {
 
                     AlertDialog.Builder(
@@ -217,7 +206,7 @@ class HomeFragment : Fragment() {
                     progressBar.visibility = View.GONE
                     drawer = requireActivity().findViewById(R.id.nav_view)
                     drawer.getHeaderView(0).findViewById<TextView>(R.id.tv_domain).text =
-                        "domain: ${it.data.hostname}"
+                        "domain: ${it.data.domain}"
 
                     drawer.getHeaderView(0).findViewById<TextView>(R.id.tv_domain_status).text =
                         "status : ${it.data.status}"
@@ -240,40 +229,10 @@ class HomeFragment : Fragment() {
                             }.setPositiveButton("تلاش مجدد") { dialog, which ->
                                 requireActivity().recreate()
                             }.show()
-                    } else if (it.message.contains("401")) {
-                        refreshTokenViewModel.refreshToken(sessionManager.fetchRefreshToken()!!)
-                        observeRefreshToken()
                     } else {
                         Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
-
                     }
 
-                }
-
-            }
-        })
-    }
-
-    private fun observeRefreshToken() {
-        refreshTokenViewModel.token.observe(viewLifecycleOwner, {
-            when (it) {
-
-                is Result.Success -> {
-                    progressBar.visibility = View.GONE
-                    sessionManager.saveAuthToken(it.data)
-                    requireActivity().recreate()
-                }
-
-                is Result.Loading -> {
-                    progressBar.visibility = View.VISIBLE
-                }
-
-                is Result.Error -> {
-                    progressBar.visibility = View.GONE
-                    Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
-                    sessionManager.saveAuthToken("")
-                    sessionManager.saveRefreshToken("")
-                    startActivity(Intent(requireContext(), LoginActivity::class.java))
                 }
 
             }

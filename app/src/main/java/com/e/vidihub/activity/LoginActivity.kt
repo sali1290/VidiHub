@@ -13,6 +13,7 @@ import com.e.domain.util.Result
 import com.e.vidihub.R
 import com.e.vidihub.databinding.ActivityLoginBinding
 import com.e.vidihub.viewmodel.LoginViewModel
+import com.e.vidihub.viewmodel.RefreshTokenViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -28,19 +29,9 @@ class LoginActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         (this as AppCompatActivity).supportActionBar!!.hide()
-        checkToken()
         setItemsOnClicks()
-
-
     }
 
-    private fun checkToken() {
-        sessionManager = SessionManager(this)
-        if (!sessionManager.fetchAuthToken().isNullOrEmpty()) {
-            startActivity(Intent(this, MainActivity::class.java))
-            finish()
-        }
-    }
 
     private fun setItemsOnClicks() {
         binding.tvRegister.setOnClickListener {
@@ -68,6 +59,7 @@ class LoginActivity : AppCompatActivity() {
 
     private fun observe() {
         val progressBar: ProgressBar = this.findViewById(R.id.login_progressBar)
+        sessionManager = SessionManager(this)
         viewModel.loginResponse.observe(this, {
             when (it) {
 
@@ -100,4 +92,6 @@ class LoginActivity : AppCompatActivity() {
             }
         })
     }
+
+
 }

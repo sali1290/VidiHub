@@ -15,8 +15,8 @@ import com.e.vidihub.R
 import com.e.vidihub.adapter.LoaderStateAdapter
 import com.e.vidihub.adapter.PagingVideoAdapter
 import com.e.vidihub.databinding.ActivitySearchBinding
-import com.e.vidihub.viewmodel.GetCategoriesViewModel
-import com.e.vidihub.viewmodel.VideoPagingListViewModel
+import com.e.vidihub.viewmodel.CategoriesViewModel
+import com.e.vidihub.viewmodel.VideoPagingViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -26,8 +26,8 @@ class SearchActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySearchBinding
     private val categoriesId = mutableListOf<CategoryResponseModel>()
 
-    private val categorySearch: VideoPagingListViewModel by viewModels()
-    private val viewModel: GetCategoriesViewModel by viewModels()
+    private val categorySearch: VideoPagingViewModel by viewModels()
+    private val viewModel: CategoriesViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

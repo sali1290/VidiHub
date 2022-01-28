@@ -14,7 +14,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class VideoPagingListViewModel @Inject constructor(
+class VideoPagingViewModel @Inject constructor(
     private val getVideoListPagingUseCase: GetVideoListPagingUseCase,
     private val getSearchedVideoUseCase: GetSearchedVideoUseCase
 ) :

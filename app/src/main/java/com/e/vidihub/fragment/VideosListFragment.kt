@@ -12,8 +12,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.e.vidihub.adapter.LoaderStateAdapter
 import com.e.vidihub.adapter.PagingVideoAdapter
 import com.e.vidihub.databinding.FragmentVideosListBinding
-import com.e.vidihub.viewmodel.VideoPagingListViewModel
-import com.google.android.material.tabs.TabLayout
+import com.e.vidihub.viewmodel.VideoPagingViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -22,7 +21,7 @@ class VideosListFragment : Fragment() {
 
     private lateinit var binding: FragmentVideosListBinding
 
-    private val listViewModel: VideoPagingListViewModel by viewModels()
+    private val viewModel: VideoPagingViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,44 +40,12 @@ class VideosListFragment : Fragment() {
 
         binding.videosRecycler.layoutManager = GridLayoutManager(requireContext(), 2)
         observe()
-
-        binding.categoryTabLayout.addOnTabSelectedListener(object :
-            TabLayout.OnTabSelectedListener {
-            override fun onTabSelected(tab: TabLayout.Tab?) {
-                when (tab!!.position) {
-
-                    0 -> {
-                        observe()
-                    }
-//
-//                    1 -> {
-//                        binding.videosRecycler.adapter = VideoListAdapter(6, requireContext())
-//                    }
-//
-//                    2 -> {
-//                        binding.videosRecycler.adapter = VideoListAdapter(8, requireContext())
-//                    }
-//
-                }
-            }
-
-            override fun onTabUnselected(tab: TabLayout.Tab?) {
-
-            }
-
-            override fun onTabReselected(tab: TabLayout.Tab?) {
-
-            }
-
-        })
-
-
     }
 
     private fun observe() {
         try {
             lifecycleScope.launch {
-                listViewModel.fetchVideosLiveData().observe(viewLifecycleOwner, {
+                viewModel.fetchVideosLiveData().observe(viewLifecycleOwner, {
                     val adapter = PagingVideoAdapter(requireActivity(), requireContext())
                     adapter.submitData(lifecycle, it)
                     val loaderStateAdapter = LoaderStateAdapter {
