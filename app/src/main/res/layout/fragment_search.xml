@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.SearchActivity">
+    tools:context=".fragment.SearchFragment">
 
     <ProgressBar
         android:id="@+id/search_progressBar"
@@ -45,7 +45,7 @@
                 app:hintTextColor="@color/dark_primary_color">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/tv_name"
+                    android:id="@+id/tv_video_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="نام ویدیو"

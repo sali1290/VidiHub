@@ -1,11 +1,11 @@
 package com.e.vidihub.activity
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.navigation.findNavController
 import com.e.vidihub.R
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -44,7 +44,7 @@ class MainActivity : AppCompatActivity() {
                 true
             }
             R.id.action_search -> {
-                startActivity(Intent(this, SearchActivity::class.java))
+                findNavController(R.id.nav_host_fragment).navigate(R.id.searchFragment)
                 true
             }
             else -> super.onOptionsItemSelected(item)
