@@ -56,7 +56,6 @@ class SplashScreenActivity : AppCompatActivity() {
                 is Result.Loading -> {}
 
                 is Result.Error -> {
-                    Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
                     if (it.message.contains("401")) {
                         sessionManager.saveAuthToken("")
                         sessionManager.saveRefreshToken("")

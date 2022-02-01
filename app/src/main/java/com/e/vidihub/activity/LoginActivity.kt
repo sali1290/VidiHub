@@ -13,7 +13,6 @@ import com.e.domain.util.Result
 import com.e.vidihub.R
 import com.e.vidihub.databinding.ActivityLoginBinding
 import com.e.vidihub.viewmodel.LoginViewModel
-import com.e.vidihub.viewmodel.RefreshTokenViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -78,19 +77,29 @@ class LoginActivity : AppCompatActivity() {
                 is Result.Error -> {
                     progressBar.visibility = View.GONE
 
-                    if (it.message.contains("401")) {
-                        Toast.makeText(
-                            this,
-                            "نام کاربری یا رمز عبور نادرست است",
-                            Toast.LENGTH_LONG
-                        ).show()
-                    } else {
-                        Toast.makeText(this, it.message, Toast.LENGTH_LONG).show()
+//                    if (it.message.contains("401")) {
+//                        Toast.makeText(
+//                            this,
+//                            "نام کاربری یا رمز عبور نادرست است",
+//                            Toast.LENGTH_LONG
+//                        ).show()
+                    when {
+                        it.message.contains("Invalid password") -> {
+                            binding.tvPassword.error = "رمز عبور اشتباه است"
+                        }
+                        it.message.contains("Invalid username") -> {
+                            binding.tvEmail.error = "نام کاربری اشتباه است"
+                        }
+                        else -> {
+                            Toast.makeText(this, it.message, Toast.LENGTH_LONG).show()
+                        }
                     }
                 }
 
             }
         })
+
+
     }
 
 

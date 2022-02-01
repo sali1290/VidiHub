@@ -115,7 +115,7 @@ class HomeFragment : Fragment() {
         }
         binding.videosPager.registerOnPageChangeCallback(slidingCallback)
 
-
+        drawer = requireActivity().findViewById(R.id.nav_view)
         setUpDrawerItems()
         setUpBottomNav()
 
@@ -166,8 +166,6 @@ class HomeFragment : Fragment() {
     }
 
     private fun setUpDrawerItems() {
-        drawer = requireActivity().findViewById(R.id.nav_view)
-
         drawer.setNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.item_support -> {
@@ -175,7 +173,6 @@ class HomeFragment : Fragment() {
                 }
 
                 R.id.item_about_us -> {
-                    Toast.makeText(requireContext(), "about us", Toast.LENGTH_LONG).show()
                     findNavController().navigate(R.id.aboutUsFragment)
                 }
 
@@ -204,7 +201,6 @@ class HomeFragment : Fragment() {
 
                 is Result.Success -> {
                     progressBar.visibility = View.GONE
-                    drawer = requireActivity().findViewById(R.id.nav_view)
                     drawer.getHeaderView(0).findViewById<TextView>(R.id.tv_domain).text =
                         "domain: ${it.data.domain}"
 
