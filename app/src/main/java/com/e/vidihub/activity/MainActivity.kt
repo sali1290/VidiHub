@@ -1,13 +1,19 @@
 package com.e.vidihub.activity
 
+import android.app.SearchManager
+import android.content.Context
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.SearchView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
-import androidx.navigation.findNavController
 import com.e.vidihub.R
 import dagger.hilt.android.AndroidEntryPoint
+import android.content.ComponentName
+
+
+
 
 
 @AndroidEntryPoint
@@ -25,6 +31,24 @@ class MainActivity : AppCompatActivity() {
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.custom_button, menu)
+
+
+        // Get the SearchView and set the searchable configuration
+        val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
+        (menu!!.findItem(R.id.action_search).actionView as SearchView).apply {
+            // Assumes current activity is the searchable activity
+            setSearchableInfo(
+                searchManager.getSearchableInfo(
+                    ComponentName(
+                        this@MainActivity,
+                        SearchableActivity::class.java
+                    )
+                )
+            )
+            isIconifiedByDefault = true // Do not iconify the widget; expand it by default
+        }
+
+
         return true
     }
 
@@ -44,7 +68,8 @@ class MainActivity : AppCompatActivity() {
                 true
             }
             R.id.action_search -> {
-                findNavController(R.id.nav_host_fragment).navigate(R.id.searchFragment)
+//                findNavController(R.id.nav_host_fragment).navigate(R.id.searchFragment)
+                onSearchRequested()
                 true
             }
             else -> super.onOptionsItemSelected(item)

@@ -8,6 +8,7 @@
         android:iconTint="@color/primary_text"
         android:orderInCategory="0"
         android:title="Menu"
+        app:actionViewClass="android.widget.SearchView"
         app:showAsAction="always" />
 
     <item
