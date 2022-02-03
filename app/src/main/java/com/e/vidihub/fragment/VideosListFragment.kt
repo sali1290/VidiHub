@@ -9,9 +9,13 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.e.domain.util.Result
+import com.e.vidihub.adapter.CategoriesAdapter
 import com.e.vidihub.adapter.LoaderStateAdapter
 import com.e.vidihub.adapter.PagingVideoAdapter
 import com.e.vidihub.databinding.FragmentVideosListBinding
+import com.e.vidihub.viewmodel.CategoriesViewModel
 import com.e.vidihub.viewmodel.VideoPagingViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -22,6 +26,7 @@ class VideosListFragment : Fragment() {
     private lateinit var binding: FragmentVideosListBinding
 
     private val viewModel: VideoPagingViewModel by viewModels()
+    private val categoriesViewModel: CategoriesViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,6 +42,8 @@ class VideosListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        categoriesViewModel.getCategories()
+        observeCategories()
 
         binding.videosRecycler.layoutManager = GridLayoutManager(requireContext(), 2)
         observe()
@@ -59,6 +66,32 @@ class VideosListFragment : Fragment() {
         } catch (e: NullPointerException) {
             Toast.makeText(requireContext(), e.toString(), Toast.LENGTH_SHORT).show()
         }
+    }
+
+    private fun observeCategories() {
+
+        categoriesViewModel.category.observe(viewLifecycleOwner, {
+
+            when (it) {
+
+                is Result.Success -> {
+                    binding.categoriesRecycler.adapter =
+                        CategoriesAdapter(it.data)
+                }
+
+                is Result.Loading -> {
+
+                }
+
+                is Result.Error -> {
+                    Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
+                }
+
+            }
+
+        })
+
+
     }
 
 
