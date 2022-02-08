@@ -9,10 +9,11 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
+import com.e.domain.model.CategoryResponseModel
 import com.e.domain.util.Result
 import com.e.vidihub.adapter.CategoriesAdapter
 import com.e.vidihub.adapter.LoaderStateAdapter
+import com.e.vidihub.adapter.OnCategoriesListener
 import com.e.vidihub.adapter.PagingVideoAdapter
 import com.e.vidihub.databinding.FragmentVideosListBinding
 import com.e.vidihub.viewmodel.CategoriesViewModel
@@ -21,12 +22,13 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class VideosListFragment : Fragment() {
+class VideosListFragment : Fragment(), OnCategoriesListener {
 
     private lateinit var binding: FragmentVideosListBinding
 
     private val viewModel: VideoPagingViewModel by viewModels()
     private val categoriesViewModel: CategoriesViewModel by viewModels()
+    private var categories = mutableListOf<CategoryResponseModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -75,8 +77,15 @@ class VideosListFragment : Fragment() {
             when (it) {
 
                 is Result.Success -> {
+
+                    for (i in 0 until it.data.size) {
+                        categories.add(it.data[i])
+                    }
+
+                    categories = it.data
                     binding.categoriesRecycler.adapter =
-                        CategoriesAdapter(it.data)
+                        CategoriesAdapter(it.data, this)
+
                 }
 
                 is Result.Loading -> {
@@ -92,6 +101,32 @@ class VideosListFragment : Fragment() {
         })
 
 
+    }
+
+    private fun observeCategoriesVideos(category: String) {
+        try {
+            lifecycleScope.launch {
+                viewModel.fetchSearchedVideosLiveData(category)
+                    .observe(viewLifecycleOwner, {
+                        val adapter = PagingVideoAdapter(requireActivity(), requireContext())
+                        adapter.submitData(lifecycle, it)
+                        val loaderStateAdapter = LoaderStateAdapter {
+                            adapter.retry()
+                        }
+                        binding.videosRecycler.adapter =
+                            adapter.withLoadStateFooter(loaderStateAdapter)
+                    })
+
+            }
+        } catch (e: NullPointerException) {
+            Toast.makeText(requireContext(), e.toString(), Toast.LENGTH_SHORT).show()
+        }
+
+    }
+
+    override fun onCategoriesClick(position: Int) {
+        Toast.makeText(requireContext(), categories[position].name!!, Toast.LENGTH_SHORT).show()
+        observeCategoriesVideos(categories[position].cid!!)
     }
 
 
