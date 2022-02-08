@@ -3,12 +3,13 @@ package com.e.vidihub.activity
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
-import android.widget.Toast
+import android.view.animation.AnimationUtils
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.e.data.util.SessionManager
 import com.e.domain.util.Result
 import com.e.vidihub.R
+import com.e.vidihub.databinding.ActivitySplashScreenBinding
 import com.e.vidihub.viewmodel.RefreshTokenViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -16,12 +17,19 @@ import dagger.hilt.android.AndroidEntryPoint
 class SplashScreenActivity : AppCompatActivity() {
 
     private lateinit var sessionManager: SessionManager
+    private lateinit var binding: ActivitySplashScreenBinding
     private val refreshTokenViewModel: RefreshTokenViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_splash_screen)
+        binding = ActivitySplashScreenBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         (this as AppCompatActivity?)!!.supportActionBar!!.hide()
+
+        val leftSlideAnimation = AnimationUtils.loadAnimation(this, R.anim.side_slide_left)
+        binding.imgSplash.startAnimation(leftSlideAnimation)
+        val rightSlideAnimation = AnimationUtils.loadAnimation(this, R.anim.side_slide_right)
+        binding.tvSplashTitle.startAnimation(rightSlideAnimation)
 
         Handler().postDelayed(object : Runnable {
             override fun run() {
