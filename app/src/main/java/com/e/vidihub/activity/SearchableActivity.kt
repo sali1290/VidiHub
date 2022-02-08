@@ -24,6 +24,8 @@ class SearchableActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        (this as AppCompatActivity).supportActionBar!!.hide()
+
         binding = ActivitySearchableBinding.inflate(layoutInflater)
         setContentView(binding.root)
         if (Intent.ACTION_SEARCH == intent.action) {
@@ -32,6 +34,10 @@ class SearchableActivity : AppCompatActivity() {
                 getAllVideosViewModel.getAllVideos()
                 observeAllNames(query)
             }
+        }
+
+        binding.imgBack.setOnClickListener {
+            onBackPressed()
         }
 
     }

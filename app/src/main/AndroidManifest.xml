@@ -40,7 +40,8 @@
         <activity
             android:name=".activity.MainActivity"
             android:configChanges="orientation|screenSize|layoutDirection"
-            android:exported="true">
+            android:exported="true"
+            android:windowSoftInputMode="adjustPan">
             <meta-data
                 android:name="android.app.default_searchable"
                 android:value=".SearchableActivity" />

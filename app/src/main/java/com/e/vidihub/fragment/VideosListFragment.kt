@@ -82,14 +82,12 @@ class VideosListFragment : Fragment(), OnCategoriesListener {
             when (it) {
 
                 is Result.Success -> {
-
+                    categories.add(CategoryResponseModel("", "All Videos", ""))
                     for (i in 0 until it.data.size) {
                         categories.add(it.data[i])
                     }
-
-                    categories = it.data
                     binding.categoriesRecycler.adapter =
-                        CategoriesAdapter(it.data, this)
+                        CategoriesAdapter(categories, this)
 
                 }
 
@@ -130,7 +128,11 @@ class VideosListFragment : Fragment(), OnCategoriesListener {
     }
 
     override fun onCategoriesClick(position: Int) {
-        observeCategoriesVideos(categories[position].cid!!)
+        if (position == 0) {
+            observe()
+        } else {
+            observeCategoriesVideos(categories[position].cid!!)
+        }
     }
 
 

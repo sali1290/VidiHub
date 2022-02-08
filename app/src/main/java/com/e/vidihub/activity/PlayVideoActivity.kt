@@ -81,11 +81,23 @@ class PlayVideoActivity : AppCompatActivity() {
                 btFullScreen.setImageDrawable(resources.getDrawable(R.drawable.ic_fullscreen))
                 this.requestedOrientation =
                     ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+
+                window.decorView.apply {
+                    systemUiVisibility =
+                        View.SYSTEM_UI_FLAG_VISIBLE
+                }
+
                 flag = false
             } else {
                 btFullScreen.setImageDrawable(resources.getDrawable(R.drawable.ic_fullscreen_exit))
                 this.requestedOrientation =
                     ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+
+                window.decorView.apply {
+                    systemUiVisibility =
+                        View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_FULLSCREEN
+                }
+
                 flag = true
             }
         }
@@ -230,6 +242,5 @@ class PlayVideoActivity : AppCompatActivity() {
             }
         })
     }
-
 
 }
