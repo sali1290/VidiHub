@@ -40,6 +40,10 @@ class AboutUsFragment : Fragment() {
             startActivity(Intent.createChooser(emailIntent, "Send email..."))
         }
 
+        binding!!.imgBack.setOnClickListener {
+            requireActivity().onBackPressed()
+        }
+
 
     }
 

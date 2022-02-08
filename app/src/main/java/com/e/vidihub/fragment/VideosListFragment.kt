@@ -49,6 +49,11 @@ class VideosListFragment : Fragment(), OnCategoriesListener {
 
         binding.videosRecycler.layoutManager = GridLayoutManager(requireContext(), 2)
         observe()
+
+        binding.imgBack.setOnClickListener {
+            requireActivity().onBackPressed()
+        }
+
     }
 
     private fun observe() {
@@ -125,7 +130,6 @@ class VideosListFragment : Fragment(), OnCategoriesListener {
     }
 
     override fun onCategoriesClick(position: Int) {
-        Toast.makeText(requireContext(), categories[position].name!!, Toast.LENGTH_SHORT).show()
         observeCategoriesVideos(categories[position].cid!!)
     }
 
