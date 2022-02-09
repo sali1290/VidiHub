@@ -11,20 +11,22 @@ import androidx.drawerlayout.widget.DrawerLayout
 import com.e.vidihub.R
 import dagger.hilt.android.AndroidEntryPoint
 import android.content.ComponentName
-
-
-
+import com.google.firebase.FirebaseApp
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.ktx.analytics
+import com.google.firebase.ktx.Firebase
 
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
+    private lateinit var firebaseAnalytics: FirebaseAnalytics
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//        setTheme(R.style.Theme_VidiHub)
         setContentView(R.layout.activity_main)
-
+        FirebaseApp.initializeApp(this);
+        firebaseAnalytics = Firebase.analytics
 
     }
 

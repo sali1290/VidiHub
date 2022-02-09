@@ -78,4 +78,10 @@ dependencies {
 
     //paging library
     implementation "androidx.paging:paging-runtime-ktx:3.1.0"
+
+    //firebase services
+    implementation platform('com.google.firebase:firebase-bom:29.0.4')
+    implementation 'com.google.firebase:firebase-analytics-ktx'
+
+
 }
