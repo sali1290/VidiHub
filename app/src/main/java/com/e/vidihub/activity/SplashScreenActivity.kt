@@ -35,7 +35,7 @@ class SplashScreenActivity : AppCompatActivity() {
             override fun run() {
                 checkToken()
             }
-        }, 2500)
+        }, 1000)
 
     }
 
