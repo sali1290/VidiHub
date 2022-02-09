@@ -6,11 +6,16 @@ plugins {
     id 'kotlin-parcelize'
     id "androidx.navigation.safeargs"
     id 'com.google.gms.google-services'
+    id 'appmetrica-plugin'
 }
 
 android {
     compileSdk 31
 
+    appmetrica {
+        postApiKey ="2e3b7151-567e-4cc1-bcff-d9a7c3426e16"
+        mappingBuildTypes = ['']
+    }
 
     defaultConfig {
         applicationId "com.e.vidihub"
@@ -119,4 +124,6 @@ dependencies {
     implementation 'com.google.firebase:firebase-analytics-ktx:20.0.2'
     implementation 'com.google.firebase:firebase-messaging:23.0.0'
 
+    //crashlytics
+    implementation 'com.yandex.android:mobmetricalib:4.1.1'
 }

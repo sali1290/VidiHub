@@ -169,7 +169,8 @@ class HomeFragment : Fragment() {
         drawer.setNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.item_support -> {
-                    Toast.makeText(requireContext(), "support", Toast.LENGTH_LONG).show()
+                    throw Exception("Test Exception")
+//                    Toast.makeText(requireContext(), "support", Toast.LENGTH_LONG).show()
                 }
 
                 R.id.item_about_us -> {
