@@ -4,7 +4,6 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
-import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -13,6 +12,8 @@ import com.e.domain.util.Result
 import com.e.vidihub.R
 import com.e.vidihub.databinding.ActivityLoginBinding
 import com.e.vidihub.viewmodel.LoginViewModel
+import com.github.ybq.android.spinkit.sprite.Sprite
+import com.github.ybq.android.spinkit.style.Wave
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -26,8 +27,12 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
         (this as AppCompatActivity).supportActionBar!!.hide()
+
+        val wave: Sprite = Wave()
+        wave.color = this.getColor(R.color.primary_color)
+        binding.loginProgressBar.indeterminateDrawable = wave
+
         setItemsOnClicks()
     }
 
@@ -57,13 +62,12 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun observe() {
-        val progressBar: ProgressBar = this.findViewById(R.id.login_progressBar)
         sessionManager = SessionManager(this)
         viewModel.loginResponse.observe(this, {
             when (it) {
 
                 is Result.Success -> {
-                    progressBar.visibility = View.GONE
+                    binding.loginProgressBar.visibility = View.GONE
                     sessionManager.saveAuthToken(it.data.accessToken)
                     sessionManager.saveRefreshToken(it.data.refreshToken)
                     startActivity(Intent(this, MainActivity::class.java))
@@ -71,11 +75,11 @@ class LoginActivity : AppCompatActivity() {
                 }
 
                 is Result.Loading -> {
-                    progressBar.visibility = View.VISIBLE
+                    binding.loginProgressBar.visibility = View.VISIBLE
                 }
 
                 is Result.Error -> {
-                    progressBar.visibility = View.GONE
+                    binding.loginProgressBar.visibility = View.GONE
 
 //                    if (it.message.contains("401")) {
 //                        Toast.makeText(

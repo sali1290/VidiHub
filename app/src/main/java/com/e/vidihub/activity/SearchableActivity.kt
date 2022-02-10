@@ -10,9 +10,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import com.e.domain.model.VideoListItemModel
 import com.e.domain.util.Result
+import com.e.vidihub.R
 import com.e.vidihub.adapter.SearchVideoAdapter
 import com.e.vidihub.databinding.ActivitySearchableBinding
 import com.e.vidihub.viewmodel.GetAllVideosViewModel
+import com.github.ybq.android.spinkit.sprite.Sprite
+import com.github.ybq.android.spinkit.style.Wave
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -25,9 +28,13 @@ class SearchableActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         (this as AppCompatActivity).supportActionBar!!.hide()
-
         binding = ActivitySearchableBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        val wave: Sprite = Wave()
+        wave.color = this.getColor(R.color.primary_color)
+        binding.searchResultProgressBar.indeterminateDrawable = wave
+
         if (Intent.ACTION_SEARCH == intent.action) {
             intent.getStringExtra(SearchManager.QUERY)?.also { query ->
                 binding.searchResultRecycler.layoutManager = GridLayoutManager(this, 2)

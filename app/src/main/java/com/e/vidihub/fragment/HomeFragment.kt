@@ -19,11 +19,14 @@ import com.e.vidihub.R
 import com.e.vidihub.adapter.HomeViewPagerAdapter
 import com.e.vidihub.databinding.FragmentHomeBinding
 import com.e.vidihub.viewmodel.DomainViewModel
+import com.github.ybq.android.spinkit.sprite.Sprite
+import com.github.ybq.android.spinkit.style.Wave
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
 import kotlin.collections.ArrayList
+
 
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
@@ -54,6 +57,9 @@ class HomeFragment : Fragment() {
         (activity as AppCompatActivity?)!!.supportActionBar!!.show()
         binding.videosPager.adapter = HomeViewPagerAdapter(requireContext())
         progressBar = requireActivity().findViewById(R.id.progressBar)
+        val wave: Sprite = Wave()
+        wave.color = requireContext().getColor(R.color.primary_color)
+        progressBar.indeterminateDrawable = wave
 
         //fro scroll viewpager2
         countDownTimer = object : CountDownTimer(6000, 6000) {
@@ -169,8 +175,7 @@ class HomeFragment : Fragment() {
         drawer.setNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.item_support -> {
-                    throw Exception("Test Exception")
-//                    Toast.makeText(requireContext(), "support", Toast.LENGTH_LONG).show()
+                    Toast.makeText(requireContext(), "support", Toast.LENGTH_LONG).show()
                 }
 
                 R.id.item_about_us -> {
