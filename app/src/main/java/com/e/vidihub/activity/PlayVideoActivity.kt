@@ -1,6 +1,5 @@
 package com.e.vidihub.activity
 
-import android.content.Context
 import android.content.pm.ActivityInfo
 import android.net.Uri
 import android.os.Bundle
@@ -51,7 +50,9 @@ class PlayVideoActivity : AppCompatActivity() {
         progressBar = findViewById(R.id.video_progressBar)
         btFullScreen = playerView.findViewById(R.id.bt_fullscreen)
 
-        id = getSharedPreferences("video link", Context.MODE_PRIVATE).getString("key", "")!!
+//        id = getSharedPreferences("video link", Context.MODE_PRIVATE).getString("key", "")!!
+        val bundle = intent.extras
+        id = bundle?.getString("video link")!!
 
         this@PlayVideoActivity.window.setFlags(
             WindowManager.LayoutParams.FLAG_FULLSCREEN,

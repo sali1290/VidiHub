@@ -1,7 +1,7 @@
 package com.e.vidihub.adapter
 
-import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
@@ -10,13 +10,13 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.fragment.app.FragmentActivity
-import androidx.navigation.findNavController
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.e.domain.model.VideoListItemModel
 import com.e.vidihub.R
+import com.e.vidihub.activity.PlayVideoActivity
 
 class PagingVideoAdapter(
     private val activity: FragmentActivity,
@@ -59,10 +59,14 @@ class PagingVideoAdapter(
         fun bind(item: VideoListItemModel?) {
             //loads image from network using coil extension function
             layout.setOnClickListener {
-                activity.getSharedPreferences("video link", Context.MODE_PRIVATE).edit().putString(
-                    "key", item!!.guid
-                ).apply()
-                activity.findNavController(R.id.nav_host_fragment).navigate(R.id.playVideoActivity)
+//                activity.getSharedPreferences("video link", Context.MODE_PRIVATE).edit().putString(
+//                    "key", item!!.guid
+//                ).apply()
+//                activity.findNavController(R.id.nav_host_fragment)
+//                    .navigate(R.id.playVideoActivity)
+                val intent = Intent(activity, PlayVideoActivity::class.java)
+                intent.putExtra("video link", item!!.guid)
+                activity.startActivity(intent)
             }
             title.text = item!!.title
             Glide.with(context)
@@ -73,12 +77,5 @@ class PagingVideoAdapter(
 
         }
     }
-
-
-    @SuppressLint("NotifyDataSetChanged")
-    fun updateData() {
-        notifyDataSetChanged()
-    }
-
 
 }
