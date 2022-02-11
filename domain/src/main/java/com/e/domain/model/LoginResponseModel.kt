@@ -1,6 +1,6 @@
 package com.e.domain.model
 
-data class RegisterLoginResponseModel(
+data class LoginResponseModel(
 
     val accessToken: String?,
 

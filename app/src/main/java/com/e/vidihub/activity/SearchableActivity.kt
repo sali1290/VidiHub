@@ -35,6 +35,7 @@ class SearchableActivity : AppCompatActivity() {
         wave.color = this.getColor(R.color.primary_color)
         binding.searchResultProgressBar.indeterminateDrawable = wave
 
+        //get search query
         if (Intent.ACTION_SEARCH == intent.action) {
             intent.getStringExtra(SearchManager.QUERY)?.also { query ->
                 binding.searchResultRecycler.layoutManager = GridLayoutManager(this, 2)

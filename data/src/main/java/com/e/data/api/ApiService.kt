@@ -6,11 +6,11 @@ import retrofit2.http.*
 
 interface ApiService {
 
-    @POST("accounts/useradd/")
-    suspend fun register(@Body user: User): String
+//    @POST("accounts/useradd/")
+//    suspend fun register(@Body user: User): String
 
     @POST("accounts/login/")
-    suspend fun login(@Body login: Login): Response<RegisterLoginResponse>
+    suspend fun login(@Body login: Login): Response<LoginResponse>
 
     @GET("accounts/userinfo/")
     suspend fun getUser(): Response<User>

@@ -21,9 +21,10 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class ProfileFragment : Fragment() {
 
-    private var binding: FragmentProfileBinding? = null
-    private lateinit var sessionManager: SessionManager
+    private var _binding: FragmentProfileBinding? = null
+    private val binding get() = _binding
 
+    private lateinit var sessionManager: SessionManager
     private val viewModel: UserViewModel by viewModels()
 
     override fun onCreateView(
@@ -31,8 +32,7 @@ class ProfileFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         // Inflate the layout for this fragment
-
-        binding = FragmentProfileBinding.inflate(inflater, container, false)
+        _binding = FragmentProfileBinding.inflate(inflater, container, false)
         sessionManager = SessionManager(requireContext())
         return binding!!.root
     }
@@ -78,7 +78,7 @@ class ProfileFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        binding = null
+        _binding = null
     }
 
 }

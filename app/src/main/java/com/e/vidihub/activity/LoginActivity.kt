@@ -29,6 +29,7 @@ class LoginActivity : AppCompatActivity() {
         setContentView(binding.root)
         (this as AppCompatActivity).supportActionBar!!.hide()
 
+        //give progressBar custom view
         val wave: Sprite = Wave()
         wave.color = this.getColor(R.color.primary_color)
         binding.loginProgressBar.indeterminateDrawable = wave

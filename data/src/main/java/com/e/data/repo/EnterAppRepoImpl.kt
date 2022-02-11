@@ -6,7 +6,7 @@ import com.e.data.mapper.LoginMapper
 import com.e.data.util.NetWorkHelper
 import com.e.data.util.SessionManager
 import com.e.domain.model.LoginModel
-import com.e.domain.model.RegisterLoginResponseModel
+import com.e.domain.model.LoginResponseModel
 import com.e.domain.model.UserModel
 import com.e.domain.repo.EnterAppRepo
 import java.io.IOException
@@ -20,14 +20,14 @@ class EnterAppRepoImpl @Inject constructor(
 ) : EnterAppRepo {
 
 
-    override suspend fun login(loginModel: LoginModel): RegisterLoginResponseModel {
+    override suspend fun login(loginModel: LoginModel): LoginResponseModel {
 
 
         if (netWorkHelper.isNetworkConnected()) {
             val request = apiService.login(loginMapper.toLogin(loginModel))
             when (request.code()) {
                 200 -> {
-                    return RegisterLoginResponseModel(
+                    return LoginResponseModel(
                         request.body()!!.accessToken,
                         request.body()!!.refreshToken
                     )

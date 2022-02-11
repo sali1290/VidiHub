@@ -2,6 +2,7 @@ package com.e.vidihub.fragment
 
 import android.annotation.SuppressLint
 import android.app.AlertDialog
+import android.content.Intent
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.view.*
@@ -16,6 +17,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.e.data.util.SessionManager
 import com.e.domain.util.Result
 import com.e.vidihub.R
+import com.e.vidihub.activity.VideoCallActivity
 import com.e.vidihub.adapter.HomeViewPagerAdapter
 import com.e.vidihub.databinding.FragmentHomeBinding
 import com.e.vidihub.viewmodel.DomainViewModel
@@ -121,7 +123,7 @@ class HomeFragment : Fragment() {
         }
         binding.videosPager.registerOnPageChangeCallback(slidingCallback)
 
-        drawer = requireActivity().findViewById(R.id.nav_view)
+        drawer = binding.navView
         setUpDrawerItems()
         setUpBottomNav()
 
@@ -132,7 +134,11 @@ class HomeFragment : Fragment() {
             viewLifecycleOwner,
             object : OnBackPressedCallback(true) {
                 override fun handleOnBackPressed() {
-                    requireActivity().finish()
+                    if (binding.navLayout.isOpen) {
+                        binding.navLayout.close()
+                    } else {
+                        requireActivity().finish()
+                    }
                 }
             })
 
@@ -176,6 +182,12 @@ class HomeFragment : Fragment() {
             when (it.itemId) {
                 R.id.item_support -> {
                     Toast.makeText(requireContext(), "support", Toast.LENGTH_LONG).show()
+                    requireActivity().startActivity(
+                        Intent(
+                            requireContext(),
+                            VideoCallActivity::class.java
+                        )
+                    )
                 }
 
                 R.id.item_about_us -> {

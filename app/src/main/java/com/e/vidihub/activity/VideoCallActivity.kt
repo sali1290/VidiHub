@@ -24,8 +24,12 @@ class VideoCallActivity : AppCompatActivity() {
 
         binding.webrtcWebView.loadUrl(url)
         webSetting = binding.webrtcWebView.settings
-        webSetting.javaScriptEnabled = true
 
+    }
+
+    override fun onResume() {
+        super.onResume()
+        webSetting.javaScriptEnabled = true
     }
 
     override fun onPause() {

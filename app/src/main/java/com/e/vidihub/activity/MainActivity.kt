@@ -25,6 +25,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        //initialize firebase analytics
         FirebaseApp.initializeApp(this)
         firebaseAnalytics = Firebase.analytics
 
@@ -58,8 +60,7 @@ class MainActivity : AppCompatActivity() {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        val id: Int = item.itemId
-        return when (id) {
+        return when (item.itemId) {
             R.id.action_name -> {
                 val drawer = findViewById<DrawerLayout>(R.id.nav_layout)
                 if (!drawer.isOpen) {

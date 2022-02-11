@@ -7,6 +7,7 @@ import dagger.hilt.android.HiltAndroidApp
 
 @HiltAndroidApp
 class VidiHubApplication : Application() {
+    //add appmetrica crashlytics to app
 //    override fun onCreate() {
 //        super.onCreate()
 //

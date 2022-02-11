@@ -26,6 +26,7 @@ class SplashScreenActivity : AppCompatActivity() {
         setContentView(binding.root)
         (this as AppCompatActivity?)!!.supportActionBar!!.hide()
 
+        //animate splash screen
         val leftSlideAnimation = AnimationUtils.loadAnimation(this, R.anim.side_slide_left)
         binding.imgSplash.startAnimation(leftSlideAnimation)
         val rightSlideAnimation = AnimationUtils.loadAnimation(this, R.anim.side_slide_right)
@@ -41,6 +42,7 @@ class SplashScreenActivity : AppCompatActivity() {
 
     override fun onBackPressed() {}
 
+    //check if token is stile usable or not
     private fun checkToken() {
         sessionManager = SessionManager(this)
         if (!sessionManager.fetchAuthToken().isNullOrEmpty()) {
@@ -51,6 +53,7 @@ class SplashScreenActivity : AppCompatActivity() {
         }
     }
 
+    //request for new token if current token is expired
     private fun observeRefreshToken() {
         refreshTokenViewModel.token.observe(this, {
             when (it) {
