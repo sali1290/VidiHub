@@ -1,8 +1,11 @@
 package com.e.vidihub.activity
 
+import android.app.AlertDialog
 import android.app.SearchManager
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
+import android.provider.SearchRecentSuggestions
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -13,9 +16,12 @@ import com.e.domain.util.Result
 import com.e.vidihub.R
 import com.e.vidihub.adapter.SearchVideoAdapter
 import com.e.vidihub.databinding.ActivitySearchableBinding
+import com.e.vidihub.provider.VideoSuggestionProvider
 import com.e.vidihub.viewmodel.GetAllVideosViewModel
 import com.github.ybq.android.spinkit.sprite.Sprite
 import com.github.ybq.android.spinkit.style.Wave
+import com.google.android.material.snackbar.BaseTransientBottomBar
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -38,11 +44,40 @@ class SearchableActivity : AppCompatActivity() {
         //get search query
         if (Intent.ACTION_SEARCH == intent.action) {
             intent.getStringExtra(SearchManager.QUERY)?.also { query ->
+
+                //save queries into content provider
+                SearchRecentSuggestions(
+                    this,
+                    VideoSuggestionProvider.AUTHORITY,
+                    VideoSuggestionProvider.MODE
+                ).saveRecentQuery(query, null)
+
+
+                //initialize search result recycler
                 binding.searchResultRecycler.layoutManager = GridLayoutManager(this, 2)
                 getAllVideosViewModel.getAllVideos()
                 observeAllNames(query)
             }
         }
+
+        binding.imgDeleteHistory.setOnClickListener {
+            AlertDialog.Builder(this)
+                .setTitle("پاک کردن تاریخچه جست و جو")
+                .setMessage("تمام جست و جو های گذشته شما پاک خواهد شد. آیا از این کار مطمئن هستید؟")
+                .setPositiveButton("بله") { dialogInterface, i ->
+                    SearchRecentSuggestions(
+                        this, VideoSuggestionProvider.AUTHORITY,
+                        VideoSuggestionProvider.MODE
+                    ).clearHistory()
+                    Snackbar.make(
+                        binding.imgDeleteHistory,
+                        "تاریخچه جست و جو با موفقیت پاک شد",
+                        BaseTransientBottomBar.LENGTH_SHORT
+                    ).show()
+                }
+                .setNegativeButton("خیر") { dialogInterface, i -> }.show()
+        }
+
 
         binding.imgBack.setOnClickListener {
             onBackPressed()

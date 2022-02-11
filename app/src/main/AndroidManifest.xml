@@ -20,6 +20,11 @@
             android:name="android.app.default_searchable"
             android:value=".SearchableActivity" />
 
+        <provider
+            android:name=".provider.VideoSuggestionProvider"
+            android:authorities="com.e.vidihub.provider.VideoSuggestionProvider"
+            android:exported="false" />
+
         <activity
             android:name=".activity.SearchableActivity"
             android:exported="false">
