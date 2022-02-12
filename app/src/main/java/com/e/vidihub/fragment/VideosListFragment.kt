@@ -59,7 +59,7 @@ class VideosListFragment : Fragment(), OnCategoriesListener {
     private fun observe() {
         try {
             lifecycleScope.launch {
-                viewModel.fetchVideosLiveData().observe(viewLifecycleOwner, {
+                viewModel.fetchVideosLiveData().observe(viewLifecycleOwner) {
                     val adapter = PagingVideoAdapter(requireActivity(), requireContext())
                     adapter.submitData(lifecycle, it)
                     val loaderStateAdapter = LoaderStateAdapter {
@@ -67,7 +67,7 @@ class VideosListFragment : Fragment(), OnCategoriesListener {
                     }
                     binding.videosRecycler.adapter = adapter.withLoadStateFooter(loaderStateAdapter)
 
-                })
+                }
 
             }
         } catch (e: NullPointerException) {
@@ -77,7 +77,7 @@ class VideosListFragment : Fragment(), OnCategoriesListener {
 
     private fun observeCategories() {
 
-        categoriesViewModel.category.observe(viewLifecycleOwner, {
+        categoriesViewModel.category.observe(viewLifecycleOwner) {
 
             when (it) {
 
@@ -101,7 +101,7 @@ class VideosListFragment : Fragment(), OnCategoriesListener {
 
             }
 
-        })
+        }
 
 
     }
@@ -110,7 +110,7 @@ class VideosListFragment : Fragment(), OnCategoriesListener {
         try {
             lifecycleScope.launch {
                 viewModel.fetchSearchedVideosLiveData(category)
-                    .observe(viewLifecycleOwner, {
+                    .observe(viewLifecycleOwner) {
                         val adapter = PagingVideoAdapter(requireActivity(), requireContext())
                         adapter.submitData(lifecycle, it)
                         val loaderStateAdapter = LoaderStateAdapter {
@@ -118,7 +118,7 @@ class VideosListFragment : Fragment(), OnCategoriesListener {
                         }
                         binding.videosRecycler.adapter =
                             adapter.withLoadStateFooter(loaderStateAdapter)
-                    })
+                    }
 
             }
         } catch (e: NullPointerException) {

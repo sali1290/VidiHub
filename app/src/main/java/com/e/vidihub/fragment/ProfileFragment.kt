@@ -55,7 +55,7 @@ class ProfileFragment : Fragment() {
         wave.color = requireContext().getColor(R.color.primary_color)
         progressBar.indeterminateDrawable = wave
 
-        viewModel.user.observe(viewLifecycleOwner, {
+        viewModel.user.observe(viewLifecycleOwner) {
             when (it) {
 
                 is Result.Success -> {
@@ -73,7 +73,7 @@ class ProfileFragment : Fragment() {
                 }
 
             }
-        })
+        }
     }
 
     override fun onDestroyView() {

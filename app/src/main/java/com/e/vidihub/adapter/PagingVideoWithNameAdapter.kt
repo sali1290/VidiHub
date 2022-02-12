@@ -1,7 +1,7 @@
 package com.e.vidihub.adapter
 
-import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
@@ -9,15 +9,14 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import android.widget.Toast
 import androidx.fragment.app.FragmentActivity
-import androidx.navigation.findNavController
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.e.domain.model.VideoListItemModel
 import com.e.vidihub.R
+import com.e.vidihub.activity.PlayVideoActivity
 
 class PagingVideoWithNameAdapter(
     private val activity: FragmentActivity,
@@ -63,12 +62,15 @@ class PagingVideoWithNameAdapter(
             //loads image from network using coil extension function
             if (name == item!!.title) {
                 layout.setOnClickListener {
-                    activity.getSharedPreferences("video link", Context.MODE_PRIVATE).edit()
-                        .putString(
-                            "key", item.guid
-                        ).apply()
-                    activity.findNavController(R.id.nav_host_fragment)
-                        .navigate(R.id.playVideoActivity)
+//                    activity.getSharedPreferences("video link", Context.MODE_PRIVATE).edit()
+//                        .putString(
+//                            "key", item.guid
+//                        ).apply()
+//                    activity.findNavController(R.id.nav_host_fragment)
+//                        .navigate(R.id.playVideoActivity)
+                    val intent = Intent(activity, PlayVideoActivity::class.java)
+                    intent.putExtra("video link", item!!.guid)
+                    activity.startActivity(intent)
                 }
                 title.text = item.title
                 Glide.with(context)
@@ -76,17 +78,11 @@ class PagingVideoWithNameAdapter(
                         Uri.parse(item.thumbnail)
                     ).into(poster)
                 poster.scaleType = ImageView.ScaleType.FIT_XY
-            }
-            else {
+            } else {
                 layout.visibility = View.GONE
             }
         }
 
-    }
-
-    @SuppressLint("NotifyDataSetChanged")
-    fun updateData() {
-        notifyDataSetChanged()
     }
 
 

@@ -119,7 +119,7 @@ class PlayVideoActivity : AppCompatActivity() {
 
 
     private fun observe() {
-        viewModel.video.observe(this@PlayVideoActivity, {
+        viewModel.video.observe(this@PlayVideoActivity) {
             when (it) {
                 is Result.Success -> {
                     progressBar.visibility = View.GONE
@@ -239,7 +239,7 @@ class PlayVideoActivity : AppCompatActivity() {
                     Toast.makeText(this@PlayVideoActivity, it.message, Toast.LENGTH_LONG).show()
                 }
             }
-        })
+        }
     }
 
 }

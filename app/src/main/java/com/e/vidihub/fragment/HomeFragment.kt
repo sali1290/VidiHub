@@ -5,7 +5,9 @@ import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.os.CountDownTimer
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.*
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
@@ -26,8 +28,6 @@ import com.github.ybq.android.spinkit.style.Wave
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
 import dagger.hilt.android.AndroidEntryPoint
-import java.util.*
-import kotlin.collections.ArrayList
 
 
 @AndroidEntryPoint
@@ -181,7 +181,7 @@ class HomeFragment : Fragment() {
         drawer.setNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.item_support -> {
-                    Toast.makeText(requireContext(), "support", Toast.LENGTH_LONG).show()
+                 //   Toast.makeText(requireContext(), "support", Toast.LENGTH_LONG).show()
                     requireActivity().startActivity(
                         Intent(
                             requireContext(),
@@ -214,7 +214,7 @@ class HomeFragment : Fragment() {
 
     @SuppressLint("SetTextI18n")
     private fun observeDomain() {
-        domainViewModel.domainInfo.observe(viewLifecycleOwner, {
+        domainViewModel.domainInfo.observe(viewLifecycleOwner) {
             when (it) {
 
                 is Result.Success -> {
@@ -250,7 +250,7 @@ class HomeFragment : Fragment() {
                 }
 
             }
-        })
+        }
     }
 
     override fun onDestroyView() {

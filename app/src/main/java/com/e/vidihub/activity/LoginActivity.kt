@@ -64,7 +64,7 @@ class LoginActivity : AppCompatActivity() {
 
     private fun observe() {
         sessionManager = SessionManager(this)
-        viewModel.loginResponse.observe(this, {
+        viewModel.loginResponse.observe(this) {
             when (it) {
 
                 is Result.Success -> {
@@ -102,7 +102,7 @@ class LoginActivity : AppCompatActivity() {
                 }
 
             }
-        })
+        }
 
 
     }

@@ -2,7 +2,6 @@ package com.e.vidihub.activity
 
 import android.app.AlertDialog
 import android.app.SearchManager
-import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.provider.SearchRecentSuggestions
@@ -87,7 +86,7 @@ class SearchableActivity : AppCompatActivity() {
 
     private fun observeAllNames(query: String) {
 
-        getAllVideosViewModel.videos.observe(this, {
+        getAllVideosViewModel.videos.observe(this) {
             when (it) {
 
                 is Result.Success -> {
@@ -112,7 +111,7 @@ class SearchableActivity : AppCompatActivity() {
                 }
 
             }
-        })
+        }
 
 
     }
