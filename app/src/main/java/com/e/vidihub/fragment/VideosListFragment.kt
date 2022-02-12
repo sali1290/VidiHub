@@ -109,7 +109,7 @@ class VideosListFragment : Fragment(), OnCategoriesListener {
     private fun observeCategoriesVideos(category: String) {
         try {
             lifecycleScope.launch {
-                viewModel.fetchSearchedVideosLiveData(category)
+                viewModel.fetchSearchedVideosWithCategoryLiveData(category)
                     .observe(viewLifecycleOwner) {
                         val adapter = PagingVideoAdapter(requireActivity(), requireContext())
                         adapter.submitData(lifecycle, it)

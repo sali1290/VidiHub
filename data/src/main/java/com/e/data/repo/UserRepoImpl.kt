@@ -5,15 +5,15 @@ import com.e.data.api.ApiService
 import com.e.data.mapper.UserMapper
 import com.e.data.util.NetWorkHelper
 import com.e.domain.model.UserModel
-import com.e.domain.repo.GetUserRepo
+import com.e.domain.repo.UserRepo
 import java.io.IOException
 import javax.inject.Inject
 
-class GetUserRepoImpl @Inject constructor(
+class UserRepoImpl @Inject constructor(
     private val apiService: ApiService,
     private val netWorkHelper: NetWorkHelper,
     private val userMapper: UserMapper
-) : GetUserRepo {
+) : UserRepo {
     override suspend fun getAllUsers(): MutableList<UserModel> {
         return null!!
     }

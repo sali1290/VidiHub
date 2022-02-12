@@ -1,9 +1,15 @@
 package com.e.vidihub.activity
 
 import android.os.Bundle
+import android.view.View
+import android.webkit.WebResourceRequest
 import android.webkit.WebSettings
+import android.webkit.WebView
 import androidx.appcompat.app.AppCompatActivity
+import com.e.vidihub.R
 import com.e.vidihub.databinding.ActivityVideoCallBinding
+import com.github.ybq.android.spinkit.sprite.Sprite
+import com.github.ybq.android.spinkit.style.Wave
 
 
 class VideoCallActivity : AppCompatActivity() {
@@ -22,8 +28,13 @@ class VideoCallActivity : AppCompatActivity() {
 
         (this as AppCompatActivity).supportActionBar?.hide()
 
-        binding.webrtcWebView.loadUrl(url)
         webSetting = binding.webrtcWebView.settings
+        binding.webrtcWebView.webViewClient = WebViewClient()
+        binding.webrtcWebView.loadUrl(url)
+
+        val wave: Sprite = Wave()
+        wave.color = this.getColor(R.color.primary_color)
+        binding.videoCallProgressBar.indeterminateDrawable = wave
 
     }
 
@@ -36,5 +47,21 @@ class VideoCallActivity : AppCompatActivity() {
         super.onPause()
         webSetting.javaScriptEnabled = false
     }
+
+    inner class WebViewClient : android.webkit.WebViewClient() {
+        override fun shouldOverrideUrlLoading(
+            view: WebView?,
+            request: WebResourceRequest?
+        ): Boolean {
+            view!!.loadUrl(url)
+            return false
+        }
+
+        override fun onPageFinished(view: WebView?, url: String?) {
+            super.onPageFinished(view, url)
+            binding.videoCallProgressBar.visibility = View.GONE
+        }
+    }
+
 
 }

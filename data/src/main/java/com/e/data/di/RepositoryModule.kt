@@ -1,13 +1,13 @@
 package com.e.data.di
 
 import com.e.data.repo.EnterAppRepoImpl
-import com.e.data.repo.GetDomainRepoImpl
-import com.e.data.repo.GetUserRepoImpl
-import com.e.data.repo.GetVideosRepoImpl
+import com.e.data.repo.DomainRepoImpl
+import com.e.data.repo.UserRepoImpl
+import com.e.data.repo.VideosRepoImpl
 import com.e.domain.repo.EnterAppRepo
-import com.e.domain.repo.GetDomainRepo
-import com.e.domain.repo.GetUserRepo
-import com.e.domain.repo.GetVideosRepo
+import com.e.domain.repo.DomainRepo
+import com.e.domain.repo.UserRepo
+import com.e.domain.repo.VideosRepo
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -21,11 +21,11 @@ abstract class RepositoryModule {
     abstract fun bindEnterAppRepo(enterAppRepoImpl: EnterAppRepoImpl): EnterAppRepo
 
     @Binds
-    abstract fun bindGetUserRepo(getUserRepoImpl: GetUserRepoImpl): GetUserRepo
+    abstract fun bindGetUserRepo(getUserRepoImpl: UserRepoImpl): UserRepo
 
     @Binds
-    abstract fun bindGetVideosRepo(getVideosRepoImpl: GetVideosRepoImpl): GetVideosRepo
+    abstract fun bindGetVideosRepo(getVideosRepoImpl: VideosRepoImpl): VideosRepo
 
     @Binds
-    abstract fun bindGetDomainRepo(getDomainRepoImpl: GetDomainRepoImpl): GetDomainRepo
+    abstract fun bindGetDomainRepo(getDomainRepoImpl: DomainRepoImpl): DomainRepo
 }

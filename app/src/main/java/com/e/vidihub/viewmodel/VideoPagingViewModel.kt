@@ -8,7 +8,8 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import androidx.paging.map
 import com.e.domain.model.VideoListItemModel
-import com.e.domain.usecase.GetSearchedVideoUseCase
+import com.e.domain.usecase.GetSearchedVideosWithCategoryUseCase
+import com.e.domain.usecase.GetSearchedVideosWithNameUseCase
 import com.e.domain.usecase.GetVideoListPagingUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -16,7 +17,8 @@ import javax.inject.Inject
 @HiltViewModel
 class VideoPagingViewModel @Inject constructor(
     private val getVideoListPagingUseCase: GetVideoListPagingUseCase,
-    private val getSearchedVideoUseCase: GetSearchedVideoUseCase
+    private val getSearchedVideosWithCategoryUseCase: GetSearchedVideosWithCategoryUseCase,
+    private val getSearchedVideosWithNameUseCase: GetSearchedVideosWithNameUseCase
 ) :
     ViewModel() {
 
@@ -36,8 +38,8 @@ class VideoPagingViewModel @Inject constructor(
             }
     }
 
-    suspend fun fetchSearchedVideosLiveData(category: String): LiveData<PagingData<VideoListItemModel>> {
-        return getSearchedVideoUseCase.execute(category)
+    suspend fun fetchSearchedVideosWithCategoryLiveData(category: String): LiveData<PagingData<VideoListItemModel>> {
+        return getSearchedVideosWithCategoryUseCase.execute(category)
             .cachedIn(viewModelScope)
             .map {
                 it.map {
@@ -52,5 +54,20 @@ class VideoPagingViewModel @Inject constructor(
             }
     }
 
+    suspend fun fetchSearchedVideosWithNameLiveData(videoName: String): LiveData<PagingData<VideoListItemModel>> {
+        return getSearchedVideosWithNameUseCase.execute(videoName)
+            .cachedIn(viewModelScope)
+            .map {
+                it.map {
+                    VideoListItemModel(
+                        it.vid,
+                        it.title,
+                        it.duration,
+                        it.thumbnail,
+                        it.guid
+                    )
+                }
+            }
+    }
 
 }

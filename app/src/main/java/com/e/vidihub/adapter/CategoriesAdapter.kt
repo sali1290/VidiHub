@@ -46,9 +46,7 @@ class CategoriesAdapter(
 
 }
 
+//for categories item click listener
 interface OnCategoriesListener {
-
     fun onCategoriesClick(position: Int)
-
-
 }

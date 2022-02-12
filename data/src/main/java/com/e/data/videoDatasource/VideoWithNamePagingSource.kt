@@ -7,7 +7,11 @@ import com.e.data.model.VideoListItem
 import retrofit2.HttpException
 import java.io.IOException
 
-class VideoCategoryPagingSource(val apiService: ApiService, private val category: String) :
+class VideoWithNamePagingSource
+    (
+    val apiService: ApiService,
+    private val videoName: String
+) :
     PagingSource<Int, VideoListItem>() {
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, VideoListItem> {
@@ -15,9 +19,14 @@ class VideoCategoryPagingSource(val apiService: ApiService, private val category
 
         val page = params.key ?: 0
         return try {
-            val response = apiService.getSearchedVideo(page, 8, category)
+            val response = apiService.getVideoPaging(page, 8)
+            val list = mutableListOf<VideoListItem>()
+            for (i in 0 until response.body()!!.size) {
+                if (response.body()!![i].title!!.contains(videoName))
+                    list.add(response.body()!![i])
+            }
             LoadResult.Page(
-                response.body()!!, prevKey = if (page == 0) null else page - 1,
+                list, prevKey = if (page == 0) null else page - 1,
                 nextKey = if (response.body()!!.isEmpty()) null else page + 1
             )
 

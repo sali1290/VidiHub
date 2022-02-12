@@ -1,10 +1,10 @@
 package com.e.domain.usecase
 
-import com.e.domain.repo.GetUserRepo
+import com.e.domain.repo.UserRepo
 import javax.inject.Inject
 
-class GetUserInfoUseCase @Inject constructor(private val getUserRepo: GetUserRepo) {
+class GetUserInfoUseCase @Inject constructor(private val userRepo: UserRepo) {
 
-    suspend fun execute() = getUserRepo.getUserInfo()
+    suspend fun execute() = userRepo.getUserInfo()
 
 }

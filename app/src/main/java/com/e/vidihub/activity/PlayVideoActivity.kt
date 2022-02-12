@@ -13,7 +13,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.e.domain.util.Result
 import com.e.vidihub.R
-import com.e.vidihub.viewmodel.GetVideoViewModel
+import com.e.vidihub.viewmodel.PlayVideoViewModel
 import com.google.android.exoplayer2.*
 import com.google.android.exoplayer2.source.TrackGroupArray
 import com.google.android.exoplayer2.source.hls.HlsMediaSource
@@ -31,7 +31,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class PlayVideoActivity : AppCompatActivity() {
 
-    private val viewModel: GetVideoViewModel by viewModels()
+    private val viewModel: PlayVideoViewModel by viewModels()
 
     private lateinit var playerView: PlayerView
     private lateinit var progressBar: ProgressBar

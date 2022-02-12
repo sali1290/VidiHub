@@ -1,9 +1,9 @@
 package com.e.domain.usecase
 
-import com.e.domain.repo.GetVideosRepo
+import com.e.domain.repo.VideosRepo
 import javax.inject.Inject
 
-class GetVideoUseCase @Inject constructor(private val getVideosRepo: GetVideosRepo) {
+class GetVideoUseCase @Inject constructor(private val videosRepo: VideosRepo) {
 
-    suspend fun execute(vid: String) = getVideosRepo.getVideo(vid)
+    suspend fun execute(vid: String) = videosRepo.getVideo(vid)
 }

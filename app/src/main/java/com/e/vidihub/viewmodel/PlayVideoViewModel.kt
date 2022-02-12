@@ -14,7 +14,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class GetVideoViewModel @Inject constructor(private val getVideoUseCase: GetVideoUseCase) :
+class PlayVideoViewModel @Inject constructor(private val getVideoUseCase: GetVideoUseCase) :
     ViewModel() {
 
     private val _video = MutableLiveData<Result<VideoResponseModel>>()

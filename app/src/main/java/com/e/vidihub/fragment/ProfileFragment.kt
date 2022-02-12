@@ -14,8 +14,6 @@ import com.e.vidihub.R
 import com.e.vidihub.adapter.ProfileAdapter
 import com.e.vidihub.databinding.FragmentProfileBinding
 import com.e.vidihub.viewmodel.UserViewModel
-import com.github.ybq.android.spinkit.sprite.Sprite
-import com.github.ybq.android.spinkit.style.Wave
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -25,6 +23,7 @@ class ProfileFragment : Fragment() {
     private val binding get() = _binding
 
     private lateinit var sessionManager: SessionManager
+    private lateinit var progressBar: ProgressBar
     private val viewModel: UserViewModel by viewModels()
 
     override fun onCreateView(
@@ -40,6 +39,7 @@ class ProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        progressBar = requireActivity().findViewById(R.id.progressBar)
         binding!!.imgBack.setOnClickListener {
             requireActivity().onBackPressed()
         }
@@ -50,11 +50,6 @@ class ProfileFragment : Fragment() {
     }
 
     private fun observe() {
-        val progressBar: ProgressBar = requireActivity().findViewById(R.id.progressBar)
-        val wave: Sprite = Wave()
-        wave.color = requireContext().getColor(R.color.primary_color)
-        progressBar.indeterminateDrawable = wave
-
         viewModel.user.observe(viewLifecycleOwner) {
             when (it) {
 

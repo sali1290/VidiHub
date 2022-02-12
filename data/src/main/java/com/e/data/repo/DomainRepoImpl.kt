@@ -5,15 +5,15 @@ import com.e.data.api.ApiService
 import com.e.data.mapper.DomainResponseMapper
 import com.e.data.util.NetWorkHelper
 import com.e.domain.model.DomainResponseModel
-import com.e.domain.repo.GetDomainRepo
+import com.e.domain.repo.DomainRepo
 import java.io.IOException
 import javax.inject.Inject
 
-class GetDomainRepoImpl @Inject constructor(
+class DomainRepoImpl @Inject constructor(
     private val apiService: ApiService,
     private val netWorkHelper: NetWorkHelper,
     private val domainResponseMapper: DomainResponseMapper
-) : GetDomainRepo {
+) : DomainRepo {
     override suspend fun getAllDomains(): MutableList<String> {
         TODO("Not yet implemented")
     }

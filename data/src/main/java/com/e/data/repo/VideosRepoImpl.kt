@@ -9,22 +9,23 @@ import com.e.data.mapper.CategoryMapper
 import com.e.data.mapper.VideoListItemMapper
 import com.e.data.mapper.VideoMapper
 import com.e.data.util.NetWorkHelper
-import com.e.data.videoDatasource.VideoCategoryPagingSource
+import com.e.data.videoDatasource.VideoWithCategoryPagingSource
 import com.e.data.videoDatasource.VideoPagingSource
+import com.e.data.videoDatasource.VideoWithNamePagingSource
 import com.e.domain.model.CategoryResponseModel
 import com.e.domain.model.VideoListItemModel
 import com.e.domain.model.VideoResponseModel
-import com.e.domain.repo.GetVideosRepo
+import com.e.domain.repo.VideosRepo
 import java.io.IOException
 import javax.inject.Inject
 
-class GetVideosRepoImpl @Inject constructor(
+class VideosRepoImpl @Inject constructor(
     private val netWorkHelper: NetWorkHelper,
     private val apiService: ApiService,
     private val videoListItemMapper: VideoListItemMapper,
     private val categoryMapper: CategoryMapper,
     private val videoResponseMapper: VideoMapper
-) : GetVideosRepo {
+) : VideosRepo {
     override suspend fun getAllVideos(): MutableList<VideoListItemModel> {
 
 
@@ -80,10 +81,19 @@ class GetVideosRepoImpl @Inject constructor(
         }
     }
 
-    override suspend fun getSearchedVideos(category: String): LiveData<PagingData<VideoListItemModel>> {
+    override suspend fun getSearchedVideosWithCategory(category: String): LiveData<PagingData<VideoListItemModel>> {
         return Pager(
             config = PagingConfig(1, enablePlaceholders = false),
-            pagingSourceFactory = { VideoCategoryPagingSource(apiService, category) }
+            pagingSourceFactory = { VideoWithCategoryPagingSource(apiService, category) }
+        ).liveData.map {
+            it.map { VideoListItemModel(it.vid, it.title, it.duration, it.thumbnail, it.guid) }
+        }
+    }
+
+    override suspend fun getSearchedVideosWithName(videoName: String): LiveData<PagingData<VideoListItemModel>> {
+        return Pager(
+            config = PagingConfig(1, enablePlaceholders = false),
+            pagingSourceFactory = { VideoWithNamePagingSource(apiService, videoName) }
         ).liveData.map {
             it.map { VideoListItemModel(it.vid, it.title, it.duration, it.thumbnail, it.guid) }
         }

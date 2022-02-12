@@ -7,7 +7,7 @@ import com.e.domain.model.VideoListItemModel
 import com.e.domain.model.VideoResponseModel
 import kotlinx.coroutines.flow.Flow
 
-interface GetVideosRepo {
+interface VideosRepo {
 
     suspend fun getAllVideos(): MutableList<VideoListItemModel>
 
@@ -17,5 +17,7 @@ interface GetVideosRepo {
 
     suspend fun getCategories(): MutableList<CategoryResponseModel>
 
-    suspend fun getSearchedVideos(category: String): LiveData<PagingData<VideoListItemModel>>
+    suspend fun getSearchedVideosWithCategory(category: String): LiveData<PagingData<VideoListItemModel>>
+
+    suspend fun getSearchedVideosWithName(videoName: String): LiveData<PagingData<VideoListItemModel>>
 }

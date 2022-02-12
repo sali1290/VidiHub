@@ -5,30 +5,33 @@ import android.app.SearchManager
 import android.content.Intent
 import android.os.Bundle
 import android.provider.SearchRecentSuggestions
-import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
-import com.e.domain.model.VideoListItemModel
-import com.e.domain.util.Result
 import com.e.vidihub.R
-import com.e.vidihub.adapter.SearchVideoAdapter
+import com.e.vidihub.adapter.LoaderStateAdapter
+import com.e.vidihub.adapter.PagingVideoAdapter
 import com.e.vidihub.databinding.ActivitySearchableBinding
 import com.e.vidihub.provider.VideoSuggestionProvider
-import com.e.vidihub.viewmodel.GetAllVideosViewModel
+import com.e.vidihub.viewmodel.VideoPagingViewModel
 import com.github.ybq.android.spinkit.sprite.Sprite
 import com.github.ybq.android.spinkit.style.Wave
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class SearchableActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivitySearchableBinding
-    private val getAllVideosViewModel: GetAllVideosViewModel by viewModels()
-    private var searchedVideos = mutableListOf<VideoListItemModel>()
+    private val getSearchedVideosWithNameViewModel: VideoPagingViewModel by viewModels()
+
+    //alternative way for get searched videos
+    //  private val getAllVideosViewModel: GetAllVideosViewModel by viewModels()
+    //  private var searchedVideos = mutableListOf<VideoListItemModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,7 +57,8 @@ class SearchableActivity : AppCompatActivity() {
 
                 //initialize search result recycler
                 binding.searchResultRecycler.layoutManager = GridLayoutManager(this, 2)
-                getAllVideosViewModel.getAllVideos()
+                //alternative way for get searched videos
+//              getAllVideosViewModel.getAllVideos()
                 observeAllNames(query)
             }
         }
@@ -85,33 +89,51 @@ class SearchableActivity : AppCompatActivity() {
     }
 
     private fun observeAllNames(query: String) {
-
-        getAllVideosViewModel.videos.observe(this) {
-            when (it) {
-
-                is Result.Success -> {
-                    binding.searchResultProgressBar.visibility = View.GONE
-
-                    for (i in 0 until it.data.size) {
-                        if (it.data[i].title!!.contains(query)) {
-                            searchedVideos.add(it.data[i])
+        try {
+            lifecycleScope.launch {
+                getSearchedVideosWithNameViewModel.fetchSearchedVideosWithNameLiveData(query)
+                    .observe(this@SearchableActivity) {
+                        val adapter =
+                            PagingVideoAdapter(this@SearchableActivity, this@SearchableActivity)
+                        adapter.submitData(lifecycle, it)
+                        val loaderStateAdapter = LoaderStateAdapter {
+                            adapter.retry()
                         }
+                        binding.searchResultRecycler.adapter =
+                            adapter.withLoadStateFooter(loaderStateAdapter)
                     }
-                    binding.searchResultRecycler.adapter =
-                        SearchVideoAdapter(searchedVideos, this, this)
-                }
-
-                is Result.Loading -> {
-                    binding.searchResultProgressBar.visibility = View.VISIBLE
-                }
-
-                is Result.Error -> {
-                    binding.searchResultProgressBar.visibility = View.GONE
-                    Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
-                }
-
             }
+        } catch (e: NullPointerException) {
+            Toast.makeText(this@SearchableActivity, e.toString(), Toast.LENGTH_SHORT).show()
         }
+        //alternative way for get searched videos
+//        getAllVideosViewModel.videos.observe(this) {
+//            when (it) {
+//
+//                is Result.Success -> {
+//                    binding.searchResultProgressBar.visibility = View.GONE
+//
+//                    for (i in 0 until it.data.size) {
+//                        if (it.data[i].title!!.contains(query)) {
+//                            searchedVideos.add(it.data[i])
+//                        }
+//                    }
+//                    binding.searchResultRecycler.adapter =
+//                        SearchVideoAdapter(searchedVideos, this, this)
+//
+//                }
+//
+//                is Result.Loading -> {
+//                    binding.searchResultProgressBar.visibility = View.VISIBLE
+//                }
+//
+//                is Result.Error -> {
+//                    binding.searchResultProgressBar.visibility = View.GONE
+//                    Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
+//                }
+//
+//            }
+//        }
 
 
     }
