@@ -3,4 +3,5 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="exit">خروج</string>
+    <string name="permissions_denied">برای برقراری تماس با پشتیبان دسترسی های لازم به اپ داده نشده است. در صورتی که میخواهید با پشتیبان تماس بگیرید از قسمت تنظیمات دسترسی های مورد نیاز را فعال کنید</string>
 </resources>

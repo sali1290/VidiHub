@@ -121,7 +121,7 @@ dependencies {
 
     //firebase services
     implementation platform('com.google.firebase:firebase-bom:29.0.4')
-    implementation 'com.google.firebase:firebase-analytics-ktx:20.0.2'
+    implementation 'com.google.firebase:firebase-analytics-ktx:20.1.0'
     implementation 'com.google.firebase:firebase-messaging:23.0.0'
 
     //crashlytics
@@ -129,4 +129,7 @@ dependencies {
 
     //custom progressBar
     implementation 'com.github.ybq:Android-SpinKit:1.4.0'
+
+    //for managing request permissions
+//    implementation 'androidx.activity:activity-ktx:1.4.0'
 }
