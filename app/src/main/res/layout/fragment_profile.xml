@@ -26,7 +26,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/_10sdp"
-            android:text="اطلاعات کاربری"
+            android:text="@string/user_info"
             android:textColor="@color/black"
             android:textSize="@dimen/_18sdp"
             android:textStyle="bold"

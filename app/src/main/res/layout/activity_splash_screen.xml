@@ -21,7 +21,7 @@
         android:id="@+id/tv_splash_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="VidiHub"
+        android:text="@string/app_name"
         android:textColor="@color/dark_primary_color"
         android:textSize="@dimen/_30sdp"
         android:textStyle="bold|italic"

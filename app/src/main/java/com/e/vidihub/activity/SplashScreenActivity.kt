@@ -55,7 +55,7 @@ class SplashScreenActivity : AppCompatActivity() {
 
     //request for new token if current token is expired
     private fun observeRefreshToken() {
-        refreshTokenViewModel.token.observe(this, {
+        refreshTokenViewModel.token.observe(this) {
             when (it) {
 
                 is Result.Success -> {
@@ -76,7 +76,7 @@ class SplashScreenActivity : AppCompatActivity() {
                 }
 
             }
-        })
+        }
     }
 
 }
