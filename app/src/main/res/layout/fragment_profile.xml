@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/fragment_background"
+    style="@style/fragmentBackground"
     android:layoutDirection="ltr"
     tools:context=".fragment.ProfileFragment">
 
@@ -19,7 +19,8 @@
             android:src="?attr/actionModeCloseDrawable"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_margin="@dimen/_10sdp"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            style=""/>
 
         <TextView
             android:id="@+id/textView6"
@@ -27,8 +28,8 @@
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/_10sdp"
             android:text="@string/user_info"
-            android:textColor="@color/black"
             android:textSize="@dimen/_18sdp"
+            style="@style/titlesTextColor"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

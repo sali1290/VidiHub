@@ -25,6 +25,6 @@
             android:layout_height="wrap_content"
             android:text="TextView"
             android:backgroundTint="@color/primary_color"
-            android:textColor="@color/primary_text" />
+            android:textColor="@color/primary_dark_color" />
     </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>

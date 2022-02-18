@@ -10,7 +10,7 @@
         android:id="@+id/player_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/primary_text"
+        android:background="@color/primary_dark_color"
         app:controller_layout_id="@layout/custom_controller"
         app:fastforward_increment="10000"
         app:hide_on_touch="true"

@@ -36,7 +36,6 @@
                 android:layout_weight="1"
                 android:singleLine="false"
                 android:text="Video Name"
-                android:textColor="@color/black"
                 android:textSize="@dimen/_12sdp" />
 
             <ImageView

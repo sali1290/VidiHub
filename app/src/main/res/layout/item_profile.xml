@@ -8,7 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/_5sdp"
-        android:backgroundTint="@color/light_primary_color"
+        style="@style/profileItemBackground"
         app:cardCornerRadius="8dp"
         app:cardElevation="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -28,6 +28,7 @@
                 app:layout_constraintBottom_toTopOf="@id/card_info"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
+                style="@style/imageTint"
                 app:srcCompat="@drawable/ic_profile" />
 
             <TextView
@@ -35,7 +36,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:text="TextView"
-                android:textColor="@color/black"
                 android:textSize="@dimen/_15sdp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toTopOf="@id/card_info"
@@ -46,7 +46,7 @@
                 android:id="@+id/card_info"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:backgroundTint="#D4F3F4"
+                style="@style/profileItemTextBackground"
                 app:cardCornerRadius="8dp"
                 app:cardElevation="5dp"
                 app:layout_constraintTop_toBottomOf="@id/imageView2">
@@ -57,7 +57,6 @@
                     android:layout_height="match_parent"
                     android:layout_margin="@dimen/_3sdp"
                     android:gravity="right"
-                    android:text="TextView"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_12sdp" />
             </androidx.cardview.widget.CardView>

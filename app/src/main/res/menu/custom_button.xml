@@ -5,7 +5,6 @@
     <item
         android:id="@+id/action_search"
         android:icon="@android:drawable/ic_search_category_default"
-        android:iconTint="@color/primary_text"
         android:orderInCategory="0"
         android:title="Menu"
         app:actionViewClass="android.widget.SearchView"
@@ -14,7 +13,6 @@
     <item
         android:id="@+id/action_name"
         android:icon="@android:drawable/ic_menu_sort_by_size"
-        android:iconTint="@color/primary_text"
         android:orderInCategory="0"
         android:title="Menu"
         app:showAsAction="always" />
