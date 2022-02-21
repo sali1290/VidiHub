@@ -21,8 +21,10 @@ import com.e.domain.util.Result
 import com.e.vidihub.R
 import com.e.vidihub.activity.VideoCallActivity
 import com.e.vidihub.adapter.HomeViewPagerAdapter
+import com.e.vidihub.adapter.ProfileAdapter
 import com.e.vidihub.databinding.FragmentHomeBinding
 import com.e.vidihub.viewmodel.DomainViewModel
+import com.e.vidihub.viewmodel.UserViewModel
 import com.github.ybq.android.spinkit.sprite.Sprite
 import com.github.ybq.android.spinkit.style.Wave
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -41,6 +43,7 @@ class HomeFragment : Fragment() {
     private lateinit var countDownTimer: CountDownTimer
 
     private val domainViewModel: DomainViewModel by viewModels()
+    private val userViewModel: UserViewModel by viewModels()
 
 
     override fun onCreateView(
@@ -127,6 +130,9 @@ class HomeFragment : Fragment() {
         setUpDrawerItems()
         setUpBottomNav()
 
+        userViewModel.getUser()
+        observeUserEmail()
+
         domainViewModel.getDomain()
         observeDomain()
 
@@ -181,7 +187,7 @@ class HomeFragment : Fragment() {
         drawer.setNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.item_support -> {
-                 //   Toast.makeText(requireContext(), "support", Toast.LENGTH_LONG).show()
+                    //   Toast.makeText(requireContext(), "support", Toast.LENGTH_LONG).show()
                     requireActivity().startActivity(
                         Intent(
                             requireContext(),
@@ -220,10 +226,11 @@ class HomeFragment : Fragment() {
                 is Result.Success -> {
                     progressBar.visibility = View.GONE
                     drawer.getHeaderView(0).findViewById<TextView>(R.id.tv_domain).text =
-                        "domain: ${it.data.domain}"
+                        "Domain: ${it.data.hostname}"
 
                     drawer.getHeaderView(0).findViewById<TextView>(R.id.tv_domain_status).text =
-                        "status : ${it.data.status}"
+                        "Status : ${it.data.status}"
+
                 }
 
                 is Result.Loading -> {
@@ -247,6 +254,30 @@ class HomeFragment : Fragment() {
                         Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
                     }
 
+                }
+
+            }
+        }
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun observeUserEmail() {
+        userViewModel.user.observe(viewLifecycleOwner) {
+            when (it) {
+
+                is Result.Success -> {
+                    progressBar.visibility = View.GONE
+                    drawer.getHeaderView(0).findViewById<TextView>(R.id.tv_email).text =
+                        "Account : ${it.data.email}"
+                }
+
+                is Result.Loading -> {
+                    progressBar.visibility = View.VISIBLE
+                }
+
+                is Result.Error -> {
+                    progressBar.visibility = View.GONE
+                    Toast.makeText(requireContext(), it.message, Toast.LENGTH_LONG).show()
                 }
 
             }

@@ -6,7 +6,8 @@
     <string name="permissions_denied">برای برقراری تماس با پشتیبان دسترسی های لازم به اپ داده نشده است. در صورتی که میخواهید با پشتیبان تماس بگیرید از قسمت تنظیمات دسترسی های مورد نیاز را فعال کنید</string>
     <string name="email">ایمیل</string>
     <string name="password">رمز عبور</string>
-    <string name="register">اکانت ندارید؟ اینجا ثبت نام کنید</string>
+    <string name="register">اینجا ثبت نام کنید</string>
+    <string name="have_account">اکانت ندارید؟</string>
     <string name="watch">تماشا کنید</string>
     <string name="videos">ویدیوها</string>
     <string name="categories">دسته بندی ها</string>
