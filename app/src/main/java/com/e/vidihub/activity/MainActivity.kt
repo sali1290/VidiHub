@@ -11,6 +11,7 @@ import androidx.drawerlayout.widget.DrawerLayout
 import com.e.vidihub.R
 import dagger.hilt.android.AndroidEntryPoint
 import android.content.ComponentName
+import androidx.compose.ui.graphics.Color
 import com.google.firebase.FirebaseApp
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.analytics.ktx.analytics
@@ -49,6 +50,7 @@ class MainActivity : AppCompatActivity() {
                     )
                 )
             )
+            this.queryHint = "Search Video"
             isIconifiedByDefault = true // Do not iconify the widget; expand it by default
         }
 

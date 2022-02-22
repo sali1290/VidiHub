@@ -21,7 +21,6 @@ import com.e.domain.util.Result
 import com.e.vidihub.R
 import com.e.vidihub.activity.VideoCallActivity
 import com.e.vidihub.adapter.HomeViewPagerAdapter
-import com.e.vidihub.adapter.ProfileAdapter
 import com.e.vidihub.databinding.FragmentHomeBinding
 import com.e.vidihub.viewmodel.DomainViewModel
 import com.e.vidihub.viewmodel.UserViewModel

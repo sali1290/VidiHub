@@ -51,8 +51,4 @@
         <item name="backgroundTint">@color/fragment_background</item>
     </style>
 
-    <!--    <style name="splashTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">-->
-    <!--        <item name="android:windowBackground">@drawable/splash_screen</item>-->
-    <!--        <item name="android:statusBarColor">@color/fragment_background</item>-->
-    <!--    </style>-->
 </resources>
