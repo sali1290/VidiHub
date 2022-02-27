@@ -3,6 +3,7 @@ package com.e.vidihub.fragment
 import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Intent
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.view.LayoutInflater
@@ -19,6 +20,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.e.data.util.SessionManager
 import com.e.domain.util.Result
 import com.e.vidihub.R
+import com.e.vidihub.activity.SplashScreenActivity
 import com.e.vidihub.activity.VideoCallActivity
 import com.e.vidihub.adapter.HomeViewPagerAdapter
 import com.e.vidihub.databinding.FragmentHomeBinding
@@ -58,14 +60,18 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        (activity as AppCompatActivity?)!!.supportActionBar!!.show()
+        (activity as AppCompatActivity?)!!.supportActionBar!!.apply {
+            show()
+            //if you want to implement dark you should delete below code
+            setBackgroundDrawable(ColorDrawable(requireActivity().getColor(R.color.primary_color)))
+        }
         binding.videosPager.adapter = HomeViewPagerAdapter(requireContext())
         progressBar = requireActivity().findViewById(R.id.progressBar)
         val wave: Sprite = Wave()
         wave.color = requireContext().getColor(R.color.primary_color)
         progressBar.indeterminateDrawable = wave
 
-        //fro scroll viewpager2
+        //for auto scroll viewpager2
         countDownTimer = object : CountDownTimer(6000, 6000) {
             override fun onTick(millisUntilFinished: Long) {
                 if (binding.videosPager.currentItem == 2) {
@@ -81,6 +87,7 @@ class HomeFragment : Fragment() {
         }.start()
 
 
+        //dots below the screen
         val slidingImageDots: MutableList<ImageView> = ArrayList()
         for (i in 0 until 3) {
             slidingImageDots.add(ImageView(requireContext()))
@@ -207,6 +214,12 @@ class HomeFragment : Fragment() {
                         .setPositiveButton("بله") { _, _ ->
                             sessionManager.saveAuthToken("")
                             sessionManager.saveRefreshToken("")
+                            startActivity(
+                                Intent(
+                                    requireContext(),
+                                    SplashScreenActivity::class.java
+                                )
+                            )
                             requireActivity().finish()
                         }.setNegativeButton("خیر") { _, _ -> }.show()
                 }

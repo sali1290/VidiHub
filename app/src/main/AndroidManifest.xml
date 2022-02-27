@@ -44,11 +44,11 @@
             android:exported="false" />
         <activity
             android:name=".activity.LoginActivity"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".activity.MainActivity"
             android:configChanges="orientation|screenSize|layoutDirection"
-            android:exported="false"
+            android:exported="true"
             android:windowSoftInputMode="adjustPan"
             android:screenOrientation="portrait">
             <meta-data

@@ -50,7 +50,7 @@ class MainActivity : AppCompatActivity() {
                     )
                 )
             )
-            this.queryHint = "Search Video"
+            this.queryHint = "Video name"
             isIconifiedByDefault = true // Do not iconify the widget; expand it by default
         }
 

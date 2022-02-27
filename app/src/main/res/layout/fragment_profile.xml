@@ -20,7 +20,7 @@
             app:layout_constraintStart_toStartOf="parent"
             android:layout_margin="@dimen/_10sdp"
             app:layout_constraintTop_toTopOf="parent"
-            style=""/>
+            style="@style/backButtonColor"/>
 
         <TextView
             android:id="@+id/textView6"

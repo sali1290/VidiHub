@@ -51,4 +51,8 @@
         <item name="backgroundTint">@color/fragment_background</item>
     </style>
 
+    <style name="backButtonColor" parent="Theme.AppCompat.DayNight">
+        <item name="tint">@color/accent_color</item>
+    </style>
+
 </resources>

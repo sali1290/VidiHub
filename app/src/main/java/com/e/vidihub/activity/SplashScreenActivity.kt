@@ -50,6 +50,7 @@ class SplashScreenActivity : AppCompatActivity() {
             observeRefreshToken()
         } else {
             startActivity(Intent(this@SplashScreenActivity, LoginActivity::class.java))
+            finish()
         }
     }
 

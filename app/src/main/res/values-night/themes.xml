@@ -50,6 +50,10 @@
         <item name="backgroundTint">@color/fragment_background</item>
     </style>
 
+    <style name="backButtonColor" parent="Theme.AppCompat.DayNight">
+        <item name="tint">@color/accent_color</item>
+    </style>
+
 
     <!--    this part is for implementing dark theme in application-->
     <!--    if you want dark theme, just remove comments and above code!!-->
@@ -104,5 +108,9 @@
     <!--        <item name="tint">@color/profile_text_background</item>-->
     <!--        <item name="backgroundTint">@color/black</item>-->
     <!--    </style>-->
+
+<!--    <style name="backButtonColor" parent="Theme.AppCompat.DayNight">-->
+<!--        <item name="tint">@color/accent_color</item>-->
+<!--    </style>-->
 
 </resources>
