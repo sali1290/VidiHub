@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.paging.PagingData
 import com.e.domain.model.CategoryResponseModel
 import com.e.domain.model.VideoListItemModel
+import com.e.domain.model.VideoPosterModel
 import com.e.domain.model.VideoResponseModel
 
 interface VideosRepo {
@@ -19,4 +20,6 @@ interface VideosRepo {
     suspend fun getSearchedVideosWithCategory(category: String): LiveData<PagingData<VideoListItemModel>>
 
     suspend fun getSearchedVideosWithName(videoName: String): LiveData<PagingData<VideoListItemModel>>
+
+    suspend fun getPosterVideo(): MutableList<VideoPosterModel>
 }

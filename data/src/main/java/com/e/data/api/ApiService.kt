@@ -47,4 +47,8 @@ interface ApiService {
 
     @GET("videos/categorylist/")
     suspend fun getCategories(): Response<MutableList<CategoryResponse>>
+
+    @GET("videos/poster?length=5")
+    suspend fun getVideoPoster(): Response<MutableList<VideoPoster>>
+
 }

@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ShareCompat
 import androidx.fragment.app.Fragment
 import com.e.vidihub.BuildConfig
 import com.e.vidihub.databinding.FragmentAboutUsBinding
@@ -33,12 +34,22 @@ class AboutUsFragment : Fragment() {
 
         binding!!.tvAppVersion.text = "Version: ${BuildConfig.VERSION_NAME}"
 
-        binding!!.textView7.setOnClickListener {
+        binding!!.tvSuggest.setOnClickListener {
             val emailAddress = "Vidihub.test@gmail.com"
             val emailIntent = Intent(Intent.ACTION_SENDTO)
             emailIntent.data = Uri.parse("mailto:$emailAddress")
             startActivity(Intent.createChooser(emailIntent, "Send email..."))
         }
+
+
+        binding!!.tvIntroduce.setOnClickListener {
+            ShareCompat.IntentBuilder(requireContext())
+                .setType("text/plain")
+                .setChooserTitle("Share this text with: ") //title for the app chooser
+                .setText("download vidihub") // intent data
+                .startChooser() // send the intent
+        }
+
 
         binding!!.imgBack.setOnClickListener {
             requireActivity().onBackPressed()

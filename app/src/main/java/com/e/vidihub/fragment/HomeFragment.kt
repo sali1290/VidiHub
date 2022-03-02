@@ -18,14 +18,18 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
 import com.e.data.util.SessionManager
+import com.e.domain.model.VideoPosterModel
 import com.e.domain.util.Result
 import com.e.vidihub.R
+import com.e.vidihub.activity.PlayVideoActivity
 import com.e.vidihub.activity.SplashScreenActivity
 import com.e.vidihub.activity.VideoCallActivity
 import com.e.vidihub.adapter.HomeViewPagerAdapter
+import com.e.vidihub.adapter.HomeViewPagerAdapter.OnPlayClickListener
 import com.e.vidihub.databinding.FragmentHomeBinding
 import com.e.vidihub.viewmodel.DomainViewModel
 import com.e.vidihub.viewmodel.UserViewModel
+import com.e.vidihub.viewmodel.VideoPosterViewModel
 import com.github.ybq.android.spinkit.sprite.Sprite
 import com.github.ybq.android.spinkit.style.Wave
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -34,7 +38,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
-class HomeFragment : Fragment() {
+class HomeFragment : Fragment(), OnPlayClickListener {
 
     private lateinit var binding: FragmentHomeBinding
     private lateinit var drawer: NavigationView
@@ -42,9 +46,11 @@ class HomeFragment : Fragment() {
     private lateinit var sessionManager: SessionManager
     private lateinit var progressBar: ProgressBar
     private lateinit var countDownTimer: CountDownTimer
+    private var videoPosterList = mutableListOf<VideoPosterModel>()
 
     private val domainViewModel: DomainViewModel by viewModels()
     private val userViewModel: UserViewModel by viewModels()
+    private val videoPosterViewModel: VideoPosterViewModel by viewModels()
 
 
     override fun onCreateView(
@@ -65,82 +71,27 @@ class HomeFragment : Fragment() {
             //if you want to implement dark you should delete below code
             setBackgroundDrawable(ColorDrawable(requireActivity().getColor(R.color.primary_color)))
         }
-        binding.videosPager.adapter = HomeViewPagerAdapter(requireContext())
+
         progressBar = requireActivity().findViewById(R.id.progressBar)
         val wave: Sprite = Wave()
         wave.color = requireContext().getColor(R.color.primary_color)
         progressBar.indeterminateDrawable = wave
 
-        //for auto scroll viewpager2
-        countDownTimer = object : CountDownTimer(6000, 6000) {
-            override fun onTick(millisUntilFinished: Long) {
-                if (binding.videosPager.currentItem == 2) {
-                    binding.videosPager.currentItem = 0
-                } else {
-                    binding.videosPager.currentItem++
-                }
-            }
-
-            override fun onFinish() {
-                start()
-            }
-        }.start()
-
-
-        //dots below the screen
-        val slidingImageDots: MutableList<ImageView> = ArrayList()
-        for (i in 0 until 3) {
-            slidingImageDots.add(ImageView(requireContext()))
-            slidingImageDots[i].setImageDrawable(
-                ContextCompat.getDrawable(
-                    requireContext(),
-                    R.drawable.non_active_dot
-                )
-            )
-
-            val params = LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.WRAP_CONTENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
-            )
-            params.setMargins(8, 0, 8, 0)
-            binding.sliderDots.addView(slidingImageDots[i], params)
-        }
-        slidingImageDots[0].setImageDrawable(
-            ContextCompat.getDrawable(
-                requireContext(),
-                R.drawable.active_dot
-            )
-        )
-        val slidingCallback = object : ViewPager2.OnPageChangeCallback() {
-            override fun onPageSelected(position: Int) {
-                for (i in 0 until 3) {
-                    slidingImageDots[i].setImageDrawable(
-                        ContextCompat.getDrawable(
-                            requireContext(),
-                            R.drawable.non_active_dot
-                        )
-                    )
-                }
-
-                slidingImageDots[position].setImageDrawable(
-                    ContextCompat.getDrawable(
-                        requireContext(),
-                        R.drawable.active_dot
-                    )
-                )
-            }
-        }
-        binding.videosPager.registerOnPageChangeCallback(slidingCallback)
-
         drawer = binding.navView
         setUpDrawerItems()
         setUpBottomNav()
 
+        //for user account
         userViewModel.getUser()
         observeUserEmail()
 
+        //for domain
         domainViewModel.getDomain()
         observeDomain()
+
+        //for videoPosters
+        videoPosterViewModel.getVideoPosters()
+        observeVideosPosters()
 
         requireActivity().onBackPressedDispatcher.addCallback(
             viewLifecycleOwner,
@@ -296,9 +247,104 @@ class HomeFragment : Fragment() {
         }
     }
 
+    private fun observeVideosPosters() {
+        videoPosterViewModel.videos.observe(viewLifecycleOwner) {
+            when (it) {
+
+                is Result.Success -> {
+                    binding.videosPager.adapter =
+                        HomeViewPagerAdapter(it.data, requireContext(), this)
+
+                    for (i in 0 until it.data.size)
+                        videoPosterList.add(it.data[i])
+
+
+                    //dots below the screen
+                    val slidingImageDots: MutableList<ImageView> = ArrayList()
+                    for (i in 0 until 4) {
+                        slidingImageDots.add(ImageView(requireContext()))
+                        slidingImageDots[i].setImageDrawable(
+                            ContextCompat.getDrawable(
+                                requireContext(),
+                                R.drawable.non_active_dot
+                            )
+                        )
+
+                        val params = LinearLayout.LayoutParams(
+                            LinearLayout.LayoutParams.WRAP_CONTENT,
+                            LinearLayout.LayoutParams.WRAP_CONTENT
+                        )
+                        params.setMargins(8, 0, 8, 0)
+                        binding.sliderDots.addView(slidingImageDots[i], params)
+                    }
+                    slidingImageDots[0].setImageDrawable(
+                        ContextCompat.getDrawable(
+                            requireContext(),
+                            R.drawable.active_dot
+                        )
+                    )
+                    val slidingCallback = object : ViewPager2.OnPageChangeCallback() {
+                        override fun onPageSelected(position: Int) {
+                            for (i in 0 until it.data.size) {
+                                slidingImageDots[i].setImageDrawable(
+                                    ContextCompat.getDrawable(
+                                        requireContext(),
+                                        R.drawable.non_active_dot
+                                    )
+                                )
+                            }
+
+                            slidingImageDots[position].setImageDrawable(
+                                ContextCompat.getDrawable(
+                                    requireContext(),
+                                    R.drawable.active_dot
+                                )
+                            )
+                        }
+                    }
+                    binding.videosPager.registerOnPageChangeCallback(slidingCallback)
+
+                    //for auto scroll viewpager2
+                    countDownTimer = object : CountDownTimer(6000, 6000) {
+                        override fun onTick(millisUntilFinished: Long) {
+                            if (binding.videosPager.currentItem == it.data.size - 1) {
+                                binding.videosPager.currentItem = 0
+                            } else {
+                                binding.videosPager.currentItem++
+                            }
+                        }
+
+                        override fun onFinish() {
+                            start()
+                        }
+                    }.start()
+                }
+
+                is Result.Loading -> {
+                    progressBar.visibility = View.VISIBLE
+                }
+
+                is Result.Error -> {
+                    progressBar.visibility = View.GONE
+                    Toast.makeText(requireContext(), it.message, Toast.LENGTH_LONG).show()
+                }
+
+            }
+        }
+    }
+
+
+
+
     override fun onDestroyView() {
         super.onDestroyView()
         countDownTimer.cancel()
+    }
+
+    override fun onPlayClick(position: Int) {
+        val intent = Intent(requireContext(), PlayVideoActivity::class.java)
+        intent.putExtra("video link", videoPosterList[position].videoId)
+        startActivity(intent)
     }
 }
 
