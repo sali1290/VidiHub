@@ -52,6 +52,13 @@ class HomeFragment : Fragment(), OnPlayClickListener {
     private val userViewModel: UserViewModel by viewModels()
     private val videoPosterViewModel: VideoPosterViewModel by viewModels()
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        //for videoPosters
+        videoPosterViewModel.getVideoPosters()
+
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -89,9 +96,22 @@ class HomeFragment : Fragment(), OnPlayClickListener {
         domainViewModel.getDomain()
         observeDomain()
 
-        //for videoPosters
-        videoPosterViewModel.getVideoPosters()
         observeVideosPosters()
+
+        //for auto scroll viewpager2
+        countDownTimer = object : CountDownTimer(6000, 6000) {
+            override fun onTick(millisUntilFinished: Long) {
+                if (binding.videosPager.currentItem == videoPosterList.size - 1) {
+                    binding.videosPager.currentItem = 0
+                } else {
+                    binding.videosPager.currentItem++
+                }
+            }
+
+            override fun onFinish() {
+                start()
+            }
+        }.start()
 
         requireActivity().onBackPressedDispatcher.addCallback(
             viewLifecycleOwner,
@@ -248,76 +268,18 @@ class HomeFragment : Fragment(), OnPlayClickListener {
     }
 
     private fun observeVideosPosters() {
-        videoPosterViewModel.videos.observe(viewLifecycleOwner) {
+        videoPosterViewModel.videos.observe(requireActivity()) {
             when (it) {
 
                 is Result.Success -> {
+                    videoPosterList.clear()
                     binding.videosPager.adapter =
                         HomeViewPagerAdapter(it.data, requireContext(), this)
 
                     for (i in 0 until it.data.size)
                         videoPosterList.add(it.data[i])
 
-
-                    //dots below the screen
-                    val slidingImageDots: MutableList<ImageView> = ArrayList()
-                    for (i in 0 until 4) {
-                        slidingImageDots.add(ImageView(requireContext()))
-                        slidingImageDots[i].setImageDrawable(
-                            ContextCompat.getDrawable(
-                                requireContext(),
-                                R.drawable.non_active_dot
-                            )
-                        )
-
-                        val params = LinearLayout.LayoutParams(
-                            LinearLayout.LayoutParams.WRAP_CONTENT,
-                            LinearLayout.LayoutParams.WRAP_CONTENT
-                        )
-                        params.setMargins(8, 0, 8, 0)
-                        binding.sliderDots.addView(slidingImageDots[i], params)
-                    }
-                    slidingImageDots[0].setImageDrawable(
-                        ContextCompat.getDrawable(
-                            requireContext(),
-                            R.drawable.active_dot
-                        )
-                    )
-                    val slidingCallback = object : ViewPager2.OnPageChangeCallback() {
-                        override fun onPageSelected(position: Int) {
-                            for (i in 0 until it.data.size) {
-                                slidingImageDots[i].setImageDrawable(
-                                    ContextCompat.getDrawable(
-                                        requireContext(),
-                                        R.drawable.non_active_dot
-                                    )
-                                )
-                            }
-
-                            slidingImageDots[position].setImageDrawable(
-                                ContextCompat.getDrawable(
-                                    requireContext(),
-                                    R.drawable.active_dot
-                                )
-                            )
-                        }
-                    }
-                    binding.videosPager.registerOnPageChangeCallback(slidingCallback)
-
-                    //for auto scroll viewpager2
-                    countDownTimer = object : CountDownTimer(6000, 6000) {
-                        override fun onTick(millisUntilFinished: Long) {
-                            if (binding.videosPager.currentItem == it.data.size - 1) {
-                                binding.videosPager.currentItem = 0
-                            } else {
-                                binding.videosPager.currentItem++
-                            }
-                        }
-
-                        override fun onFinish() {
-                            start()
-                        }
-                    }.start()
+                    setUpBottomDots()
                 }
 
                 is Result.Loading -> {
@@ -334,6 +296,52 @@ class HomeFragment : Fragment(), OnPlayClickListener {
     }
 
 
+    private fun setUpBottomDots() {
+        //dots below the screen
+        val slidingImageDots: MutableList<ImageView> = ArrayList()
+        for (i in 0 until videoPosterList.size) {
+            slidingImageDots.add(ImageView(requireContext()))
+            slidingImageDots[i].setImageDrawable(
+                ContextCompat.getDrawable(
+                    requireContext(),
+                    R.drawable.non_active_dot
+                )
+            )
+
+            val params = LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+            )
+            params.setMargins(8, 0, 8, 0)
+            binding.sliderDots.addView(slidingImageDots[i], params)
+        }
+        slidingImageDots[0].setImageDrawable(
+            ContextCompat.getDrawable(
+                requireContext(),
+                R.drawable.active_dot
+            )
+        )
+        val slidingCallback = object : ViewPager2.OnPageChangeCallback() {
+            override fun onPageSelected(position: Int) {
+                for (i in 0 until videoPosterList.size) {
+                    slidingImageDots[i].setImageDrawable(
+                        ContextCompat.getDrawable(
+                            requireContext(),
+                            R.drawable.non_active_dot
+                        )
+                    )
+                }
+
+                slidingImageDots[position].setImageDrawable(
+                    ContextCompat.getDrawable(
+                        requireContext(),
+                        R.drawable.active_dot
+                    )
+                )
+            }
+        }
+        binding.videosPager.registerOnPageChangeCallback(slidingCallback)
+    }
 
 
     override fun onDestroyView() {
