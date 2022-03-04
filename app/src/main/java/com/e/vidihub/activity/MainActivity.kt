@@ -1,6 +1,7 @@
 package com.e.vidihub.activity
 
 import android.app.SearchManager
+import android.content.ComponentName
 import android.content.Context
 import android.os.Bundle
 import android.view.Menu
@@ -9,13 +10,11 @@ import android.widget.SearchView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
 import com.e.vidihub.R
-import dagger.hilt.android.AndroidEntryPoint
-import android.content.ComponentName
-import androidx.compose.ui.graphics.Color
 import com.google.firebase.FirebaseApp
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.analytics.ktx.analytics
 import com.google.firebase.ktx.Firebase
+import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint

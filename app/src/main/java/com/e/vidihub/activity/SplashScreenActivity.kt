@@ -3,6 +3,7 @@ package com.e.vidihub.activity
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
+import android.view.View
 import android.view.animation.AnimationUtils
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -11,6 +12,10 @@ import com.e.domain.util.Result
 import com.e.vidihub.R
 import com.e.vidihub.databinding.ActivitySplashScreenBinding
 import com.e.vidihub.viewmodel.RefreshTokenViewModel
+import com.github.ybq.android.spinkit.sprite.Sprite
+import com.github.ybq.android.spinkit.style.CubeGrid
+import com.github.ybq.android.spinkit.style.DoubleBounce
+import com.github.ybq.android.spinkit.style.Wave
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -60,14 +65,18 @@ class SplashScreenActivity : AppCompatActivity() {
             when (it) {
 
                 is Result.Success -> {
+                    binding.waitLayout.visibility = View.GONE
                     sessionManager.saveAuthToken(it.data)
                     startActivity(Intent(this, MainActivity::class.java))
                     finish()
                 }
 
-                is Result.Loading -> {}
+                is Result.Loading -> {
+                    showProgressWhileLoad()
+                }
 
                 is Result.Error -> {
+                    binding.waitLayout.visibility = View.GONE
                     if (it.message.contains("401")) {
                         sessionManager.saveAuthToken("")
                         sessionManager.saveRefreshToken("")
@@ -80,4 +89,11 @@ class SplashScreenActivity : AppCompatActivity() {
         }
     }
 
+    private fun showProgressWhileLoad() {
+        val doubleBounce: Sprite = DoubleBounce()
+        doubleBounce.color = this.getColor(R.color.primary_color)
+        binding.waitProgressBar.indeterminateDrawable = doubleBounce
+
+        binding.waitLayout.visibility = View.VISIBLE
+    }
 }

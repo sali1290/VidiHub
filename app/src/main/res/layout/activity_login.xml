@@ -61,7 +61,9 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:hint="@string/email"
-                            android:textColor="@color/primary_dark_color"/>
+                            android:inputType="textEmailAddress"
+                            android:maxLines="1"
+                            android:textColor="@color/primary_dark_color" />
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.textfield.TextInputLayout
@@ -80,6 +82,7 @@
                             android:layout_height="wrap_content"
                             android:hint="@string/password"
                             android:inputType="textPassword"
+                            android:maxLines="1"
                             android:textColor="@color/primary_dark_color" />
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -113,12 +116,12 @@
                             android:id="@+id/textView3"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:layout_marginTop="@dimen/_15sdp"
-                            android:text="@string/register"
                             android:layout_marginStart="@dimen/_5sdp"
+                            android:layout_marginTop="@dimen/_15sdp"
+                            android:layout_weight="1"
+                            android:text="@string/register"
                             android:textColor="@color/dark_primary_color"
-                            android:textSize="@dimen/_12sdp"/>
+                            android:textSize="@dimen/_12sdp" />
                     </LinearLayout>
 
                 </LinearLayout>

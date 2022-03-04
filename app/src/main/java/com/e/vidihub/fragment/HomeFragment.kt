@@ -40,7 +40,9 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class HomeFragment : Fragment(), OnPlayClickListener {
 
-    private lateinit var binding: FragmentHomeBinding
+
+    private lateinit var _binding: FragmentHomeBinding
+    private val binding get() = _binding
     private lateinit var drawer: NavigationView
     private lateinit var bottomNav: BottomNavigationView
     private lateinit var sessionManager: SessionManager
@@ -65,7 +67,7 @@ class HomeFragment : Fragment(), OnPlayClickListener {
         savedInstanceState: Bundle?
     ): View {
         // Inflate the layout for this fragment
-        binding = FragmentHomeBinding.inflate(inflater, container, false)
+        _binding = FragmentHomeBinding.inflate(inflater, container, false)
         sessionManager = SessionManager(requireContext())
 
         return binding.root
@@ -75,7 +77,7 @@ class HomeFragment : Fragment(), OnPlayClickListener {
         super.onViewCreated(view, savedInstanceState)
         (activity as AppCompatActivity?)!!.supportActionBar!!.apply {
             show()
-            //if you want to implement dark you should delete below code
+            //if you want to implement dark mode you should delete below code
             setBackgroundDrawable(ColorDrawable(requireActivity().getColor(R.color.primary_color)))
         }
 
@@ -113,6 +115,7 @@ class HomeFragment : Fragment(), OnPlayClickListener {
             }
         }.start()
 
+        //check if navigation drawer is open close it otherwise close app
         requireActivity().onBackPressedDispatcher.addCallback(
             viewLifecycleOwner,
             object : OnBackPressedCallback(true) {
@@ -279,7 +282,7 @@ class HomeFragment : Fragment(), OnPlayClickListener {
                     for (i in 0 until it.data.size)
                         videoPosterList.add(it.data[i])
 
-                    setUpBottomDots()
+                    setUpBottomDots(videoPosterList.size)
                 }
 
                 is Result.Loading -> {
@@ -295,11 +298,10 @@ class HomeFragment : Fragment(), OnPlayClickListener {
         }
     }
 
-
-    private fun setUpBottomDots() {
+    private fun setUpBottomDots(size: Int) {
         //dots below the screen
         val slidingImageDots: MutableList<ImageView> = ArrayList()
-        for (i in 0 until videoPosterList.size) {
+        for (i in 0 until size) {
             slidingImageDots.add(ImageView(requireContext()))
             slidingImageDots[i].setImageDrawable(
                 ContextCompat.getDrawable(
@@ -323,7 +325,7 @@ class HomeFragment : Fragment(), OnPlayClickListener {
         )
         val slidingCallback = object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
-                for (i in 0 until videoPosterList.size) {
+                for (i in 0 until size) {
                     slidingImageDots[i].setImageDrawable(
                         ContextCompat.getDrawable(
                             requireContext(),
@@ -342,7 +344,6 @@ class HomeFragment : Fragment(), OnPlayClickListener {
         }
         binding.videosPager.registerOnPageChangeCallback(slidingCallback)
     }
-
 
     override fun onDestroyView() {
         super.onDestroyView()

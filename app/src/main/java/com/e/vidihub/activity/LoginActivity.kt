@@ -82,12 +82,7 @@ class LoginActivity : AppCompatActivity() {
                 is Result.Error -> {
                     binding.loginProgressBar.visibility = View.GONE
 
-//                    if (it.message.contains("401")) {
-//                        Toast.makeText(
-//                            this,
-//                            "نام کاربری یا رمز عبور نادرست است",
-//                            Toast.LENGTH_LONG
-//                        ).show()
+                    //for showing error if username or password is not valid
                     when {
                         it.message.contains("Invalid password") -> {
                             binding.tvPassword.error = "رمز عبور اشتباه است"
@@ -96,7 +91,11 @@ class LoginActivity : AppCompatActivity() {
                             binding.tvEmail.error = "نام کاربری اشتباه است"
                         }
                         else -> {
-                            Toast.makeText(this, it.message, Toast.LENGTH_LONG).show()
+                            Toast.makeText(
+                                this,
+                                "نام کاربری یا رمز عبور صحیح نیست",
+                                Toast.LENGTH_LONG
+                            ).show()
                         }
                     }
                 }
