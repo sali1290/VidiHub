@@ -132,4 +132,6 @@ dependencies {
 
     //for managing request permissions
 //    implementation 'androidx.activity:activity-ktx:1.4.0'
+
+    implementation 'org.webrtc:google-webrtc:1.0.32006'
 }
