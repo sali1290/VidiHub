@@ -45,6 +45,12 @@ class LoginActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+        binding.tvForgotPassword.setOnClickListener {
+            val intent = Intent(Intent.ACTION_VIEW)
+            intent.data = Uri.parse("http://185.171.53.51:9092/register")
+            startActivity(intent)
+        }
+
         binding.btnLogin.setOnClickListener {
             val email = binding.tvEmail.text.toString()
             val pass = binding.tvPassword.text.toString()

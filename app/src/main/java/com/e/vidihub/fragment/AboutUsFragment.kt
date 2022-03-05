@@ -16,7 +16,7 @@ import com.e.vidihub.databinding.FragmentAboutUsBinding
 class AboutUsFragment : Fragment() {
 
     private var _binding: FragmentAboutUsBinding? = null
-    private val binding get() = _binding
+    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -24,7 +24,7 @@ class AboutUsFragment : Fragment() {
     ): View {
         // Inflate the layout for this fragment
         _binding = FragmentAboutUsBinding.inflate(inflater, container, false)
-        return binding!!.root
+        return binding.root
     }
 
     @SuppressLint("SetTextI18n")
@@ -32,9 +32,9 @@ class AboutUsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         (activity as AppCompatActivity?)!!.supportActionBar!!.hide()
 
-        binding!!.tvAppVersion.text = "Version: ${BuildConfig.VERSION_NAME}"
+        binding.tvAppVersion.text = "Version: ${BuildConfig.VERSION_NAME}"
 
-        binding!!.tvSuggest.setOnClickListener {
+        binding.tvSuggest.setOnClickListener {
             val emailAddress = "Vidihub.test@gmail.com"
             val emailIntent = Intent(Intent.ACTION_SENDTO)
             emailIntent.data = Uri.parse("mailto:$emailAddress")
@@ -42,7 +42,7 @@ class AboutUsFragment : Fragment() {
         }
 
 
-        binding!!.tvIntroduce.setOnClickListener {
+        binding.tvIntroduce.setOnClickListener {
             ShareCompat.IntentBuilder(requireContext())
                 .setType("text/plain")
                 .setChooserTitle("Share this text with: ") //title for the app chooser
@@ -51,7 +51,7 @@ class AboutUsFragment : Fragment() {
         }
 
 
-        binding!!.imgBack.setOnClickListener {
+        binding.imgBack.setOnClickListener {
             requireActivity().onBackPressed()
         }
 

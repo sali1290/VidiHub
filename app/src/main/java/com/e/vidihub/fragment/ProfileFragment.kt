@@ -20,7 +20,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class ProfileFragment : Fragment() {
 
     private var _binding: FragmentProfileBinding? = null
-    private val binding get() = _binding
+    private val binding get() = _binding!!
 
     private lateinit var sessionManager: SessionManager
     private lateinit var progressBar: ProgressBar
@@ -33,14 +33,14 @@ class ProfileFragment : Fragment() {
         // Inflate the layout for this fragment
         _binding = FragmentProfileBinding.inflate(inflater, container, false)
         sessionManager = SessionManager(requireContext())
-        return binding!!.root
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         progressBar = requireActivity().findViewById(R.id.progressBar)
-        binding!!.imgBack.setOnClickListener {
+        binding.imgBack.setOnClickListener {
             requireActivity().onBackPressed()
         }
 
@@ -55,7 +55,7 @@ class ProfileFragment : Fragment() {
 
                 is Result.Success -> {
                     progressBar.visibility = View.GONE
-                    binding!!.userInfoRecycler.adapter = ProfileAdapter(it.data, requireContext())
+                    binding.userInfoRecycler.adapter = ProfileAdapter(it.data, requireContext())
                 }
 
                 is Result.Loading -> {

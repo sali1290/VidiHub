@@ -83,14 +83,22 @@
                             android:hint="@string/password"
                             android:inputType="textPassword"
                             android:maxLines="1"
+                            android:layout_marginBottom="-10dp"
                             android:textColor="@color/primary_dark_color" />
                     </com.google.android.material.textfield.TextInputLayout>
+
+                    <TextView
+                        android:id="@+id/tv_forgot_password"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/dark_primary_color"
+                        android:text="@string/forgot_password" />
 
                     <Button
                         android:id="@+id/btn_login"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/_8sdp"
+                        android:layout_marginTop="@dimen/_18sdp"
                         android:backgroundTint="@color/dark_primary_color"
                         android:text="ورود"
                         android:textColor="@android:color/white"
@@ -104,7 +112,7 @@
                         android:orientation="horizontal">
 
                         <TextView
-                            android:id="@+id/tv_register"
+                            android:id="@+id/textView3"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/_15sdp"
@@ -113,7 +121,7 @@
                             android:textSize="@dimen/_12sdp" />
 
                         <TextView
-                            android:id="@+id/textView3"
+                            android:id="@+id/tv_register"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/_5sdp"

@@ -24,7 +24,8 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class VideosListFragment : Fragment(), OnCategoriesListener {
 
-    private lateinit var binding: FragmentVideosListBinding
+    private var _binding: FragmentVideosListBinding? = null
+    private val binding get() = _binding!!
 
     private val viewModel: VideoPagingViewModel by viewModels()
     private val categoriesViewModel: CategoriesViewModel by viewModels()
@@ -36,8 +37,7 @@ class VideosListFragment : Fragment(), OnCategoriesListener {
     ): View {
         // Inflate the layout for this fragment
 
-        binding = FragmentVideosListBinding.inflate(inflater, container, false)
-
+        _binding = FragmentVideosListBinding.inflate(inflater, container, false)
         return binding.root
     }
 

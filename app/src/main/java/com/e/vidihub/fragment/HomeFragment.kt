@@ -41,8 +41,9 @@ import dagger.hilt.android.AndroidEntryPoint
 class HomeFragment : Fragment(), OnPlayClickListener {
 
 
-    private lateinit var _binding: FragmentHomeBinding
-    private val binding get() = _binding
+    private var _binding: FragmentHomeBinding? = null
+    private val binding get() = _binding!!
+
     private lateinit var drawer: NavigationView
     private lateinit var bottomNav: BottomNavigationView
     private lateinit var sessionManager: SessionManager
