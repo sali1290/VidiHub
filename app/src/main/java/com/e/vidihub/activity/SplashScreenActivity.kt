@@ -32,10 +32,7 @@ class SplashScreenActivity : AppCompatActivity() {
         (this as AppCompatActivity?)!!.supportActionBar!!.hide()
 
         //animate splash screen
-        val leftSlideAnimation = AnimationUtils.loadAnimation(this, R.anim.side_slide_left)
-        binding.imgSplash.startAnimation(leftSlideAnimation)
-        val rightSlideAnimation = AnimationUtils.loadAnimation(this, R.anim.side_slide_right)
-        binding.tvSplashTitle.startAnimation(rightSlideAnimation)
+        startSplashScreenAnimation()
 
         Handler().postDelayed(object : Runnable {
             override fun run() {
@@ -46,6 +43,13 @@ class SplashScreenActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {}
+
+    private fun startSplashScreenAnimation() {
+        val leftSlideAnimation = AnimationUtils.loadAnimation(this, R.anim.side_slide_left)
+        binding.imgSplash.startAnimation(leftSlideAnimation)
+        val rightSlideAnimation = AnimationUtils.loadAnimation(this, R.anim.side_slide_right)
+        binding.tvSplashTitle.startAnimation(rightSlideAnimation)
+    }
 
     //check if token is stile usable or not
     private fun checkToken() {

@@ -5,6 +5,7 @@ import android.app.SearchManager
 import android.content.Intent
 import android.os.Bundle
 import android.provider.SearchRecentSuggestions
+import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -39,29 +40,10 @@ class SearchableActivity : AppCompatActivity() {
         binding = ActivitySearchableBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val wave: Sprite = Wave()
-        wave.color = this.getColor(R.color.primary_color)
-        binding.searchResultProgressBar.indeterminateDrawable = wave
+        createCustomProgressBar(binding.searchResultProgressBar)
 
         //get search query
-        if (Intent.ACTION_SEARCH == intent.action) {
-            intent.getStringExtra(SearchManager.QUERY)?.also { query ->
-
-                //save queries into content provider
-                SearchRecentSuggestions(
-                    this,
-                    VideoSuggestionProvider.AUTHORITY,
-                    VideoSuggestionProvider.MODE
-                ).saveRecentQuery(query, null)
-
-
-                //initialize search result recycler
-                binding.searchResultRecycler.layoutManager = GridLayoutManager(this, 2)
-                //alternative way for get searched videos
-//              getAllVideosViewModel.getAllVideos()
-                observeAllNames(query)
-            }
-        }
+        getSearchQuery()
 
         binding.imgDeleteHistory.setOnClickListener {
             AlertDialog.Builder(this)
@@ -86,6 +68,33 @@ class SearchableActivity : AppCompatActivity() {
             onBackPressed()
         }
 
+    }
+
+    private fun getSearchQuery() {
+        if (Intent.ACTION_SEARCH == intent.action) {
+            intent.getStringExtra(SearchManager.QUERY)?.also { query ->
+
+                //save queries into content provider
+                SearchRecentSuggestions(
+                    this,
+                    VideoSuggestionProvider.AUTHORITY,
+                    VideoSuggestionProvider.MODE
+                ).saveRecentQuery(query, null)
+
+
+                //initialize search result recycler
+                binding.searchResultRecycler.layoutManager = GridLayoutManager(this, 2)
+                //alternative way for get searched videos
+//              getAllVideosViewModel.getAllVideos()
+                observeAllNames(query)
+            }
+        }
+    }
+
+    private fun createCustomProgressBar(progressBar: ProgressBar) {
+        val wave: Sprite = Wave()
+        wave.color = this.getColor(R.color.primary_color)
+        progressBar.indeterminateDrawable = wave
     }
 
     private fun observeAllNames(query: String) {

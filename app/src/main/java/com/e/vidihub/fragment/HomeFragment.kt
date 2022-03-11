@@ -83,9 +83,8 @@ class HomeFragment : Fragment(), OnPlayClickListener {
         }
 
         progressBar = requireActivity().findViewById(R.id.progressBar)
-        val wave: Sprite = Wave()
-        wave.color = requireContext().getColor(R.color.primary_color)
-        progressBar.indeterminateDrawable = wave
+        createCustomProgressBar(progressBar)
+
 
         drawer = binding.navView
         setUpDrawerItems()
@@ -129,6 +128,12 @@ class HomeFragment : Fragment(), OnPlayClickListener {
                 }
             })
 
+    }
+
+    private fun createCustomProgressBar(progressBar: ProgressBar) {
+        val wave: Sprite = Wave()
+        wave.color = requireContext().getColor(R.color.primary_color)
+        progressBar.indeterminateDrawable = wave
     }
 
     private fun setUpBottomNav() {

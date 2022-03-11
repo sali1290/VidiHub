@@ -4,6 +4,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
+import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -30,13 +31,16 @@ class LoginActivity : AppCompatActivity() {
         (this as AppCompatActivity).supportActionBar!!.hide()
 
         //give progressBar custom view
-        val wave: Sprite = Wave()
-        wave.color = this.getColor(R.color.primary_color)
-        binding.loginProgressBar.indeterminateDrawable = wave
+        createCustomProgressBar(binding.loginProgressBar)
 
         setItemsOnClicks()
     }
 
+    private fun createCustomProgressBar(progressBar: ProgressBar) {
+        val wave: Sprite = Wave()
+        wave.color = this.getColor(R.color.primary_color)
+        progressBar.indeterminateDrawable = wave
+    }
 
     private fun setItemsOnClicks() {
         binding.tvRegister.setOnClickListener {
