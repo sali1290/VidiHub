@@ -21,9 +21,9 @@ import com.e.data.util.SessionManager
 import com.e.domain.model.VideoPosterModel
 import com.e.domain.util.Result
 import com.e.vidihub.R
+import com.e.vidihub.activity.NativeVideoCallActivity
 import com.e.vidihub.activity.PlayVideoActivity
 import com.e.vidihub.activity.SplashScreenActivity
-import com.e.vidihub.activity.VideoCallActivity
 import com.e.vidihub.adapter.HomeViewPagerAdapter
 import com.e.vidihub.adapter.HomeViewPagerAdapter.OnPlayClickListener
 import com.e.vidihub.databinding.FragmentHomeBinding
@@ -53,6 +53,9 @@ class HomeFragment : Fragment(), OnPlayClickListener {
     private val domainViewModel: DomainViewModel by viewModels()
     private val userViewModel: UserViewModel by viewModels()
     private val videoPosterViewModel: VideoPosterViewModel by viewModels()
+
+    private var domain = ""
+    private var name = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -168,12 +171,10 @@ class HomeFragment : Fragment(), OnPlayClickListener {
             when (it.itemId) {
                 R.id.item_support -> {
                     //   Toast.makeText(requireContext(), "support", Toast.LENGTH_LONG).show()
-                    requireActivity().startActivity(
-                        Intent(
-                            requireContext(),
-                            VideoCallActivity::class.java
-                        )
-                    )
+                    val intent = Intent(requireContext() ,NativeVideoCallActivity::class.java)
+                    intent.putExtra("username", name)
+                    startActivity(intent)
+
                 }
 
                 R.id.item_about_us -> {
@@ -210,6 +211,8 @@ class HomeFragment : Fragment(), OnPlayClickListener {
             when (it) {
 
                 is Result.Success -> {
+                    name = it.data.domain!!
+                    domain = it.data.hostname!!
                     progressBar.visibility = View.GONE
                     drawer.getHeaderView(0).findViewById<TextView>(R.id.tv_domain).text =
                         "Domain: ${it.data.hostname}"

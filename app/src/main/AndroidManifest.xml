@@ -19,7 +19,7 @@
         android:theme="@style/Theme.VidiHub"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".activity.NativeVideoCall"
+            android:name=".activity.NativeVideoCallActivity"
             android:exported="false" />
 
         <meta-data

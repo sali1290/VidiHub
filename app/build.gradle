@@ -13,7 +13,7 @@ android {
     compileSdk 31
 
     appmetrica {
-        postApiKey ="2e3b7151-567e-4cc1-bcff-d9a7c3426e16"
+        postApiKey = "2e3b7151-567e-4cc1-bcff-d9a7c3426e16"
         mappingBuildTypes = ['']
     }
 
@@ -127,11 +127,14 @@ dependencies {
     //crashlytics
     implementation 'com.yandex.android:mobmetricalib:4.1.1'
 
+    //firebase realtime database
+    implementation 'com.google.firebase:firebase-database-ktx:20.0.4'
+
     //custom progressBar
     implementation 'com.github.ybq:Android-SpinKit:1.4.0'
 
     //for managing request permissions
 //    implementation 'androidx.activity:activity-ktx:1.4.0'
 
-    implementation 'org.webrtc:google-webrtc:1.0.32006'
+
 }
