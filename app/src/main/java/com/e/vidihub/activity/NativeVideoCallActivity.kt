@@ -1,10 +1,9 @@
 package com.e.vidihub.activity
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.pm.PackageManager
 import android.os.Bundle
-import android.util.Log
-import android.view.View
 import android.webkit.PermissionRequest
 import android.webkit.WebChromeClient
 import android.webkit.WebView
@@ -15,25 +14,14 @@ import androidx.appcompat.app.AppCompatActivity
 import com.e.vidihub.R
 import com.e.vidihub.databinding.ActivityNativeVideoCallBinding
 import com.e.vidihub.jsinterface.JavascriptInterface
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.ValueEventListener
-import com.google.firebase.database.ktx.database
-import com.google.firebase.ktx.Firebase
-import java.util.*
 
 class NativeVideoCallActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityNativeVideoCallBinding
 
     private var username = ""
-
-    private var supportUser = "vidihub"
-
-    //    private var supportUser = ""
+    private var supportUser = "vidihub support"
     private var isPeerConnected = false
-
-//    var firebaseRef = Firebase.database.getReference("users")
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,57 +29,39 @@ class NativeVideoCallActivity : AppCompatActivity() {
         binding = ActivityNativeVideoCallBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        (this as AppCompatActivity).supportActionBar!!.hide()
+
         username = intent.getStringExtra("username")!!
         username = username.split(".")[0]
 
         askPermissions()
 
         binding.btnCall.setOnClickListener {
-//            supportUser = binding.etPersonName.text.toString()
             sendCallRequest()
+        }
+
+        binding.btnReject.setOnClickListener {
+            onBackPressed()
         }
 
         setUpWebView()
     }
 
+    //check user connected to peerjs server or not
     private fun sendCallRequest() {
         if (!isPeerConnected) {
             Toast.makeText(this, "You are not connected", Toast.LENGTH_SHORT).show()
             return
         }
         listenForConnId()
-//        firebaseRef.child(supportUser).child("incoming").setValue(username)
-//        firebaseRef.child(supportUser).child("isAvailable")
-//            .addValueEventListener(object : ValueEventListener {
-//                override fun onDataChange(snapshot: DataSnapshot) {
-//                    if (snapshot.value.toString() == "true") {
-//                        listenForConnId()
-//                    }
-//                }
-//
-//                override fun onCancelled(error: DatabaseError) {}
-//            })
     }
 
+    //make call to vidihub support
     private fun listenForConnId() {
-
-//        switchToControls()
         callJsFunction("javascript:startCall(\"${supportUser}\")")
-//        firebaseRef.child(supportUser).child("connId")
-//            .addValueEventListener(object : ValueEventListener {
-//                override fun onDataChange(snapshot: DataSnapshot) {
-//                    if (snapshot.value == null)
-//                        return
-//
-//                    switchToControls()
-//                    callJsFunction("javascript:startcall(\"${snapshot.value}\")")
-//
-//                }
-//
-//                override fun onCancelled(error: DatabaseError) {}
-//            })
     }
 
+    @SuppressLint("SetJavaScriptEnabled")
     private fun setUpWebView() {
         binding.webrtcWebView.apply {
             settings.javaScriptEnabled = true
@@ -102,8 +72,8 @@ class NativeVideoCallActivity : AppCompatActivity() {
         loadVideoCall()
     }
 
+    //load html page for show streams
     private fun loadVideoCall() {
-
         val filePath = "file:android_asset/call.html"
         binding.webrtcWebView.loadUrl(filePath)
         binding.webrtcWebView.webViewClient = object : WebViewClient() {
@@ -114,52 +84,10 @@ class NativeVideoCallActivity : AppCompatActivity() {
         }
     }
 
-    private var uniqueId = ""
-
+    //connecting to peerjs server
     private fun initializePeer() {
-
-//        uniqueId = getUniqueID()
-//        Log.i("test reach tag", "reached")
         callJsFunction("javascript:init(\"${username}\", \"$username\")")
-//        onCallRequest(username)
-//        firebaseRef.child(username).child("incoming")
-//            .addValueEventListener(object : ValueEventListener {
-//                override fun onDataChange(snapshot: DataSnapshot) {
-//                    onCallRequest(snapshot.value as? String)
-//                }
-//
-//                override fun onCancelled(error: DatabaseError) {}
-//            })
     }
-
-//    private fun onCallRequest(caller: String?) {
-//        if (caller == null) return
-//
-//        binding.callLayout.visibility = View.VISIBLE
-//        binding.incomingCallText.text = "$caller is calling..."
-//
-//        binding.btnAccept.setOnClickListener {
-////            firebaseRef.child(username).child("connId").setValue(uniqueId)
-////            firebaseRef.child(username).child("isAvailable").setValue(true)
-//
-//            binding.callLayout.visibility = View.GONE
-//
-//            switchToControls()
-//        }
-//
-//        binding.btnReject.setOnClickListener {
-////            firebaseRef.child(username).child("isAvailable").setValue(null)
-//        }
-//    }
-
-    private fun switchToControls() {
-//        binding.inputLayout.visibility = View.GONE
-
-    }
-
-//    private fun getUniqueID(): String {
-//        return UUID.randomUUID().toString()
-//    }
 
     private fun callJsFunction(functionString: String) {
         binding.webrtcWebView.post {
@@ -233,7 +161,6 @@ class NativeVideoCallActivity : AppCompatActivity() {
     }
 
     override fun onDestroy() {
-//        firebaseRef.child(username).setValue(null)
         binding.webrtcWebView.loadUrl("about:blank")
         super.onDestroy()
     }

@@ -1,6 +1,7 @@
 let localVideo = document.getElementById("local-video")
 let remoteVideo = document.getElementById("remote-video")
 
+
 localVideo.style.opacity = 0
 remoteVideo.style.opacity = 0
 
@@ -9,10 +10,10 @@ remoteVideo.onplaying = () => { remoteVideo.style.opacity = 1 }
 
 let peer
 function init(userId, name) {
-    button.innerText = name
+document.getElementById("button").style.display = "none"
 
     peer = new Peer(userId, {
-        host: '192.168.1.103',
+        host: '192.168.161.137',
         port: 9000,
         path: '/videocallapp'
     })
