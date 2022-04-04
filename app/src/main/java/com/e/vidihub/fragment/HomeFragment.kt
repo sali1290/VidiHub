@@ -55,6 +55,7 @@ class HomeFragment : Fragment(), OnPlayClickListener {
     private val videoPosterViewModel: VideoPosterViewModel by viewModels()
 
     private var domain = ""
+    private var name = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -171,7 +172,7 @@ class HomeFragment : Fragment(), OnPlayClickListener {
                 R.id.item_support -> {
                     //   Toast.makeText(requireContext(), "support", Toast.LENGTH_LONG).show()
                     val intent = Intent(requireContext() ,NativeVideoCallActivity::class.java)
-                    intent.putExtra("username", domain)
+                    intent.putExtra("username", name)
                     startActivity(intent)
 
                 }
@@ -210,6 +211,7 @@ class HomeFragment : Fragment(), OnPlayClickListener {
             when (it) {
 
                 is Result.Success -> {
+                    name = it.data.domain!!
                     domain = it.data.hostname!!
                     progressBar.visibility = View.GONE
                     drawer.getHeaderView(0).findViewById<TextView>(R.id.tv_domain).text =
