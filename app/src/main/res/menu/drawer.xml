@@ -4,16 +4,16 @@
     <item
         android:id="@+id/item_support"
         android:icon="@drawable/ic_support"
-        android:title="پشتیبانی" />
+        android:title="@string/drawer_support" />
 
     <item
         android:id="@+id/item_about_us"
         android:icon="@drawable/aboutus"
-        android:title="درباره ما" />
+        android:title="@string/drawer_about_us" />
 
     <item
         android:id="@+id/item_exit"
         android:icon="@drawable/logout"
-        android:title="خروج" />
+        android:title="@string/drawer_logout" />
 
 </menu>

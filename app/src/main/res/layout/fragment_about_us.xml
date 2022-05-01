@@ -52,7 +52,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:textColor="@color/secondary_text"
-            android:text="something about vidihub"
+            android:text="@string/something_about_vidihub"
             android:textSize="@dimen/_14ssp" />
     </LinearLayout>
 
@@ -78,7 +78,7 @@
                 android:layout_height="match_parent"
                 android:background="@drawable/about_us_items_border"
                 android:gravity="center"
-                android:text="ارسال نظر"
+                android:text="@string/send_advices"
                 android:textColor="@color/white"
                 android:textSize="@dimen/_16sdp" />
         </androidx.cardview.widget.CardView>

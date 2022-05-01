@@ -34,12 +34,12 @@
 
             <TextView
                 android:id="@+id/tv_title"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end|center"
                 android:layout_weight="1"
                 android:singleLine="false"
-                android:text="Video Name"
+                android:text=""
                 android:textSize="@dimen/_12sdp" />
 
             <ImageView

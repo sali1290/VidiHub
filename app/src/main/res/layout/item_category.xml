@@ -23,7 +23,7 @@
             android:id="@+id/tv_category_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="TextView"
+            android:text=""
             android:backgroundTint="@color/primary_color"
             android:textColor="@color/primary_dark_color" />
     </androidx.cardview.widget.CardView>

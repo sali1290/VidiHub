@@ -15,4 +15,21 @@
     <string name="introduce">معرفی به دوستان</string>
     <string name="please_wait">لطفا کمی صبر کنید</string>
     <string name="forgot_password">فراموشی رمز عبور</string>
+    <string name="enter">ورود</string>
+
+    <!-- bottom navigation items -->
+    <string name="bottom_nav_profile">پروفایل</string>
+    <string name="bottom_nav_home">خانه</string>
+    <string name="bottom_nav_videos">ویدیوها</string>
+
+    <!-- drawer items -->
+    <string name="drawer_support">پشتیبانی</string>
+    <string name="drawer_about_us">درباره ما</string>
+    <string name="drawer_logout">خروج</string>
+    <string name="something_about_vidihub">something about vidihub</string>
+    <string name="send_advices">ارسال نظر</string>
+    <string name="try_again">تلاش دوباره</string>
+    <string name="something_went_wrong">مشکلی پیش آمده. لطفا دوباره تلاش کنید</string>
+    <string name="item_not_found">موردی یافت نشد!</string>
+
 </resources>
